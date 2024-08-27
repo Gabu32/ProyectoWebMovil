@@ -3,7 +3,7 @@
 ## 1. Gestión de Proyectos:
 
     Descripción: Los usuarios podrán crear, editar, y eliminar proyectos. Cada proyecto agrupará tareas relacionadas.
-    Roles: Los administradores podrán gestionar proyectos, mientras que los colaboradores podrán visualizarlos y trabajar en las tareas asignadas.
+    Roles: Los administradores podrán gestionar proyectos, mientras que los colaboradores podrán visualizarlos junto a sus tareas asignadas.
     Interacción: Los usuarios verán un tablero donde pueden crear nuevos proyectos o modificar los existentes. Se mostrarán estadísticas básicas, como la cantidad de tareas completadas y el progreso del proyecto.
 
 ## 2. Creación y Asignación de Tareas:
@@ -32,9 +32,9 @@
 
 ## 6. Visualización de Progreso y Estadísticas:
 
-    Descripción: Los usuarios podrán ver el progreso del proyecto y estadísticas, como tareas completadas, en proceso, y pendientes.
+    Descripción: Los usuarios podrán ver el progreso del proyecto viedo la cantidad de tareas completadas y pendientes.
     Roles: Los administradores verán estadísticas generales del proyecto, mientras que los colaboradores solo verán estadísticas de las tareas asignadas a ellos.
-    Interacción: Un tablero de control mostrará gráficos y porcentajes de progreso, permitiendo a los usuarios evaluar el estado del proyecto rápidamente.
+    Interacción: Se mostrará porcentajes de progreso, permitiendo a los usuarios evaluar el estado del proyecto rápidamente.
 
 ## 7. Historial y Registro de Actividades:
 
