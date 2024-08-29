@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             rutError.textContent = 'El RUT es obligatorio';
             isValid = false;
         } else if (!validateRut(rutInput.value.trim())) {
-            rutError.textContent = 'El RUT debe estar en el formato correcto: 20.000.000-K o 6.686.683-5';
+            rutError.textContent = 'El formato del RUT es incorrecto, por favor utilice el siguiente formato: 18123123-1';
             isValid = false;
         } else {
             rutError.textContent = '';

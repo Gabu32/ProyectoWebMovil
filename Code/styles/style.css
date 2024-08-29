@@ -1,18 +1,11 @@
 body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
     background-color: #EDF2FA;
+    font-family: 'Roboto', sans-serif;
+    color: #2F2E2E;
 }
 
 .container {
     background-color: #EDF2FA;
-}
-
-.login-card {
-    max-width: 400px;
-    background-color: white;
-    border-radius: 20px;
-    border: 0.5px solid rgba(47, 46, 46, 0.5);
 }
 
 .header {
@@ -64,13 +57,6 @@ body {
     font-weight: 800;
     font-size: 1rem;
     background-color: #303F9F;
-}
-
-
-body {
-    background-color: #EDF2FA;
-    font-family: 'Roboto', sans-serif;
-    color: #2F2E2E;
 }
 
 .container-register {
