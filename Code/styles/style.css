@@ -65,9 +65,10 @@ body {
     margin: 0 auto;
     background-color: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 0px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .logo-container {
     display: flex;
@@ -154,3 +155,58 @@ body {
 }
 
 
+.userLogo {
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+}
+  
+.userLogo img {
+    width: 100px;
+    height: 100%;
+}
+
+.container-register .textUser{
+    color: black;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  
+.lowBar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    max-width: 486px;
+    background-color: #0a2c66;
+    border-radius: 10px;
+    padding: 10px;
+}
+  
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+  
+.home, .proyects, .notis {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+    color: white;
+}
+  
+.home img, .proyects img, .notis img {
+    width: 25px;
+    height: 25px;
+    filter: brightness(0) invert(1);
+}
+  
+.nav-item span {
+    color: white;
+    font-size: 7px;
+}
