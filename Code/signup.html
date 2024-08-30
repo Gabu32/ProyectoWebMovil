@@ -8,71 +8,75 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div class="container-register">
+    <div class="main-container"> 
         <div class="logo-container">
             <img src="images/logoipsum-296.svg" alt="logo">
             <div class="logo-text">ClipTask</div>
         </div>
-        <div class="form-container">
-            <h1>Crear una cuenta</h1>
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" class="form-control" required>
-                <div id="nombre-error" class="text-danger"></div>
+        <div class="container-register">
+            <div class="form-container">
+                <h1>Crear una cuenta</h1>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-control" required>
+                    <div id="nombre-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" class="form-control" required>
+                    <div id="apellido-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" class="form-control" required>
+                    <div id="email-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="rut">Rut</label>
+                    <input type="text" id="rut" class="form-control" required>
+                    <div id="rut-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" class="form-control" required>
+                    <div id="password-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirmación contraseña</label>
+                    <input type="password" id="confirm-password" class="form-control" required>
+                    <div id="confirm-password-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="region">Región</label>
+                    <select id="region" class="form-control" required>
+                        <option value="">Selecciona tu región</option>
+                    </select>
+                    <div id="region-error" class="text-danger"></div>
+                </div>
+                <div class="form-group">
+                    <label for="comuna">Comuna</label>
+                    <select id="comuna" class="form-control" required>
+                        <option value="">Selecciona tu comuna</option>
+                    </select>
+                    <div id="comuna-error" class="text-danger"></div>
+                </div>
+                <div class="form-group terms">
+                    <div class="terms">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">
+                            Al registrarme, acepto los <a href="#">términos y condiciones</a> de ClipTask
+                        </label>
+                    </div>
+                    <div id="terms-error" class="text-danger"></div>
+                </div>
+                <div class="btn-register-container">
+                    <button type="submit" id="register-button" class="btn-register">Registrarse</button>
+                </div>
+                <p class="login-link">¿Ya tienes una cuenta? <a href="login.html">Inicia sesión ahora</a></p>
             </div>
-            <div class="form-group">
-                <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" class="form-control" required>
-                <div id="apellido-error" class="text-danger"></div>
-            </div>
-            <div class="form-group">
-                <label for="email">Correo electrónico</label>
-                <input type="email" id="email" class="form-control" required>
-                <div id="email-error" class="text-danger"></div>
-            </div>
-            <div class="form-group">
-                <label for="rut">Rut</label>
-                <input type="text" id="rut" class="form-control" required>
-                <div id="rut-error" class="text-danger"></div>
-            </div>
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" class="form-control" required>
-                <div id="password-error" class="text-danger"></div>
-            </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirmación contraseña</label>
-                <input type="password" id="confirm-password" class="form-control" required>
-                <div id="confirm-password-error" class="text-danger"></div>
-            </div>
-            <div class="form-group">
-                <label for="region">Región</label>
-                <select id="region" class="form-control" required>
-                    <option value="">Selecciona tu región</option>
-                    <!-- Agregar opciones aquí -->
-                </select>
-                <div id="region-error" class="text-danger"></div>
-            </div>
-            <div class="form-group">
-                <label for="comuna">Comuna</label>
-                <select id="comuna" class="form-control" required>
-                    <option value="">Selecciona tu comuna</option>
-                    <!-- Agregar opciones aquí -->
-                </select>
-                <div id="comuna-error" class="text-danger"></div>
-            </div>
-            <div class="form-group terms">
-                <input type="checkbox" id="terms" required>
-                <label for="terms">
-                    Al registrarme, acepto los <a href="#">términos y condiciones</a> de ClipTask
-                </label>
-                <div id="terms-error" class="text-danger"></div>
-            </div>
-            <button type="submit" id="register-button" class="btn-register">Registrarse</button>
-            <p class="login-link">¿Ya tienes una cuenta? <a href="#">Inicia sesión ahora</a></p>
         </div>
+        <script src="js/validaciones.js"></script>
+        <script src="js/cargarRegionesComunas.js"></script>
     </div>
-    <script src="js/validaciones.js"></script>
-    <script src="js/cargarRegionesComunas.js"> </script>
 </body>
 </html>

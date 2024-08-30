@@ -2,6 +2,9 @@ body {
     background-color: #EDF2FA;
     font-family: 'Roboto', sans-serif;
     color: #2F2E2E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -14,22 +17,32 @@ body {
     align-items: center;
 }
 
+/* INICIO LOGO */
+
 .logo-container {
-    width: 85px;
-    height: 85px;
-    background-color: #007DFC;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    box-sizing: border-box;
 }
 
-.logo-container::before {
-    content: '';
-    width: 42.5px;
-    height: 42.2px;
-    background-color: #007DFC;
-    position: absolute;
-    top: 0;
-    left: 0;
+.logo-container img {
+    width: 64px;
+    height: auto;
+    margin-right: 1em;
 }
+
+.logo-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+    color: #2F2E2E;
+}
+
+/* FIN LOGO */
 
 .title {
     font-size: 2.5rem;
@@ -41,10 +54,6 @@ body {
 .login-title {
     font-size: 2rem;
     color: black;
-}
-
-.register-container a {
-    text-decoration: underline;
 }
 
 .forgot-password {
@@ -60,45 +69,30 @@ body {
 }
 
 .container-register {
-    width: 100%;
-    max-width: 486px;
-    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: white;
     border-radius: 20px;
     padding: 20px;
+    max-width: 486px;
+    width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.logo-square {
-    width: 85px;
-    height: 85px;
-    background-color: #007DFC;
-}
-
-.logo-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 72px;
-    color: #2F2E2E;
-    margin-left: 20px;
-}
-
 .form-container h1 {
-    font-size: 32px;
-    font-weight: 400;
+    font-size: 36px;
+    font-weight: 500;
     text-align: center;
+    margin-top: 30px;
     margin-bottom: 30px;
     color: black;
 }
 
 .form-group {
     margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .form-group label {
@@ -109,13 +103,14 @@ body {
 
 .form-control {
     background-color: #EDF2FA;
-    border-radius: 15px;
+    border-radius: 10px;
     border: 1px solid #2F2E2E;
 }
 
 .form-group.terms {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    padding: 5px;
     margin-bottom: 20px;
 }
 
@@ -130,15 +125,34 @@ body {
     font-style: italic;
 }
 
+.form-group.terms input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+#terms-error {
+    color: #f44336;
+    font-size: 12px;
+}
+
+.btn-register-container {
+    display: flex;
+    justify-content: center;
+}
+
 .btn-register {
-    width: 100%;
+    width: 50%;
     background-color: #303F9F;
     color: #EDF2FA;
     border-radius: 15px;
     border: none;
     padding: 10px;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #1a237e; 
 }
 
 .login-link {
