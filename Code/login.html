@@ -1,42 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipTask</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Iniciar Sesión - ClipTask</title>
+    <!-- BootStrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- BootStrap-->
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="login-card p-4 shadow-lg">
-            <div class="header mb-4 text-center">
-                <div class="logo-container d-inline-block me-3"></div>
-                <h1 class="title d-inline-block">ClipTask</h1>
-            </div>
-            <h2 class="login-title text-center mb-4">Iniciar Sesión</h2>
-            <div class="register-container text-center mb-4">
-                <span>¿Es tu primera vez? </span><a href="#">Regístrate</a>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="email" placeholder="Correo electrónico">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" placeholder="Contraseña">
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="remember">
-                    <label class="form-check-label" for="remember">Recuérdame</label>
+    <div class="main-container"> 
+        <div class="logo-container">
+            <img src="images/logoipsum-296.svg" alt="logo">
+            <div class="logo-text">ClipTask</div>
+        </div>
+        <div class="container-register">
+            <div class="form-container">
+                <h1 id="login">Iniciar Sesión</h1>
+                <p class="register-link">¿Es tu primera vez? <a href="signup.html">Regístrate</a></p>
+
+                <div class="form-group">
+                    <label for="nombre">Correo electrónico</label>
+                    <input type="text" id="nombre" class="form-control" required placeholder="Correo electrónico">
+                    <div id="nombre-error" class="text-danger"></div>
                 </div>
-                <a href="#" class="forgot-password">¿Olvidaste la contraseña?</a>
+                <div class="form-group">
+                    <label for="apellido">Contraseña</label>
+                    <input type="password" id="apellido" class="form-control" required placeholder="Contraseña">
+                    <div id="contraseña-error" class="text-danger"></div>
+                </div>
+                <p class="forgot-password"><a href="#">¿Olvidaste la contraseña?</a></p>
+                <div class="form-group rememberme">
+                    <div class="rememberme">
+                        <input type="checkbox" id="rememberme" required>
+                        <label for="rememberme">
+                            Recuérdame
+                        </label>
+                    </div>
+                </div>
+                <div class="btn-login-container">
+                    <button type="submit" id="login-button" class="btn-login">INICIAR SESIÓN</button>
+                </div>
             </div>
-            <button type="button" class="btn btn-primary w-100 login-button">INICIAR SESIÓN</button>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/validacionesLogin.js"></script>
 </body>
 </html>
