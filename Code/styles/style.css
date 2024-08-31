@@ -412,12 +412,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #42A5F5;
+  background-color: #67b8fa;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 10px;
   width: 100%;
-
+  height: 59px;
+  border: 1px solid black;
 }
 
 
@@ -437,9 +438,17 @@ body {
 }
 
 .accordion-header button{
-  color: #2F2E2E;
+  color: black;
+  background-color: #c4c1c1;
   width: 100%;
   height: 25px;
 }
 
+.accordion-button:not(.collapsed) {
+  
+  background-color: #c4c1c1 !important;
+  color: black !important;
+  width: 100%;
+  height: 25px;
+}
 /* PROJECT */
