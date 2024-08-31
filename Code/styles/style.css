@@ -236,9 +236,15 @@ body {
 
 .bottom-nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-around; /* Changed from center to space-around */
   background-color: #0a2c66;
   padding: 10px 0;
+  position: fixed; /* Changed from static to fixed */
+  bottom: 0; /* Add this */
+  left: 0; /* Add this */
+  right: 0; /* Add this */
+  max-width: 486px; /* Add this to match container width */
+  margin: 0 auto;
 }
   
 .nav-item {
@@ -276,6 +282,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
   
 .header {
@@ -402,24 +409,18 @@ body {
 /* PROJECT */
 
 .project {
-  background-color: #3c91e6;
-  border-radius: 25px;
-  padding: 15px;
-  margin: 15px;
   display: flex;
-  height: 70px;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  background-color: #42A5F5;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
 
 }
 
-.category button{
-  justify-content: space-between;
-  margin: 15px;
-  align-items: center;
-  width: 455px;
-}
+
 
 .projects-list {
   flex-grow: 1;
@@ -429,6 +430,16 @@ body {
 
 .category-title {
   background-color: rgb(211, 211, 211);
+}
+
+.accordion-body{
+  background-color: rgb(255, 255, 255);
+}
+
+.accordion-header button{
+  color: #2F2E2E;
+  width: 100%;
+  height: 25px;
 }
 
 /* PROJECT */
