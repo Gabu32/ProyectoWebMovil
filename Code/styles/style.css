@@ -44,29 +44,7 @@ body {
 
 /* FIN LOGO */
 
-.title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2F2E2E;
-    margin: 0;
-}
-
-.login-title {
-    font-size: 2rem;
-    color: black;
-}
-
-.forgot-password {
-    font-size: 0.9rem;
-    color: #42A5F5;
-    text-decoration: underline;
-}
-
-.login-button {
-    font-weight: 800;
-    font-size: 1rem;
-    background-color: #303F9F;
-}
+/* REGISTRO */
 
 .container-register {
     display: flex;
@@ -119,6 +97,10 @@ body {
     color: #2F2E2E;
 }
 
+.terms {
+    display: flex;
+}
+
 .form-group.terms a {
     color: #42A5F5;
     text-decoration: underline;
@@ -129,9 +111,9 @@ body {
     margin-right: 12px;
 }
 
-#terms-error {
-    color: #f44336;
-    font-size: 12px;
+.text-danger {
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 .btn-register-container {
@@ -167,4 +149,32 @@ body {
     font-style: italic;
 }
 
+/* REGISTRO */
 
+/*
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2F2E2E;
+    margin: 0;
+}
+
+.login-title {
+    font-size: 2rem;
+    color: black;
+}
+
+.forgot-password {
+    font-size: 0.9rem;
+    color: #42A5F5;
+    text-decoration: underline;
+}
+
+.login-button {
+    font-weight: 800;
+    font-size: 1rem;
+    background-color: #303F9F;
+}
+
+*/
