@@ -7,7 +7,7 @@ body {
     align-items: center;
 }
 
-.container {
+.main-container {
     background-color: #EDF2FA;
 }
 
@@ -58,13 +58,17 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.form-container {
+    width: 100%;
+}
+
 .form-container h1 {
     font-size: 36px;
     font-weight: 500;
     text-align: center;
     margin-top: 30px;
     margin-bottom: 30px;
-    color: black;
+    color: #2F2E2E;
 }
 
 .form-group {
@@ -76,7 +80,7 @@ body {
 .form-group label {
     font-weight: 400;
     font-size: 12px;
-    color: black;
+    color: #2F2E2E;
 }
 
 .form-control {
@@ -114,11 +118,13 @@ body {
 .text-danger {
     font-size: 14px;
     margin-top: 5px;
+    margin-left: 5px;
 }
 
 .btn-register-container {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
 }
 
 .btn-register {
@@ -128,7 +134,7 @@ body {
     border-radius: 15px;
     border: none;
     padding: 10px;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
@@ -151,30 +157,77 @@ body {
 
 /* REGISTRO */
 
-/*
+/* LOGIN */
 
-.title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2F2E2E;
-    margin: 0;
+#login {
+    margin-bottom: 0px;
 }
 
-.login-title {
-    font-size: 2rem;
-    color: black;
+.register-link {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 12px;
+    margin-bottom: 50px;
+}
+
+.register-link a {
+    color: #42A5F5;
+    text-decoration: underline;
+    font-style: italic;
 }
 
 .forgot-password {
-    font-size: 0.9rem;
+    font-size: 12px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
     color: #42A5F5;
     text-decoration: underline;
+    font-style: italic;
 }
 
-.login-button {
-    font-weight: 800;
-    font-size: 1rem;
+.btn-login-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-login {
+    width: 50%;
     background-color: #303F9F;
+    color: #EDF2FA;
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 15px;
 }
 
-*/
+.btn-login:hover {
+    background-color: #1a237e; 
+}
+
+.form-group.rememberme {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin-bottom: 70px;
+}
+
+.rememberme {
+    display: flex;
+}
+
+.form-group.rememberme input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+.form-group.rememberme.rememberme label {
+    font-size: 12px;
+    color: #2F2E2E;
+}
+
+/* LOGIN */
