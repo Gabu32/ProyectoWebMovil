@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <div class="container-notifications">
+    <div class="header">
+      <div class="user-icon">
+        <img src="images/person-circle.svg" alt="User icon">
+      </div>
+      <div class="settings-icon">
+        <img src="images/gear-fill.svg" alt="Settings">
+      </div>
+    </div>
+      <div class="notiText">
+        <h1>Notificaciones</h1>
+      </div>
+    <div class="filter">
+      <button type="button" class="noRead" onclick="window.location.href='notificationR.html'">No leidas</button>
+      <img src="images/three-dots-vertical.svg" alt="More options">
+    </div>
+    <div class="notifications-list">
+      <div class="notification unread">
+        <div class="notification-content">
+          <h2>Proyecto 3 <span class="task">Tarea 3</span></h2>
+          <p>Breve descripción del cambio</p>
+          <div class="notification-meta">
+            <span class="time">Hora</span>
+            <span class="author">Autor</span>
+          </div>
+        </div>
+      </div>
+      <div class="notification unread">
+        <div class="notification-content">
+          <h2>Proyecto 3 <span class="task">Tarea 1</span></h2>
+          <p>Breve descripción del cambio</p>
+          <div class="notification-meta">
+            <span class="time">Hora</span>
+            <span class="author">Autor</span>
+          </div>
+        </div>
+      </div>
+      <div class="notification read">
+        <div class="notification-content">
+          <h2>Proyecto 3 <span class="task">Tarea 3</span></h2>
+          <p>Breve descripción del cambio</p>
+          <div class="notification-meta">
+            <span class="time">Hora</span>
+            <span class="author">Autor</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="historyButton">
+      <button type="button" class="historial-button">Historial</button>
+    </div>
+    
+    <nav class="bottom-nav">
+      <div class="nav-item">
+        <img src="images/house-empty.svg" alt="Inicio">
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item">
+        <img src="images/folder-empty.svg" alt="Proyectos">
+        <span>Proyectos</span>
+      </div>
+      <div class="nav-item active">
+        <img src="images/bell-fill.svg" alt="Notificaciones">
+        <span>Notis.</span>
+      </div>
+    </nav>
+  </div>
+</body>
+
+</html>
