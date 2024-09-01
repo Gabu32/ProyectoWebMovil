@@ -421,8 +421,6 @@ body {
   border: 1px solid black;
 }
 
-
-
 .projects-list {
   flex-grow: 1;
   justify-content: center;
@@ -435,6 +433,7 @@ body {
 
 .accordion-body{
   background-color: rgb(255, 255, 255);
+  
 }
 
 .accordion-header button{
@@ -445,10 +444,88 @@ body {
 }
 
 .accordion-button:not(.collapsed) {
-  
   background-color: #c4c1c1 !important;
   color: black !important;
   width: 100%;
   height: 25px;
 }
 /* PROJECT */
+
+/* Task*/
+.header button{
+  background-color: white;
+  border: none;
+}
+
+.taskTittle h1{
+  display: flex;
+  color: black;
+}
+
+.containerDescription{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  margin-bottom: 30px;
+}
+
+.description{
+  display: flex;
+  background-color: rgb(0, 153, 255);
+  width: 90%;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border: 1px solid black;
+}
+
+.description h2{
+  color: white;
+}
+  
+.accordion-bodyy img {
+  width: 24px;
+  height: 24px;
+}
+  
+.accordion-bodyy span {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.accordion-bodyy {
+  display: flex;
+  justify-content: space-around; /* Changed from center to space-around */
+  background-color: #ffffff;
+  padding: 10px 0;
+  position: fixed; /* Changed from static to fixed */
+  height: 100px;
+  width: 100%;
+  max-width: 486px; /* Add this to match container width */
+  margin: 0 auto;
+}
+  
+.adjunto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+}
+  
+.adjunto img {
+  width: 24px;
+  height: 24px;
+  color: black;
+}
+  
+.adjunto span {
+  font-size: 12px;
+  margin-top: 5px;
+}
+  
+.adjunto.active {
+  color: #ffffff;
+}
