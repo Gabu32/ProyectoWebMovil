@@ -502,7 +502,7 @@ body {
   background-color: #ffffff;
   padding: 10px 0;
   position: fixed; /* Changed from static to fixed */
-  height: 100px;
+  height: 70px;
   width: 100%;
   max-width: 486px; /* Add this to match container width */
   margin: 0 auto;
@@ -528,4 +528,90 @@ body {
   
 .adjunto.active {
   color: #ffffff;
+}
+
+.line{
+  padding: 10px;
+  height: 70px;
+  border-bottom: 1px solid black;
+}
+
+.personAssigned button{
+  background-color: white;
+  border: none;
+}
+
+.person{
+  margin: 10px;
+  height: 40px;
+}
+
+.tag{
+  height: 70px;
+}
+
+.create{
+  height: 70px;
+}
+
+.limit{
+  height: 70px;
+}
+
+.date{
+  margin-left: 10px;
+}
+
+.coments{
+  height: 100px;
+}
+
+.showComents{
+  height: 50px;
+}
+
+.input-group{
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  margin-left: 22px;
+}
+
+.input-group textarea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.coments .input-group{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.coments .input-group .form-control{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userComments{
+  margin-top: 7px;
+  margin-left: 20px;
+}
+.userComments img{
+  width: 25px;
+  height: 25px;
+}
+
+.userComments span{
+  margin:10px;
+}
+
+.showComents span1{
+  margin: 54px;
+  
 }
