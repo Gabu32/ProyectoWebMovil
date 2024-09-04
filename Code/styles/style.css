@@ -18,6 +18,119 @@ body {
     align-items: center;
 }
 
+
+/* INDEX */
+
+.container-index {
+  display: relative;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 486px;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%; 
+    top: 40%; 
+    transform: translateY(-50%); 
+    z-index: 10; 
+}
+
+.carousel-control-prev {
+    left: -2%;
+}
+
+.carousel-control-next {
+    right: -2%; 
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 50%; 
+    padding: 10px; 
+}
+
+
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.carousel-inner {
+    width: 400px;
+    height: 380px;
+    padding: 0 5%;
+}
+
+.carousel-caption {
+    font-size: 10px;
+    position: relative;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    margin-top: 15px;
+    text-align: center;
+    color: #2F2E2E;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.carousel.caption h5 {
+    font-size: 10px;
+}
+
+.carousel.item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.botons-container {
+    width: 100%;
+    position: relative;
+}
+
+.goto-boton{
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn-goto-login {
+    width: 80%;
+    background-color: #42A5F5;
+    color: #2F2E2E;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-goto-register {
+    width: 80%;
+    background-color: #0000001F;
+    color: #2F2E2E;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+
+/* INDEX */
+
 /* INICIO LOGO */
 
 .logo-container {
@@ -498,13 +611,13 @@ body {
 
 .accordion-bodyy {
   display: flex;
-  justify-content: space-around; /* Changed from center to space-around */
+  justify-content: space-around; 
   background-color: #ffffff;
   padding: 10px 0;
-  position: fixed; /* Changed from static to fixed */
+  position: fixed; 
   height: 70px;
   width: 100%;
-  max-width: 486px; /* Add this to match container width */
+  max-width: 486px; 
   margin: 0 auto;
 }
   
