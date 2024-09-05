@@ -725,16 +725,21 @@ body {
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
 }
+
 .back-arrow {
   margin-right: 10px;
 }
+
 .settings-icon {
   margin-left: auto;
 }
+
 .tabs {
   display: flex;
   background-color: #f0f0f0;
+  margin-bottom: 30px;
 }
+
 .tab-button {
   flex: 1;
   padding: 10px;
