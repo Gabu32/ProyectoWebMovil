@@ -12,6 +12,11 @@ body {
     background-color: #EDF2FA;
 }
 
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* INDEX */
 
@@ -121,7 +126,6 @@ body {
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
-
 
 /* INDEX */
 
@@ -343,14 +347,14 @@ body {
 
 .bottom-nav {
   display: flex;
-  justify-content: space-around; /* Changed from center to space-around */
+  justify-content: space-around; 
   background-color: #0a2c66;
   padding: 10px 0;
-  position: fixed; /* Changed from static to fixed */
-  bottom: 0; /* Add this */
-  left: 0; /* Add this */
-  right: 0; /* Add this */
-  max-width: 486px; /* Add this to match container width */
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  max-width: 486px; 
   margin: 0 auto;
 }
   
@@ -845,3 +849,73 @@ li:hover:nth-child(n+8):nth-child(-n+38), li:nth-child(17){
   background-color: #1abc9c;
   color: #ecf0f1;
 }
+
+/* HOME */ 
+
+.container-home {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  min-height: 100vh;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 486px;
+  width: 486px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 55px;
+}
+
+.header-home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 35px; 
+}
+
+.homeText {
+  margin-bottom: 30px;
+}
+
+.search-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+}
+
+.search-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.task-list {
+  background-color: #e9ecef;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.task-item {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+/* HOME */ 
+
