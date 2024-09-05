@@ -396,13 +396,6 @@ body {
   position: relative;
 }
   
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
-  
 .user-icon img{
   width: 50px;
   height: 50px;
@@ -564,7 +557,7 @@ body {
 
 /* Task*/
 .header button{
-  background-color: white;
+  background-color: #f8f8f8;
   border: none;
 }
 
@@ -580,6 +573,7 @@ body {
   width: 100%;
   height: 70px;
   margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .description{
@@ -724,7 +718,136 @@ body {
 
 .showComents span1{
   margin: 54px;
-  
+}
+
+/* TASK */
+.header {
+  background-color: #f8f8f8;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.back-arrow {
+  margin-right: 10px;
+}
+
+.settings-icon {
+  margin-left: auto;
+}
+
+.tabs {
+  display: flex;
+  background-color: #f0f0f0;
+  margin-bottom: 30px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-size: 16px;
+}
+.tab-button.active {
+  background-color: #3f51b5;
+  color: white;
+}
+.task-list {
+  padding: 10px;
+}
+.task-item {
+  width: 100%;
+  height: 30px;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-checkbox {
+  margin-left: 10px;
+}
+.task-name-complete {
+  text-decoration: dashed;
+  margin-left: 10px;
+}
+.task-icon {
+  margin-left: 5px;
+}
+.completed-tasks {
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* CRONOGRAMA*/
+
+.filterCrono{
+  display: flex;
+  align-items: center;
+  width: 100% ;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.filter1 {
+  background-color: #f0f0f0;
+  border: none;
+  width: 20%;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.filterActivate{
+  background-color: #a5ccf3;
+  border: none;
+  width: 20%;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+#fullDiv {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden; 
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  float: left;
+  display: block;
+  width: 14.2857%;
+  text-align: center;
+  list-style-type: none;
+}
+
+li:nth-child(n+1):nth-child(-n+7) {
+  font-weight: 900;
+  color: #e67e22;
+}
+
+li:nth-child(n+39), li:nth-child(n+8):nth-child(-n+16) {
+  font-weight: 900;
+  color: rgba(0,0,0,.3);
+}
+
+li:hover:nth-child(n+8):nth-child(-n+38), li:nth-child(17){
+  border-radius: 5px;
+  background-color: #1abc9c;
+  color: #ecf0f1;
 }
 
 /* HOME */ 
