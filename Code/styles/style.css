@@ -919,3 +919,16 @@ li:hover:nth-child(n+8):nth-child(-n+38), li:nth-child(17){
 
 /* HOME */ 
 
+.top-nav {
+  display: flex;
+  justify-content: space-around; 
+  background-color: #769cdd;
+  position: fixed; 
+  bottom: 67px; 
+  left: 0; 
+  right: 0; 
+  max-width: 486px; 
+  height: 40px;
+  margin: 0 auto;
+  align-items: center;
+}
