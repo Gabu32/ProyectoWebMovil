@@ -1,0 +1,43 @@
+body {
+    background-color: #EDF2FA; 
+}
+
+.navbar {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.navbar a {
+    font-size: 14px;
+}
+
+input[type="text"] {
+    border-radius: 20px;
+}
+
+.bg-light {
+    background-color: #D9D9D9 !important; /* Fondo de las tarjetas */
+}
+
+.container {
+    margin-bottom: 100px; /* Espacio para la barra de navegación */
+}
+
+p.text-muted {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 22px;
+    }
+    .navbar a {
+        font-size: 12px;
+    }
+}

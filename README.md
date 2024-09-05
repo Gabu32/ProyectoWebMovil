@@ -6,5 +6,5 @@
 ## Entrega Parcial 1 (01-09-2024)
 ## Tabla de Contenidos
 1. [Análisis de las Funcionalidades](FUNCIONALIDADES.md)
-2. [Protipado en Figma](https://github.com/Gabu32/ProyectoWebMovil/tree/main/Mockups)
+2. [Protipado en Figma](https://www.figma.com/proto/cVtLFwyjomdRb6P0eWdf4f/Project?node-id=124-2116&t=6CQFsAXwGDnjXiVS-1)
 3. [Maquetación Responsiva]()
