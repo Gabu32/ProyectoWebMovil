@@ -919,6 +919,8 @@ li:hover:nth-child(n+8):nth-child(-n+38), li:nth-child(17){
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 5px;
+  text-decoration: none;
+  color: #2F2E2E;
 }
 
 /* HOME */ 

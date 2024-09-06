@@ -23,7 +23,7 @@ document.getElementById('login-button').addEventListener('click', function(event
     }
 
     if (isValid) {
-        alert('Formulario válido.');
+        window.location.href = 'home.html';
     }
 });
 
