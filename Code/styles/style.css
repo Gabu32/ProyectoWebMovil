@@ -810,9 +810,8 @@ body {
   font-weight: bold;
 }
 
-#fullDiv {
-  position: absolute;
-  margin: 0;
+.fullDiv {
+  margin-bottom: 15px;
   padding: 0;
   left: 0;
   top: 0;

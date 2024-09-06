@@ -73,13 +73,44 @@
               <li>3</li>
               <li>4</li>
             </ul>
+        </div>
+        <div class="accordion" id="accordionPanelsStayOpenExample"></div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                  Completadas (4)
+                </button>
+              </h2>
+              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <button class="task-item" onclick="window.location.href='task.html'">
+                        <input type="checkbox" checked class="task-checkbox">
+                        <span class="task-name-complete">Nombre tarea</span>
+                        <span class="task-icon"><img src="images/person-circle.svg" alt="user"></span>
+                        <span class="task-icon"><img src="images/star-empty.svg" alt="star"></span>
+                    </button>
+                    <button class="task-item"  onclick="window.location.href='task.html'">
+                        <input type="checkbox" class="task-checkbox">
+                        <span class="task-name-complete">Nombre tarea</span>
+                        <span class="task-icon"><img src="images/person-circle.svg" alt="user"></span>
+                        <span class="task-icon"><img src="images/star-empty.svg" alt="star"></span>
+                    </button>
+                    <button class="task-item" onclick="window.location.href='task.html'">
+                        <input type="checkbox" class="task-checkbox">
+                        <span class="task-name-complete">Nombre tarea</span>
+                        <span class="task-icon"><img src="images/person-circle.svg" alt="user"></span>
+                        <span class="task-icon"><img src="images/star-empty.svg" alt="star"></span>
+                    </button>
+                </div>
+              </div>
+            </div>
         </div>    
     </div>
     <nav class="top-nav">
         <a href="#" class="nav-item">
-            <img src="images/arrow-left.svg" alt="Volver">
+            <img src="images/funnel-fill.svg" alt="Volver">
         </a>
-        <span class="nav-title">Historial</span>
+        <button type="button" class="filterActivate" onclick="window.location.href='#'">Historial</button>
         <a href="#" class="nav-item add-button">
             +
         </a>
