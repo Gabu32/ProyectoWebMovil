@@ -931,3 +931,23 @@ li:hover:nth-child(n+8):nth-child(-n+38), li:nth-child(17){
   margin: 0 auto;
   align-items: center;
 }
+
+/* TEAM */
+
+.team-list {
+    background-color: #fff;
+    padding: 10px;
+}
+.team-member {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    border-bottom: 1px solid #eee;
+}
+.member-icon  img{
+    width: 40px;
+    height: 40px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin-right: 10px;
+}
