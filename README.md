@@ -11,11 +11,6 @@
 4. Formularios y Validación:
 5. [Tecnologías utilizadas](#Tecnologías)
 
-## Tecnologías
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-
 # Funcionalidades
 
 ## 1. Gestión de Proyectos:
@@ -59,3 +54,8 @@ Interacción: Se mostrará porcentajes de progreso, permitiendo a los usuarios e
 Descripción: Un historial completo de actividades dentro de cada proyecto permitirá a los usuarios revisar cambios y acciones realizadas, como la creación o modificación de tareas.  
 Roles: Todos los usuarios podrán acceder al historial, pero las acciones visibles dependerán de sus permisos.  
 Interacción: El historial se desplegará como una lista cronológica de eventos dentro de cada proyecto, mostrando detalles como la hora, la acción realizada, y el usuario que la llevó a cabo.
+
+## Tecnologías
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
