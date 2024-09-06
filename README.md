@@ -5,11 +5,11 @@
  
 ## Entrega Parcial 1 (01-09-2024)
 ## Tabla de Contenidos
-1. [Análisis de las Funcionalidades](FUNCIONALIDADES.md)
+1. [Análisis de las Funcionalidades](#Funcionalidades)
 2. [Protipado en Figma](https://www.figma.com/proto/cVtLFwyjomdRb6P0eWdf4f/Project?node-id=124-2133&t=6CQFsAXwGDnjXiVS-1)
 3. Maquetación Responsiva:
 4. Formularios y Validación:
-5. [Tecnologías utilizadas](#tecnologías)
+5. [Tecnologías utilizadas](#Tecnologías)
 
 ## Tecnologías
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
