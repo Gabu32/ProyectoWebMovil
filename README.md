@@ -7,8 +7,8 @@
 ## Tabla de Contenidos
 1. [Análisis de las Funcionalidades](#Funcionalidades)
 2. [Protipado en Figma](https://www.figma.com/proto/cVtLFwyjomdRb6P0eWdf4f/Project?node-id=124-2133&t=6CQFsAXwGDnjXiVS-1)
-3. Maquetación Responsiva: Se realizó una maquetación responsiva de las pantallas prototipadas en Figma. Desde la página HTML '[home.html](Code/home.html)' se pueden acceder a las demás. 
-5. Formularios y Validación: Se realizó un formulario de registro e inicio de sesión que valida que se ingresen datos con el formato correcto. Ingresar datos correctos en el login lleva al home de la app. Los archivos son '[login.html](Code/login.html)' para el formulario de inicio de sesión, y '[signup.html](Code/signup.html)' para el formulario de registro.
+3. Maquetación Responsiva: Se realizó una maquetación responsiva de las pantallas prototipadas en Figma. Desde la página HTML '[home.html](EP1/Code/home.html)' se pueden acceder a las demás. 
+5. Formularios y Validación: Se realizó un formulario de registro e inicio de sesión que valida que se ingresen datos con el formato correcto. Ingresar datos correctos en el login lleva al home de la app. Los archivos son '[login.html](EP1/Code/login.html)' para el formulario de inicio de sesión, y '[signup.html](EP1/Code/signup.html)' para el formulario de registro.
 6. [Tecnologías utilizadas](#Tecnologías)
 
 # Funcionalidades
