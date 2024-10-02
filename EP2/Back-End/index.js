@@ -19,23 +19,34 @@ const client = new Client({
 client.connect();
 
 app.post('/api/register', async (req, res) => {
-    const { email, password } = req.body;
-  
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
-    }
-  
-    try {
+  const { nombre, apellido, email, rut, password, region, comuna } = req.body;
+
+  console.log(req.body);
+
+  if (!nombre || !apellido || !email || !rut || !password || !region || !comuna) {
+      return res.status(400).json({ message: 'Todos los campos son requeridos' });
+  }
+
+  try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      users.push({ email, password: hashedPassword });
-      res.json({ message: 'User registered successfully' });
-    } catch (error) {
-      res.status(500).json({ message: 'Error while registering user' });
-    }
-  });
+
+      const result = await client.query(
+          'INSERT INTO Usuarios (nombre, apellido, email, rut, password, region, comuna) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+          [nombre, apellido, email, rut, hashedPassword, region, comuna]
+      );
+
+      res.status(201).json({ message: 'Usuario registrado con éxito', user: result.rows[0] });
+  } catch (error) {
+      console.error('Error al registrar el usuario:', error);
+      res.status(500).json({ message: 'Error al registrar el usuario' });
+  }
+});
 
   app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
+
+    console.log('Email:', email);
+    console.log('Password', password);
     
     try {
         const result = await client.query('SELECT * FROM Usuarios WHERE email = $1', [email]);

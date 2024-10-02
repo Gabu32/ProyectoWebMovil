@@ -27,7 +27,7 @@ const Login: React.FC = () => {
             <div className="form-container">
               <h1 id="login">Iniciar Sesión</h1>
               <IonText color="medium" className="register-link">
-                ¿Es tu primera vez? <a href="signup.html">Regístrate</a>
+                ¿Es tu primera vez? <a href="register">Regístrate</a>
               </IonText>
               <br/><br/>
               <form onSubmit={handleSubmit(onSubmit)}>

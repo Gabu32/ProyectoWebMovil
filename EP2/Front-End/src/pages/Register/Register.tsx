@@ -1,13 +1,4 @@
-import {
-  IonButton,
-  IonContent,
-  IonPage,
-  IonItem,
-  IonLabel,
-  IonSelect,
-  IonSelectOption,
-  IonInput,
-} from '@ionic/react';
+import { IonButton, IonContent, IonPage, IonItem, IonLabel, IonSelect, IonSelectOption, IonInput} from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './Register.css';
@@ -96,8 +87,8 @@ const Register: React.FC = () => {
                 <IonInput type="password" {...register('confirmPassword')} required placeholder="Confirmar Contraseña" />
               </IonItem>
               <IonLabel>Seleccionar Región</IonLabel>
-              <IonItem>
-                <IonSelect onIonChange={onRegionChange} placeholder="Selecciona una región" required>
+              <IonItem className='formSelect'>
+                <IonSelect {...register('region')} onIonChange={onRegionChange} interface='popover' placeholder="Selecciona una región">
                   {regions.length > 0 ? (
                     regions.map(region => (
                       <IonSelectOption key={region.region} value={region.region}>
@@ -110,8 +101,8 @@ const Register: React.FC = () => {
                 </IonSelect>
               </IonItem>
               <IonLabel>Seleccionar Comuna</IonLabel>
-              <IonItem>
-                <IonSelect {...register('comuna')} placeholder="Selecciona una comuna" required>
+              <IonItem className='formSelect'>
+                <IonSelect {...register('comuna')} interface='popover' placeholder="Selecciona una comuna">
                   {communes.length > 0 ? (
                     communes.map(comuna => (
                       <IonSelectOption key={comuna} value={comuna}>
