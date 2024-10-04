@@ -1,11 +1,14 @@
-import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonToolbar, IonTitle, IonText, IonItem, IonLabel, IonCheckbox} from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonToolbar, IonTitle, IonText, IonItem, IonLabel, IonCheckbox, IonInputPasswordToggle} from '@ionic/react';
 import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
 import logo from './images/logo.svg';
 
 const Login: React.FC = () => {
   const { register , handleSubmit } = useForm();
+  const [isTouched, setIsTouched] = useState(false);
+  const [isValid, setIsValid] = useState<boolean>();
 
   const onSubmit = async(data: any) => {
     try { 
@@ -15,6 +18,26 @@ const Login: React.FC = () => {
       console.error('Inicio de Sesión Fallido', error);
     }
   }
+
+  const validateEmail = (email: string) => {
+    return email.match(
+      /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    );
+  };
+
+  const validate = (ev: Event) => {
+    const value = (ev.target as HTMLInputElement).value;
+
+    setIsValid(undefined);
+
+    if (value === '') return;
+
+    validateEmail(value) !== null ? setIsValid(true) : setIsValid(false);
+  };
+
+  const markTouched = () => {
+    setIsTouched(true);
+  };
 
   return (
     <IonPage>
@@ -29,17 +52,26 @@ const Login: React.FC = () => {
               <IonText color="medium" className="register-link">
                 ¿Es tu primera vez? <a href="register">Regístrate</a>
               </IonText>
-              <br/><br/>
+              <br/>
+    
               <form onSubmit={handleSubmit(onSubmit)}>
-                <IonLabel position="floating">Correo electrónico</IonLabel>
+                <IonLabel position='floating'>Correo Electrónico</IonLabel>
                 <IonItem className='formInput'>
-                  <IonInput type="email" {...register('email')} required placeholder="Correo electrónico" />
+                  <IonInput 
+                  className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'} ${isTouched && 'ion-touched'}`}
+                  type="email"
+                  onIonInput={(event) => validate(event)}
+                  onIonBlur={()=> markTouched()}
+                  errorText='Formato de correo electrónico inválido'
+                  {...register('email')} 
+                  required placeholder="Correo electrónico" />
                 </IonItem>
-                <IonText id="nombre-error" className="text-danger"></IonText>
                 <br/>
-                <IonLabel position="floating">Contraseña</IonLabel>
+                <IonLabel position='floating'>Contraseña</IonLabel>
                 <IonItem className='formInput'>
-                  <IonInput type="password" {...register('password')} required placeholder="Contraseña" />
+                  <IonInput type="password" {...register('password')} required placeholder="Contraseña">
+                  <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                  </IonInput>
                 </IonItem>
                 <IonText id="contraseña-error" className="text-danger"></IonText>
 
