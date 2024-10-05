@@ -1,0 +1,49 @@
+.project-card {
+    background-color: #4db8ff;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    max-width: 50%;
+
+    /*Esto centra el rectangulo*/
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .project-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .project-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .project-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .project-details {
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+  
+  .project-details ion-icon {
+    margin-right: 5px;
+  }
+  
+  .favorite-icon {
+    color: yellow;
+    font-size: 1.5rem;
+    margin-left: auto; /* Alinea la estrella a la derecha */
+  }
+  
