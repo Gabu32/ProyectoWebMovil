@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItemGroup, IonItemDivider, IonLabel, IonIcon, IonButtons, IonButton, IonAccordionGroup, IonAccordion, IonItem } from '@ionic/react';
 import { personOutline, searchOutline, addOutline } from 'ionicons/icons';
 import NavBar from '../../components/NavBar';
@@ -7,7 +7,18 @@ import './Projects.css';
 
 
 
+
 const ProjectsPage: React.FC = () => {
+
+    const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
+
+        useEffect(() => {
+            if (!accordionGroup.current) {
+        return;
+        }
+
+        accordionGroup.current.value = ['Favoritos', 'Recientes', 'Todos'];
+    }, []);
 
   return (
     <IonPage>
@@ -31,7 +42,7 @@ const ProjectsPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonAccordionGroup  multiple={true}>
+        <IonAccordionGroup ref={accordionGroup} multiple={true}>
           {/* Sección Favoritos */}
           <IonAccordion value='Favoritos'>
             <IonItem slot="header" color="light">
