@@ -1,0 +1,41 @@
+.project-card {
+  background-color: #1e90ff; /* Color de fondo similar a la imagen */
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.project-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.project-details {
+  display: flex;
+  align-items: center;
+}
+
+.project-details span {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.favorite-icon {
+  font-size: 24px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: left;
+}
