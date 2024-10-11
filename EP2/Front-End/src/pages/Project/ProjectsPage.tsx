@@ -23,15 +23,15 @@ const ProjectsPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color="light"> {/* Color claro como en la primera imagen */}
-          <IonButtons slot="start"> {/* Ícono de perfil a la izquierda */}
+        <IonToolbar color="light"> 
+          <IonButtons slot="start"> 
             <IonButton>
               <IonIcon icon={personOutline} />
             </IonButton>
           </IonButtons>
-          <IonTitle> {/* Aquí puedes agregar un título si lo necesitas */}
+          <IonTitle> 
           </IonTitle>
-          <IonButtons slot="end"> {/* Íconos de búsqueda y agregar a la derecha */}
+          <IonButtons slot="end"> 
             <IonButton>
               <IonIcon icon={searchOutline} />
             </IonButton>
@@ -42,8 +42,12 @@ const ProjectsPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+<<<<<<< Updated upstream
         <IonAccordionGroup ref={accordionGroup} multiple={true}>
           {/* Sección Favoritos */}
+=======
+        <IonAccordionGroup  multiple={true}>
+>>>>>>> Stashed changes
           <IonAccordion value='Favoritos'>
             <IonItem slot="header" color="light">
                 <IonLabel>Favoritos</IonLabel>
@@ -53,7 +57,6 @@ const ProjectsPage: React.FC = () => {
             </div>
           </IonAccordion>
 
-          {/* Sección Recientes */}
           <IonAccordion value='Recientes'>
             <IonItem slot='header' color="light">
                 <IonLabel>Recientes</IonLabel>
@@ -64,7 +67,6 @@ const ProjectsPage: React.FC = () => {
             
           </IonAccordion>
 
-          {/* Sección Todos los proyectos */}
           <IonAccordion value='Todos'>
             <IonItem slot='header' color="light">
               <IonLabel>Todos los proyectos</IonLabel>
