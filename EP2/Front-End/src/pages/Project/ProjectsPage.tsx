@@ -42,12 +42,8 @@ const ProjectsPage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-<<<<<<< Updated upstream
         <IonAccordionGroup ref={accordionGroup} multiple={true}>
           {/* Sección Favoritos */}
-=======
-        <IonAccordionGroup  multiple={true}>
->>>>>>> Stashed changes
           <IonAccordion value='Favoritos'>
             <IonItem slot="header" color="light">
                 <IonLabel>Favoritos</IonLabel>

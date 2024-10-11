@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonPage, IonItem, IonLabel, IonSelect, IonSelectOption, IonInput} from '@ionic/react';
+import { IonButton, IonContent, IonPage, IonItem, IonLabel, IonSelect, IonSelectOption, IonInput, IonInputPasswordToggle} from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './Register.css';
@@ -81,10 +81,12 @@ const Register: React.FC = () => {
               <IonLabel position="floating">Contraseña</IonLabel>
               <IonItem className='formInput'>
                 <IonInput type="password" {...register('password')} required placeholder="Contraseña" />
+                <IonInputPasswordToggle slot='end'></IonInputPasswordToggle>
               </IonItem>
               <IonLabel position="floating">Confirmar Contraseña</IonLabel>
               <IonItem className='formInput'>
                 <IonInput type="password" {...register('confirmPassword')} required placeholder="Confirmar Contraseña" />
+                <IonInputPasswordToggle slot='end'></IonInputPasswordToggle>
               </IonItem>
               <IonLabel>Seleccionar Región</IonLabel>
               <IonItem className='formSelect'>

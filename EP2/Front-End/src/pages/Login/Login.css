@@ -101,17 +101,20 @@
     justify-content: center;
 }
 
-.btn-login-container ion-button {
+.btn-login{
     width: 70%;
     padding: 10px;
     font-weight: 700;
     font-size: 16px;
     max-width: 300px;
     margin-bottom: 15px;
+    --background: #303F9F
 }
 
-ion-button {
-    --background: #303F9F
+@media (prefers-color-scheme: dark) {
+    .btn-login {
+        color: #FFFFFF; 
+    }
 }
 
 .rememberme {

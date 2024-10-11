@@ -1,0 +1,140 @@
+:root {
+    --ion-color-background: #EDF2FA; 
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+      --ion-color-background: #1a1a1a;
+    }
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    margin-top: 30px;
+    box-sizing: border-box;
+}
+
+.logo-container img {
+    width: 64px;
+    height: auto;
+    margin-right: 1em;
+}
+
+.logo-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 64px;
+}
+
+.landing-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-content {
+    width: 100%;
+    max-width: 750px;
+    background-color: var(--ion-color-background);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.swiper-container {
+    padding-top: 30px;
+    background-color: var(--ion-color-background);
+    width: 100%;
+    height: 300px;
+    max-width: 700px;
+}
+
+.mySwiper {
+    width: 100%;
+    height: 350px;
+}
+
+.mySwiper img {
+    width: 100% ;
+    height: 180px !important; 
+    object-fit: cover; 
+    margin-top: 25px;
+}
+
+.swiper-caption {
+    position: relative; 
+    bottom: 10px; 
+    left: 0;
+    right: 0;
+    margin-top: 15px;
+    text-align: center; 
+    padding: 1rem; 
+    box-sizing: border-box;
+}
+
+.swiper-slide {
+    flex-direction: column;
+}
+
+.botons-container {
+    padding-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.botons-container ion-button {
+    width: 70%;
+    max-width: 400px;
+    font-weight: 700;
+    padding: 10px;
+}
+  
+.btn-goto-login {
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    --background: #42A5F5;
+    --border-radius: 10px;
+    --padding-bottom: 15px;
+    --padding-top: 15px;
+    --color: #2F2E2E;
+}
+  
+.btn-goto-register {
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    --background: #e0e0e0;
+    --border-radius: 10px;
+    --padding-bottom: 15px;
+    --padding-top: 15px;
+    --color: #2F2E2E;
+}
+
+.swiper-pagination {
+    margin-top: 30px !important;
+    bottom: 10px !important; 
+  }
+  
+.swiper-pagination-bullet {
+    background: #42A5F5 !important; 
+    opacity: 1 !important; 
+    transition: opacity 0.3s ease !important; 
+}
+  
+.swiper-pagination-bullet-active {
+    background: #1E88E5 !important; 
+}

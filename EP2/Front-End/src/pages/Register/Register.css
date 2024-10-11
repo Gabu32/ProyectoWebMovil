@@ -91,17 +91,21 @@
     justify-content: center;
 }
 
-.btn-register-container ion-button {
+.btn-register {
     width: 70%;
     padding: 10px;
     font-weight: 700;
     font-size: 16px;
     max-width: 300px;
     margin-bottom: 15px;
+    --background: #303F9F;
+    --color: #FFFFFF;
 }
 
-ion-button {
-    --background: #303F9F
+@media (prefers-color-scheme: dark) {
+    .btn-register {
+        color: #FFFFFF; 
+    }
 }
 
 .rememberme {
