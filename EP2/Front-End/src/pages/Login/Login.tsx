@@ -1,22 +1,40 @@
-import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonToolbar, IonTitle, IonText, IonItem, IonLabel, IonCheckbox, IonInputPasswordToggle} from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonInput, IonPage, useIonToast, IonText, IonItem, IonLabel, IonCheckbox, IonInputPasswordToggle} from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
 import logo from './images/logo.svg';
+import { useHistory } from 'react-router';
 
 
 const Login: React.FC = () => {
   const { register , handleSubmit } = useForm();
   const [isTouched, setIsTouched] = useState(false);
   const [isValid, setIsValid] = useState<boolean>();
+  const history = useHistory();
+  const [present] = useIonToast();
 
   const onSubmit = async(data: any) => {
     try { 
       const response = await axios.post('http://localhost:5000/api/login',data);
-      console.log('Inicio de Sesión Exitoso', response.data);
+      localStorage.setItem('token', response.data.token);
+
+      history.push('/home');
+
+      present({
+        message: 'Inicio de sesión exitoso.',
+        duration: 2000,
+        position: 'top',
+        color: 'success',
+      });
+
     } catch(error){
-      console.error('Inicio de Sesión Fallido', error);
+      present({
+        message: 'Error al iniciar sesión. Verifica tus credenciales.',
+        duration: 2000,
+        position: 'top',
+        color: 'danger',
+      });
     }
   }
 
@@ -47,7 +65,7 @@ const Login: React.FC = () => {
           <img src={logo} alt="logo"/>
           <div className="logo-text">ClipTask</div>
         </div>
-          <div className="container-register">
+        <div className="container-register">
             <div className="form-container">
               <h1 id="login">Iniciar Sesión</h1>
               <IonText color="medium" className="register-link">
@@ -90,8 +108,7 @@ const Login: React.FC = () => {
                 </div>
               </form>
             </div>
-          </div>
-        
+        </div>
       </IonContent>
     </IonPage>
   );
