@@ -1,132 +1,122 @@
-:root {
-    --ion-color-background: #EDF2FA; 
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-      --ion-color-background: #1a1a1a;
-    }
-}
-
-.ion-invalid{
-    margin-bottom: 10px;
+.ion-invalid {
+  margin-bottom: 10px;
 }
 
 .container-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container-register {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
 }
 
 .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    padding: 30px;
-    margin-top: 30px;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  padding: 30px;
+  margin-top: 30px;
+  box-sizing: border-box;
 }
 
 .logo-container img {
-    width: 64px;
-    height: auto;
-    margin-right: 1em;
+  width: 64px;
+  height: auto;
+  margin-right: 1em;
 }
 
 .logo-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 64px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 64px;
 }
 
 .form-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background-color: var(--ion-color-background);
-    padding: 20px;
-    border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--containerBG);
+  padding: 20px;
+  border-radius: 20px;
 }
 
 .form-container h1 {
-    text-align: center;
-    font-size: 36px;
-    font-weight: 500;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 500;
 }
 
 .formInput {
-    margin-top: 5px;
-    margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 
 .register-link {
-    text-align: center;
-    margin-top: 5px;
-    font-size: 12px;
-    margin-bottom: 50px;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 12px;
+  margin-bottom: 50px;
 }
 
 .register-link a {
-    color: #42A5F5;
-    text-decoration: underline;
-    font-style: italic;
+  color: #42a5f5;
+  text-decoration: underline;
+  font-style: italic;
 }
 
 .forgot-password {
-    font-size: 12px;
-    margin-bottom: 20px;
+  font-size: 12px;
+  margin-bottom: 20px;
 }
 
 .forgot-password a {
-    color: #42A5F5;
-    text-decoration: underline;
-    font-style: italic;
+  color: #42a5f5;
+  text-decoration: underline;
+  font-style: italic;
 }
 
 .btn-login-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
-.btn-login{
-    width: 70%;
-    padding: 10px;
-    font-weight: 700;
-    font-size: 16px;
-    max-width: 300px;
-    margin-bottom: 15px;
-    --background: #303F9F
+.btn-login {
+  width: 70%;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  max-width: 300px;
+  margin-bottom: 15px;
+  --background: #303f9f;
 }
 
 @media (prefers-color-scheme: dark) {
-    .btn-login {
-        color: #FFFFFF; 
-    }
+  .btn-login {
+    color: #ffffff;
+  }
 }
 
 .rememberme {
-    display: flex;
-    padding: 5px;
-    margin-bottom: 70px;
+  display: flex;
+  padding: 5px;
+  margin-bottom: 70px;
 }
 
 .form-group.rememberme ion-checkbox {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .rememberme.rememberme ion-label {
-    font-size: 14px;
+  font-size: 14px;
 }
