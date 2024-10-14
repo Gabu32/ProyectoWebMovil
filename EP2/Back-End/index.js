@@ -66,7 +66,7 @@ app.post("/api/login", async (req, res) => {
     const user = result.rows[0];
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign({ email: user.email }, "secret", {
+      const token = jwt.sign({ id: user.id, email: user.email }, "secret", {
         expiresIn: "1h",
       });
       res.json({ message: "Login exitoso", token });
@@ -77,10 +77,6 @@ app.post("/api/login", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
-});
-
-app.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
 });
 
 app.get("/api/proyectos", async (req, res) => {
@@ -103,7 +99,6 @@ app.get("/api/proyectos", async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Obtener los proyectos del usuario
     const proyectosResult = await client.query(
       `
             SELECT P.*, PU.es_favorito
@@ -119,4 +114,62 @@ app.get("/api/proyectos", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error al obtener proyectos" });
   }
+});
+
+app.post("/api/proyectos", async (req, res) => {
+  const { titulo, colaboradores } = req.body;
+
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No se proporcionó token" });
+  }
+
+  if (!titulo) {
+    return res
+      .status(400)
+      .json({ error: "El título del proyecto es necesario." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    console.log("DECODEd: ", decoded);
+    const creadorId = decoded.id;
+    console.log("ID del creador extraído:", creadorId);
+    await client.query("BEGIN");
+
+    const proyectoResult = await client.query(
+      "INSERT INTO Proyectos (titulo, creador_id, fecha_inicio) VALUES ($1, $2, CURRENT_DATE) RETURNING id",
+      [titulo, creadorId]
+    );
+
+    const proyectoId = proyectoResult.rows[0].id;
+
+    await client.query(
+      "INSERT INTO Proyecto_Usuarios (proyecto_id, usuario_id, es_favorito) VALUES ($1, $2, TRUE)",
+      [proyectoId, creadorId]
+    );
+
+    if (colaboradores && colaboradores.length > 0) {
+      const colaboradorPromises = colaboradores.map((correo) => {
+        return client.query(
+          "INSERT INTO Proyecto_Usuarios (proyecto_id, usuario_id) VALUES ($1, (SELECT id FROM Usuarios WHERE email = $2))",
+          [proyectoId, correo]
+        );
+      });
+
+      await Promise.all(colaboradorPromises);
+    }
+    await client.query("COMMIT");
+
+    res.status(201).json({ message: "Proyecto creado con éxito" });
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error al crear el proyecto:", error);
+    res.status(500).json({ error: "Error al crear el proyecto" });
+  }
+});
+
+app.listen(5000, () => {
+  console.log("Server running on http://localhost:5000");
 });

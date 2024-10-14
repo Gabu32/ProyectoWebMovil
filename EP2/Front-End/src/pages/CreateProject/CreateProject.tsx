@@ -42,10 +42,19 @@ const CreateProject: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("/api/proyectos", {
-        titulo,
-        colaboradores,
-      });
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:5000/api/proyectos",
+        {
+          titulo,
+          colaboradores,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.status === 201) {
         setMensajeToast("Proyecto creado con éxito");
         setShowToast(true);
@@ -54,6 +63,7 @@ const CreateProject: React.FC = () => {
         setColaboradores([]);
       }
     } catch (error) {
+      console.error(error);
       setMensajeToast("Error al crear el proyecto");
       setShowToast(true);
     }
