@@ -6,6 +6,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Landing from "./pages/Landing/Landing";
 import ProjectsPage from "./pages/Project/ProjectsList";
+import CreateProject from "./pages/CreateProject/CreateProject";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -52,6 +53,10 @@ const App: React.FC = () => {
           <Route exact path="/projects">
             {isAuthenticated ? <ProjectsPage /> : <Redirect to="/landing" />}
           </Route>
+          <Route exact path="/create-project">
+            {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
+          </Route>
+
           {/* Redirección general */}
           <Redirect
             exact

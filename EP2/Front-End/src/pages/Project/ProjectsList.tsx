@@ -84,13 +84,17 @@ const ProjectsPage: React.FC = () => {
               </IonItem>
               <div slot="content">
                 <br />
-                <Project
-                  title="Proyecto 1"
-                  progress={25}
-                  totalTasks={8}
-                  completedTasks={2}
-                  isFavorite={true}
-                />
+                {proyectos
+                  .filter((p) => p.isFavorite)
+                  .map((proyecto) => (
+                    <Project
+                      title={proyecto.titulo}
+                      progress={25}
+                      totalTasks={8}
+                      completedTasks={2}
+                      isFavorite={proyecto.esfavorito}
+                    />
+                  ))}
                 <br />
               </div>
             </IonAccordion>
@@ -101,13 +105,15 @@ const ProjectsPage: React.FC = () => {
               </IonItem>
               <div slot="content">
                 <br />
-                <Project
-                  title="Proyecto 3"
-                  progress={33}
-                  totalTasks={3}
-                  completedTasks={1}
-                  isFavorite={false}
-                />
+                {proyectos.map((proyecto) => (
+                  <Project
+                    title={proyecto.titulo}
+                    progress={25}
+                    totalTasks={8}
+                    completedTasks={2}
+                    isFavorite={proyecto.esfavorito}
+                  />
+                ))}
                 <br />
               </div>
             </IonAccordion>
@@ -118,34 +124,15 @@ const ProjectsPage: React.FC = () => {
               </IonItem>
               <div slot="content">
                 <br />
-                <Project
-                  title="Proyecto 1"
-                  progress={25}
-                  totalTasks={8}
-                  completedTasks={2}
-                  isFavorite={true}
-                />
-                <Project
-                  title="Proyecto 2"
-                  progress={50}
-                  totalTasks={6}
-                  completedTasks={3}
-                  isFavorite={false}
-                />
-                <Project
-                  title="Proyecto 3"
-                  progress={33}
-                  totalTasks={3}
-                  completedTasks={1}
-                  isFavorite={false}
-                />
-                <Project
-                  title="Proyecto 4"
-                  progress={84}
-                  totalTasks={6}
-                  completedTasks={5}
-                  isFavorite={false}
-                />
+                {proyectos.map((proyecto) => (
+                  <Project
+                    title={proyecto.titulo}
+                    progress={25}
+                    totalTasks={8}
+                    completedTasks={2}
+                    isFavorite={proyecto.esfavorito}
+                  />
+                ))}
                 <br />
               </div>
             </IonAccordion>
@@ -155,7 +142,12 @@ const ProjectsPage: React.FC = () => {
             <img src={emptyfolder} alt="empty folder" className="folder" />
             <p className="bienvenida">¡Bienvenido a ClipTask!</p>
             <p className="empezar">Para empezar, crea un proyecto</p>
-            <IonButton>CREA TU PRIMER PROYECTO</IonButton>
+            <IonButton
+              routerLink="/create-project"
+              className="btnCreateProject"
+            >
+              CREA TU PRIMER PROYECTO
+            </IonButton>
           </div>
         )}
       </IonContent>
