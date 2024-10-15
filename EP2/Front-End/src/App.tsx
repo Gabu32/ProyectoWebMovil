@@ -32,7 +32,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const isAuthenticated = !!localStorage.getItem("token");
-
+  console.log("¿Está autenticado?", isAuthenticated);
   return (
     <IonApp>
       <IonReactRouter>
@@ -57,7 +57,6 @@ const App: React.FC = () => {
             {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
           </Route>
 
-          {/* Redirección general */}
           <Redirect
             exact
             from="/"

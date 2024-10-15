@@ -17,12 +17,14 @@ import {
 import "./CreateProject.css";
 import { personCircle } from "ionicons/icons";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const CreateProject: React.FC = () => {
   const [titulo, setTitulo] = useState<string>("");
   const [colaboradores, setColaboradores] = useState<string[]>([]);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [mensajeToast, setMensajeToast] = useState<string>("");
+  const history = useHistory();
 
   const handleAddColaborador = () => {
     setColaboradores([...colaboradores, ""]);
@@ -61,6 +63,7 @@ const CreateProject: React.FC = () => {
 
         setTitulo("");
         setColaboradores([]);
+        history.push("/projects");
       }
     } catch (error) {
       console.error(error);

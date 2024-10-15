@@ -111,7 +111,9 @@ app.get("/api/proyectos", async (req, res) => {
 
     res.json(proyectosResult.rows);
   } catch (error) {
-    console.error(error);
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expirado" });
+    }
     res.status(500).json({ message: "Error al obtener proyectos" });
   }
 });
@@ -133,9 +135,7 @@ app.post("/api/proyectos", async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, "secret");
-    console.log("DECODEd: ", decoded);
     const creadorId = decoded.id;
-    console.log("ID del creador extraído:", creadorId);
     await client.query("BEGIN");
 
     const proyectoResult = await client.query(
