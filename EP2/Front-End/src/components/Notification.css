@@ -1,0 +1,54 @@
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.notification {
+  background-color: #4a90e2; /* Color de fondo similar al azul de la imagen */
+  border-radius: 20px 20px 20px 20px;
+  padding: 15px;
+  margin: 10px;
+  color: #fff;
+}
+  
+.notificationContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+  
+.leftSection {
+  flex-grow: 1;
+}
+  
+.leftSection h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+  
+.leftSection p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+  
+.rightSection h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+  
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+  
+.footer p {
+  margin: 0;
+}
+  
