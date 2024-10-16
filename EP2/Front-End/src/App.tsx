@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Landing from "./pages/Landing/Landing";
-import ProjectsList from "./pages/Project/ProjectsList";
+import ProjectsList from "./pages/ProjectList/ProjectsList";
 import CreateProject from "./pages/CreateProject/CreateProject";
 
 /* Core CSS required for Ionic components to work properly */
@@ -27,6 +27,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import ProjectPage from "./pages/ProjectPage/ProjectPage";
 
 setupIonicReact();
 
@@ -55,6 +56,9 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/create-project">
             {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
+          </Route>
+          <Route exact path="/project">
+            <ProjectPage />
           </Route>
 
           <Redirect
