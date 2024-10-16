@@ -91,6 +91,8 @@ const CreateProject: React.FC = () => {
               value={titulo}
               onIonChange={(e) => setTitulo(e.detail.value!)}
               placeholder="Ingrese el título del proyecto"
+              counter={true}
+              maxlength={20}
             />
           </IonItem>
           <div className="btnContainer">
@@ -119,6 +121,7 @@ const CreateProject: React.FC = () => {
                     }
                     placeholder={`Correo del colaborador ${index + 1}`}
                     style={{ flex: 1 }}
+                    maxlength={50}
                   />
                 </IonItem>
                 <IonButton

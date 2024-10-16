@@ -21,7 +21,7 @@ interface Region {
 }
 
 const Register: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
   const [regions, setRegions] = useState<Region[]>([]);
   const [communes, setCommunes] = useState<string[]>([]);
   const [selectedRegion, setSelectedRegion] = useState<string>("");
@@ -53,6 +53,11 @@ const Register: React.FC = () => {
   };
 
   const onSubmit = async (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/register",
@@ -62,6 +67,22 @@ const Register: React.FC = () => {
     } catch (error) {
       console.error("Registro Fallido", error);
     }
+  };
+
+  const formatRUT = (value: string) => {
+    const cleanedValue = value.replace(/[^0-9Kk]/g, "");
+
+    if (cleanedValue.length > 1) {
+      const body = cleanedValue.slice(0, -1);
+      const dv = cleanedValue.slice(-1).toUpperCase();
+      return body + "-" + dv;
+    }
+    return cleanedValue;
+  };
+
+  const handleRUTChange = (event: CustomEvent) => {
+    const value = event.detail.value;
+    setValue("rut", formatRUT(value));
   };
 
   return (
@@ -81,6 +102,7 @@ const Register: React.FC = () => {
                   {...register("nombre")}
                   required
                   placeholder="Nombre"
+                  maxlength={30}
                 />
               </IonItem>
               <IonLabel position="floating">Apellido</IonLabel>
@@ -89,6 +111,7 @@ const Register: React.FC = () => {
                   {...register("apellido")}
                   required
                   placeholder="Apellido"
+                  maxlength={30}
                 />
               </IonItem>
               <IonLabel position="floating">Correo electrónico</IonLabel>
@@ -98,11 +121,18 @@ const Register: React.FC = () => {
                   {...register("email")}
                   required
                   placeholder="Correo electrónico"
+                  maxlength={50}
                 />
               </IonItem>
               <IonLabel position="floating">RUT</IonLabel>
               <IonItem className="formInput">
-                <IonInput {...register("rut")} required placeholder="RUT" />
+                <IonInput
+                  {...register("rut")}
+                  required
+                  placeholder="RUT"
+                  onIonInput={handleRUTChange}
+                  maxlength={10}
+                />
               </IonItem>
               <IonLabel position="floating">Contraseña</IonLabel>
               <IonItem className="formInput">
@@ -111,8 +141,10 @@ const Register: React.FC = () => {
                   {...register("password")}
                   required
                   placeholder="Contraseña"
-                />
-                <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                  maxlength={16}
+                >
+                  <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                </IonInput>
               </IonItem>
               <IonLabel position="floating">Confirmar Contraseña</IonLabel>
               <IonItem className="formInput">
@@ -121,8 +153,10 @@ const Register: React.FC = () => {
                   {...register("confirmPassword")}
                   required
                   placeholder="Confirmar Contraseña"
-                />
-                <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                  maxlength={16}
+                >
+                  <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+                </IonInput>
               </IonItem>
               <IonLabel>Seleccionar Región</IonLabel>
               <IonItem className="formSelect">

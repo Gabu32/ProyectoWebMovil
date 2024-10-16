@@ -22,7 +22,7 @@ import axios from "axios";
 import emptyfolder from "./emptyfolder.png";
 import { useHistory } from "react-router-dom";
 
-const ProjectsPage: React.FC = () => {
+const ProjectsList: React.FC = () => {
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
   const [proyectos, setProyectos] = useState<any[]>([]);
   const [showToast, setShowToast] = useState(false);
@@ -181,4 +181,4 @@ const ProjectsPage: React.FC = () => {
   );
 };
 
-export default ProjectsPage;
+export default ProjectsList;
