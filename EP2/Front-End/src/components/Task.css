@@ -1,33 +1,19 @@
-.task-item {
-    background-color: white !important; /* Fondo blanco */
-    border-radius: 10px; /* Bordes redondeados */
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
+.task-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    max-width: 50%;
+.task-name {
+  margin-left: 20px;
+  font-size: 16px;
+}
 
-    margin-left: auto;
-    margin-right: auto;
-
-  }
-  
-  .task-item .item-native {
-    background-color: white !important; /* Forzar fondo blanco dentro de IonItem */
-  }
-  
-  .task-item ion-label {
-    color: black !important; /* Forzar texto negro */
-  }
-  
-  .icon, .star-icon {
-    color: #6d6d6d !important; /* Forzar color del icono persona */
-  }
-  
-  .star-icon {
-    color: yellow;
-    font-size: 1.5rem;
-    margin-left: auto; /* Alinea la estrella a la derecha */
-  }
-  
+.task-card {
+  max-width: 80%;
+  padding: 5px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: row;
+}

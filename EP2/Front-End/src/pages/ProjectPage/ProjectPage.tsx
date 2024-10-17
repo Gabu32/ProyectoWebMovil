@@ -20,17 +20,24 @@ import {
   IonBackButton,
   IonTab,
   IonTabs,
+  IonDatetime,
+  IonText,
 } from "@ionic/react";
-import {
-  arrowBack,
-  add,
-  home,
-  folder,
-  notifications,
-  filter,
-} from "ionicons/icons";
+
+import "./ProjectPage.css";
+import Task from "../../components/Task";
+import TeamMember from "../../components/TeamMember";
 
 const ProjectPage: React.FC = () => {
+  const members = [
+    { name: "Nombre-Apellido 1", role: "Rol 1" },
+    { name: "Nombre-Apellido 2", role: "Rol 2" },
+    { name: "Nombre-Apellido 3", role: "Rol 3" },
+    { name: "Nombre-Apellido 4", role: "Rol 4" },
+    { name: "Nombre-Apellido 5", role: "Rol 5" },
+    { name: "Nombre-Apellido 6", role: "Rol 6" },
+    { name: "Nombre-Apellido 7", role: "Rol 7" },
+  ];
   return (
     <IonPage>
       <IonTabs>
@@ -41,12 +48,6 @@ const ProjectPage: React.FC = () => {
                 <IonBackButton defaultHref="/projects" />
               </IonButtons>
               <IonTitle>Proyecto 1</IonTitle>
-
-              <IonButtons slot="end">
-                <IonButton>
-                  <IonIcon icon={filter} />
-                </IonButton>
-              </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonTabBar>
@@ -54,37 +55,33 @@ const ProjectPage: React.FC = () => {
             <IonTabButton tab="cronograma">Cronograma</IonTabButton>
             <IonTabButton tab="team">Equipo</IonTabButton>
           </IonTabBar>
-          <IonContent>
-            <IonList>
-              <div className="date-item">
-                <span>fecha</span>
-              </div>
-              {[...Array(6)].map((_, index) => (
-                <IonItem key={index} button routerLink="/task">
-                  <IonCheckbox slot="start" />
-                  <IonLabel>Nombre tarea</IonLabel>
-                  <IonIcon slot="end" src="images/person-circle.svg" />
-                  <IonIcon slot="end" src="images/star-empty.svg" />
-                </IonItem>
-              ))}
-              <div className="date-item">
-                <span>fecha</span>
-              </div>
-            </IonList>
+          <IonContent className="tasks-container">
+            <div className="date-item">
+              <span>fecha</span>
+            </div>
+            <Task name="Nombre de la tarea" isCompleted={false} />
+            <Task name="Nombre de la tarea" isCompleted={false} />
+            <Task name="Nombre de la tarea" isCompleted={false} />
+
+            <div
+              style={{
+                height: "1px",
+                backgroundColor: "#3F51B5",
+                margin: "10px 0",
+                marginTop: "30px",
+                marginBottom: "30px",
+              }}
+            />
             <IonAccordionGroup>
               <IonAccordion>
                 <IonItem slot="header" color="light">
-                  <IonButton expand="full">Completadas (4)</IonButton>
+                  <IonText>Completadas (4)</IonText>
                 </IonItem>
                 <div slot="content">
-                  {[...Array(4)].map((_, index) => (
-                    <IonItem key={index} button routerLink="/task">
-                      <IonCheckbox checked slot="start" />
-                      <IonLabel>Nombre tarea</IonLabel>
-                      <IonIcon slot="end" src="images/person-circle.svg" />
-                      <IonIcon slot="end" src="images/star-empty.svg" />
-                    </IonItem>
-                  ))}
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  <Task name="Nombre de la tarea" isCompleted={true} />
                 </div>
               </IonAccordion>
             </IonAccordionGroup>
@@ -97,12 +94,6 @@ const ProjectPage: React.FC = () => {
                 <IonBackButton defaultHref="/projects" />
               </IonButtons>
               <IonTitle>Proyecto 1</IonTitle>
-
-              <IonButtons slot="end">
-                <IonButton>
-                  <IonIcon icon={filter} />
-                </IonButton>
-              </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonTabBar>
@@ -111,7 +102,23 @@ const ProjectPage: React.FC = () => {
             <IonTabButton tab="team">Equipo</IonTabButton>
           </IonTabBar>
           <IonContent>
-            <h1>AAA</h1>
+            <div className="date-container">
+              <IonDatetime presentation="date"></IonDatetime>
+            </div>
+
+            <IonAccordionGroup>
+              <IonAccordion>
+                <IonItem slot="header" color="light">
+                  <IonText>Completadas (4)</IonText>
+                </IonItem>
+                <div slot="content">
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  <Task name="Nombre de la tarea" isCompleted={true} />
+                </div>
+              </IonAccordion>
+            </IonAccordionGroup>
           </IonContent>
         </IonTab>
         <IonTab tab="team">
@@ -121,12 +128,7 @@ const ProjectPage: React.FC = () => {
                 <IonBackButton defaultHref="/projects" />
               </IonButtons>
               <IonTitle>Proyecto 1</IonTitle>
-
-              <IonButtons slot="end">
-                <IonButton>
-                  <IonIcon icon={filter} />
-                </IonButton>
-              </IonButtons>
+              <IonButtons slot="end"></IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonTabBar>
@@ -135,7 +137,12 @@ const ProjectPage: React.FC = () => {
             <IonTabButton tab="team">Equipo</IonTabButton>
           </IonTabBar>
           <IonContent>
-            <h1>AAASDASDSAD</h1>
+            <div className="team-list">
+              <h3>Integrantes (7)</h3>
+              {members.map((member, index) => (
+                <TeamMember key={index} name={member.name} role={member.role} />
+              ))}
+            </div>
           </IonContent>
         </IonTab>
       </IonTabs>

@@ -1,0 +1,16 @@
+.team-member ion-icon {
+  margin-right: 15px;
+}
+
+.team-member ion-label {
+  padding: 8px;
+}
+
+.team-member {
+  max-width: 80%;
+  margin-bottom: 5px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
