@@ -1,0 +1,21 @@
+.filtro{
+    margin: 10px;
+}
+
+.noNotifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150px;
+    flex-direction: column;
+}
+
+.aviso{
+    font-size: 25px;
+}
+
+.history{
+    display: flex;
+    justify-content: center;
+    margin-top: 500px;
+}
