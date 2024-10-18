@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import { IonCard, IonCardContent, IonContent, IonIcon, IonLabel } from "@ionic/react";
-import {
-  star,
-  starOutline,
-  documentTextOutline,
-  peopleOutline,
-} from "ionicons/icons";
+import React from "react";
+import { IonCard } from "@ionic/react";
+
 import "./Notification.css";
 
 interface notificationProps {
@@ -18,9 +13,7 @@ interface notificationProps {
 
 const Notification: React.FC<notificationProps> = ({project, task, description, time, author}) => {
     return (
-    <IonContent>
-        <IonLabel  className="container">
-        <div className="notification">
+      <IonCard className="taskCard">
           <div className="notificationContent">
             <div className="leftSection">
               <h2>{project}</h2>
@@ -34,9 +27,7 @@ const Notification: React.FC<notificationProps> = ({project, task, description, 
             <p>Hora: {time}</p>
             <p>Autor: {author}</p>
           </div>
-        </div>
-        </IonLabel>
-    </IonContent>    
+    </IonCard>  
     );
 };
 

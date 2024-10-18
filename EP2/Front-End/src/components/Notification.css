@@ -1,54 +1,61 @@
-
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.notification {
-  background-color: #4a90e2; /* Color de fondo similar al azul de la imagen */
-  border-radius: 20px 20px 20px 20px;
+.taskCard {
+  background-color: #4db8ff;
   padding: 15px;
-  margin: 10px;
-  color: #fff;
+  max-width: 50%;
+  border-radius: 20px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin-left: auto;
+  margin-right: auto;
 }
-  
+
 .notificationContent {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  width: 100%;
 }
-  
+
 .leftSection {
   flex-grow: 1;
 }
-  
+
 .leftSection h2 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.3rem; 
   font-weight: bold;
+  color: #333;
 }
-  
+
 .leftSection p {
-  margin: 5px 0;
-  font-size: 0.9rem;
+  margin: 5px 0 0 0;
+  font-size: 0.9rem; 
+  color: #333;
 }
-  
+
+.rightSection {
+  flex-grow: 0;
+  text-align: right;
+}
+
 .rightSection h3 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem; 
   font-weight: bold;
+  color: #333;
 }
-  
+
 .footer {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Tamaño ajustado */
+  color: #333;
 }
-  
+
 .footer p {
   margin: 0;
+  padding-right: 10px; /* Añadido para separar los textos */
 }
-  

@@ -30,11 +30,11 @@ const Project: React.FC<ProjectProps> = ({
   };
 
   return (
-    <IonCard className="project-card">
-      <IonCardContent className="project-card-content">
-        <div className="project-info">
-          <IonLabel className="project-title">{title}</IonLabel>
-          <div className="project-details">
+    <IonCard className="projectCard">
+      <IonCardContent className="projectCardContent">
+        <div className="projectInfo">
+          <IonLabel className="projectTitle">{title}</IonLabel>
+          <div className="projectDetails">
             <IonIcon icon={documentTextOutline} />
             <span>
               {completedTasks}/{totalTasks}
@@ -45,7 +45,7 @@ const Project: React.FC<ProjectProps> = ({
         </div>
         <IonIcon
           icon={isFav ? star : starOutline}
-          className="favorite-icon"
+          className="favoriteIcon"
           onClick={toggleFavorite}
           style={{ cursor: "pointer" }}
         />

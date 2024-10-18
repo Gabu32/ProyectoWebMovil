@@ -1,0 +1,53 @@
+.createProjectContainer {
+    padding: 25px;
+    margin-top: 40px;
+  }
+  
+  .btnContainer {
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btnAddCollaborator {
+    text-align: left;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 30px;
+    --background: #e0e0e0;
+    --border-radius: 10px;
+    --padding-bottom: 15px;
+    --padding-top: 15px;
+    --color: #2f2e2e;
+  }
+  
+  .btnAddCollaborator ion-icon {
+    margin-right: 20px;
+  }
+  
+  .newCollaborator {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+  }
+  
+  .newCollaborator ion-item {
+    width: 90%;
+    --border-radius: 15px;
+  }
+  
+  .btnAddProj {
+    width: 100%;
+    max-width: 300px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 30px;
+    --background: #42a5f5;
+    --border-radius: 15px;
+    --padding-bottom: 15px;
+    --padding-top: 15px;
+    --color: #2f2e2e;
+  }
+  
