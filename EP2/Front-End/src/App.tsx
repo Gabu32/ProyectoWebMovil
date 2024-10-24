@@ -28,6 +28,9 @@ import "@ionic/react/css/palettes/dark.system.css";
 /* Theme variables */
 import "./theme/variables.css";
 import ProjectPage from "./pages/ProjectPage/ProjectPage";
+import Notifications from "./pages/Notifications/Notifications";
+import CreateTask from "./pages/CreateTask/CreateTask";
+import TaskPage from "./pages/TaskPage/TaskPage";
 
 setupIonicReact();
 
@@ -56,6 +59,15 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/create-project">
             {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
+          </Route>
+          <Route exact path="/task">
+            <TaskPage />
+          </Route>
+          <Route exact path="/create-task">
+            <CreateTask />
+          </Route>
+          <Route exact path="/notification">
+            <Notifications />
           </Route>
           <Route exact path="/project">
             <ProjectPage />

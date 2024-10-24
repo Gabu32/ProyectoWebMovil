@@ -1,28 +1,37 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonFooter, IonButton, IonIcon, IonBadge, IonAvatar } from '@ionic/react';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonFooter,
+  IonButton,
+  IonIcon,
+  IonBadge,
+  IonAvatar,
+} from "@ionic/react";
 import { timeOutline } from "ionicons/icons";
-import './Notifications.css'; // Puedes agregar estilos aquí
-import Notification from '../../components/Notification';
-import NavBar from '../../components/NavBar';
-import { useState } from 'react';
+import "./Notifications.css"; // Puedes agregar estilos aquí
+import Notification from "../../components/Notification";
+import { useState } from "react";
+import Header from "../../components/Header";
 
 const Notifications: React.FC = () => {
   const [showNotifications, setShowNotifications] = useState(false); // Estado para controlar la visibilidad
 
   const handleToggleNotifications = () => {
-    setShowNotifications(prevState => !prevState); // Alternar el estado entre true y false
+    setShowNotifications((prevState) => !prevState); // Alternar el estado entre true y false
   };
-
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Notificaciones</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
 
       <IonContent>
-        <IonButton className='filtro' onClick={handleToggleNotifications}>
+        <IonButton className="filtro" onClick={handleToggleNotifications}>
           Mostrar Notificaciones
         </IonButton>
 
@@ -59,8 +68,6 @@ const Notifications: React.FC = () => {
           </IonButton>
         </IonLabel>
       </IonContent>
-
-      <NavBar />
     </IonPage>
   );
 };

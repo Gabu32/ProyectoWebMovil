@@ -1,23 +1,12 @@
 import React from "react";
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonTitle,
-  IonIcon,
   IonTabBar,
   IonTabButton,
-  IonLabel,
-  IonList,
   IonItem,
-  IonCheckbox,
   IonAccordion,
   IonAccordionGroup,
-  IonFooter,
-  IonBackButton,
   IonTab,
   IonTabs,
   IonDatetime,
@@ -27,6 +16,7 @@ import {
 import "./ProjectPage.css";
 import Task from "../../components/Task";
 import TeamMember from "../../components/TeamMember";
+import Header from "../../components/Header";
 
 const ProjectPage: React.FC = () => {
   const members = [
@@ -42,14 +32,7 @@ const ProjectPage: React.FC = () => {
     <IonPage>
       <IonTabs>
         <IonTab tab="tasks">
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonBackButton defaultHref="/projects" />
-              </IonButtons>
-              <IonTitle>Proyecto 1</IonTitle>
-            </IonToolbar>
-          </IonHeader>
+          <Header />
           <IonTabBar>
             <IonTabButton tab="tasks">Tareas</IonTabButton>
             <IonTabButton tab="cronograma">Cronograma</IonTabButton>
@@ -63,15 +46,6 @@ const ProjectPage: React.FC = () => {
             <Task name="Nombre de la tarea" isCompleted={false} />
             <Task name="Nombre de la tarea" isCompleted={false} />
 
-            <div
-              style={{
-                height: "1px",
-                backgroundColor: "#3F51B5",
-                margin: "10px 0",
-                marginTop: "30px",
-                marginBottom: "30px",
-              }}
-            />
             <IonAccordionGroup>
               <IonAccordion>
                 <IonItem slot="header" color="light">
@@ -88,14 +62,7 @@ const ProjectPage: React.FC = () => {
           </IonContent>
         </IonTab>
         <IonTab tab="cronograma">
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonBackButton defaultHref="/projects" />
-              </IonButtons>
-              <IonTitle>Proyecto 1</IonTitle>
-            </IonToolbar>
-          </IonHeader>
+          <Header />
           <IonTabBar>
             <IonTabButton tab="tasks">Tareas</IonTabButton>
             <IonTabButton tab="cronograma">Cronograma</IonTabButton>
@@ -122,15 +89,7 @@ const ProjectPage: React.FC = () => {
           </IonContent>
         </IonTab>
         <IonTab tab="team">
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonBackButton defaultHref="/projects" />
-              </IonButtons>
-              <IonTitle>Proyecto 1</IonTitle>
-              <IonButtons slot="end"></IonButtons>
-            </IonToolbar>
-          </IonHeader>
+          <Header />
           <IonTabBar>
             <IonTabButton tab="tasks">Tareas</IonTabButton>
             <IonTabButton tab="cronograma">Cronograma</IonTabButton>

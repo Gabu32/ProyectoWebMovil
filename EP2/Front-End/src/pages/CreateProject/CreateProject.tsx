@@ -18,6 +18,7 @@ import "./CreateProject.css";
 import { personCircle } from "ionicons/icons";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Header from "../../components/Header";
 
 const CreateProject: React.FC = () => {
   const [titulo, setTitulo] = useState<string>("");
@@ -74,14 +75,7 @@ const CreateProject: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar color="light">
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/projects" />
-          </IonButtons>
-          <IonTitle></IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
       <IonContent>
         <h2>Nuevo Proyecto</h2>
         <div className="createProjectContainer">

@@ -1,23 +1,38 @@
-import React from 'react';
-import { 
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonTextarea, IonButton, 
-  IonIcon, IonAvatar, IonList, IonText, IonCard, IonCardContent, IonAccordionGroup, IonAccordion
-} from '@ionic/react';
-import { camera, videocam, attach, desktop, personCircleOutline, person } from 'ionicons/icons';
-import './TaskPage.css';  // Importamos el CSS aquí
+import React from "react";
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonTextarea,
+  IonButton,
+  IonIcon,
+  IonList,
+  IonText,
+  IonCard,
+  IonCardContent,
+  IonAccordionGroup,
+  IonAccordion,
+} from "@ionic/react";
+import {
+  camera,
+  videocam,
+  attach,
+  desktop,
+  personCircleOutline,
+} from "ionicons/icons";
+import "./TaskPage.css";
+import Header from "../../components/Header";
 
 const TaskPage: React.FC = () => {
   return (
     <IonPage className="task-page">
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Proyecto 1 {'>'} Tarea 1</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
 
       <IonContent className="ion-padding">
-
-        {/* Descripción de la tarea */}
         <IonCard className="task-description">
           <IonCardContent className="ion-text-center">
             <IonText color="primary">
@@ -26,7 +41,6 @@ const TaskPage: React.FC = () => {
           </IonCardContent>
         </IonCard>
 
-        {/* Adjuntos como acordeón */}
         <IonAccordionGroup>
           <IonAccordion value="adjuntos">
             <IonItem slot="header">
@@ -56,7 +70,7 @@ const TaskPage: React.FC = () => {
         </IonAccordionGroup>
 
         {/* Personas asignadas */}
-        <IonItem lines="none" className='asigned'>
+        <IonItem lines="none" className="asigned">
           <IonLabel>Persona(s) asignada(s)</IonLabel>
         </IonItem>
         <IonList className="assigned-people">
@@ -73,28 +87,36 @@ const TaskPage: React.FC = () => {
         {/* Fechas */}
         <IonList className="dates">
           <IonItem lines="none">
-            <IonLabel><strong>Creada:</strong> 25 ago 2025, 10:25 p.m.</IonLabel>
+            <IonLabel>
+              <strong>Creada:</strong> 25 ago 2025, 10:25 p.m.
+            </IonLabel>
           </IonItem>
           <IonItem lines="none">
-            <IonLabel><strong>Fecha límite:</strong> 27 ago 2025, 10:25 p.m.</IonLabel>
+            <IonLabel>
+              <strong>Fecha límite:</strong> 27 ago 2025, 10:25 p.m.
+            </IonLabel>
           </IonItem>
         </IonList>
 
         {/* Comentarios */}
         <IonList className="comments">
-            <IonItem lines="none">
-                <IonLabel>Comentarios</IonLabel>
-            </IonItem>
-            <IonTextarea
-                label="Añadir comentario..."
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Enter text"
-                className="comments-textarea"
-            />
-            <IonButton expand="block" color="primary" className="comments-submit-button">
-                Enviar
-            </IonButton>
+          <IonItem lines="none">
+            <IonLabel>Comentarios</IonLabel>
+          </IonItem>
+          <IonTextarea
+            label="Añadir comentario..."
+            labelPlacement="floating"
+            fill="outline"
+            placeholder="Enter text"
+            className="comments-textarea"
+          />
+          <IonButton
+            expand="block"
+            color="primary"
+            className="comments-submit-button"
+          >
+            Enviar
+          </IonButton>
         </IonList>
         {/* Últimos comentarios */}
         <IonItem lines="none">
@@ -106,7 +128,6 @@ const TaskPage: React.FC = () => {
             <IonLabel>Filip: Comentario</IonLabel>
           </IonItem>
         </IonList>
-
       </IonContent>
     </IonPage>
   );

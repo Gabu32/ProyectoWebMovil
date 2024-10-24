@@ -21,7 +21,6 @@ div[slot="content"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
 .team-list h3 {

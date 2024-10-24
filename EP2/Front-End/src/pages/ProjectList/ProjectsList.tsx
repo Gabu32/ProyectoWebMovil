@@ -1,26 +1,20 @@
 import React, { useRef, useEffect, useState } from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonLabel,
-  IonIcon,
-  IonButtons,
   IonButton,
   IonAccordionGroup,
   IonAccordion,
   IonItem,
   IonToast,
 } from "@ionic/react";
-import { personOutline, searchOutline, addOutline } from "ionicons/icons";
-import NavBar from "../../components/NavBar";
 import Project from "../../components/Project";
 import "./ProjectsList.css";
 import axios from "axios";
 import emptyfolder from "./emptyfolder.png";
 import { useHistory } from "react-router-dom";
+import Header from "../../components/Header";
 
 const ProjectsList: React.FC = () => {
   const accordionGroup = useRef<null | HTMLIonAccordionGroupElement>(null);
@@ -28,6 +22,18 @@ const ProjectsList: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const token = localStorage.getItem("token");
   const history = useHistory();
+
+  const proyectosDummy = [
+    { titulo: "Proyecto 1", isFavorite: true },
+    { titulo: "Proyecto 2", isFavorite: false },
+    { titulo: "Proyecto 3", isFavorite: true },
+    { titulo: "Proyecto 4", isFavorite: false },
+    { titulo: "Proyecto 5", isFavorite: true },
+  ];
+
+  useEffect(() => {
+    setProyectos(proyectosDummy);
+  }, []);
 
   const [proyectosCargados, setProyectosCargados] = useState(false);
   const proyectosFavoritos = proyectos.filter((p) => p.isFavorite);
@@ -74,24 +80,7 @@ const ProjectsList: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar color="light">
-          <IonButtons slot="start">
-            <IonButton>
-              <IonIcon icon={personOutline} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle></IonTitle>
-          <IonButtons slot="end">
-            <IonButton>
-              <IonIcon icon={searchOutline} />
-            </IonButton>
-            <IonButton routerLink="/create-project">
-              <IonIcon icon={addOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
       <IonContent>
         <h2>Proyectos</h2>
         {tieneProyectos ? (
@@ -170,7 +159,6 @@ const ProjectsList: React.FC = () => {
           </div>
         )}
       </IonContent>
-      <NavBar />
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}

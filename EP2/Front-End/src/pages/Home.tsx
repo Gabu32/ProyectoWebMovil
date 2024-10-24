@@ -1,40 +1,13 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonIcon,
-  IonButtons,
-  IonButton,
-} from "@ionic/react";
-import NavBar from "../components/NavBar";
+import { IonContent, IonPage } from "@ionic/react";
 import Project from "../components/Project";
-import { personOutline, searchOutline, addOutline } from "ionicons/icons";
 import "./Home.css";
 import Task from "../components/Task";
+import Header from "../components/Header";
 
 const Home: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar color="light">
-          <IonButtons slot="start">
-            <IonButton>
-              <IonIcon icon={personOutline} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle></IonTitle>
-          <IonButtons slot="end">
-            <IonButton>
-              <IonIcon icon={searchOutline} />
-            </IonButton>
-            <IonButton>
-              <IonIcon icon={addOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <Header />
       <IonContent fullscreen>
         <Project
           title="Proyecto 1"
@@ -50,9 +23,7 @@ const Home: React.FC = () => {
           completedTasks={2}
           isFavorite={false}
         />
-        <Task title="Taks 1" isFavorite={true} />
       </IonContent>
-      <NavBar />
     </IonPage>
   );
 };

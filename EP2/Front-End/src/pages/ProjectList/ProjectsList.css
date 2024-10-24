@@ -9,42 +9,6 @@ h2 {
   margin-left: 20px;
 }
 
-.project-card {
-  background-color: #1e90ff;
-  color: white;
-  border-radius: 10px;
-}
-
-.project-card-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.project-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.project-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.project-details {
-  display: flex;
-  align-items: center;
-}
-
-.project-details span {
-  margin-left: 5px;
-  margin-right: 10px;
-}
-
-.favorite-icon {
-  font-size: 24px;
-}
-
 .noProjects {
   display: flex;
   justify-content: center;
