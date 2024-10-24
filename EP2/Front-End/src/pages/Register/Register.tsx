@@ -8,7 +8,7 @@ import {
   IonSelectOption,
   IonInput,
   IonInputPasswordToggle,
-  useIonToast, // Importar useIonToast
+  useIonToast,
 } from "@ionic/react";
 import axios from "axios";
 import "./Register.css";
@@ -23,7 +23,7 @@ interface Region {
 
 const Register: React.FC = () => {
   const history = useHistory();
-  const [present] = useIonToast(); // Inicializar el toast
+  const [present] = useIonToast();
   const [regions, setRegions] = useState<Region[]>([]);
   const [communes, setCommunes] = useState<string[]>([]);
   const [selectedRegion, setSelectedRegion] = useState<string>("");
@@ -63,13 +63,13 @@ const Register: React.FC = () => {
     const regionData = regions.find((region) => region.region === regionName);
     const comunas = (regionData && regionData.comunas) || [];
     setCommunes(comunas);
-    setFormData((prev) => ({ ...prev, region: regionName, comuna: "" })); // Reset comuna
-    setErrors((prev: String) => ({ ...prev, region: "" })); // Reset error de región
+    setFormData((prev) => ({ ...prev, region: regionName, comuna: "" }));
+    setErrors((prev: String) => ({ ...prev, region: "" }));
   };
 
   const handleInputChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
-    setErrors((prev: String) => ({ ...prev, [key]: "" })); // Resetear error en el campo
+    setErrors((prev: String) => ({ ...prev, [key]: "" }));
   };
 
   const validateEmail = (email: string) => {
@@ -115,7 +115,7 @@ const Register: React.FC = () => {
         color: "success",
       });
 
-      history.push("/landing"); // Redirigir a /landing
+      history.push("/landing");
     } catch (error) {
       console.error("Registro Fallido", error);
       present({

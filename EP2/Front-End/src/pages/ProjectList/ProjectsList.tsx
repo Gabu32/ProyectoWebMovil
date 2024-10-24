@@ -61,7 +61,6 @@ const ProjectsList: React.FC = () => {
       }
     };
 
-    // Puedes descomentar esta línea si quieres que los proyectos se carguen al inicio
     // fetchProyectos();
 
     const unlisten = history.listen(() => {

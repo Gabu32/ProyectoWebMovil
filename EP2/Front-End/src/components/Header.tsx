@@ -11,6 +11,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { search, notifications, person, folder, add } from "ionicons/icons";
 import logo from "./logo.svg";
+import "./Header.css";
 
 const Header = () => {
   const history = useHistory();
@@ -56,6 +57,7 @@ const Header = () => {
             onClick={goToHome}
           >
             <img
+              className="logoHeader"
               src={logo}
               alt="Logo"
               style={{
