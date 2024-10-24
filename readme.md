@@ -10,10 +10,10 @@ La aplicación permitirá a los usuarios gestionar tareas dentro de proyectos co
 
 ## Tabla de Contenidos
 
-1. [Implementación de 7 mockups UI en framework Ionic](#ui)
-2. [Lectura de datos desde archivo JSON](#lecturajson)
-3. [Modelo de base de datos](#db)
-4. [Patrones de diseño](#patronesdediseño)
+1. [Implementación de 7 mockups UI en framework Ionic](#ui-ionic)
+2. [Lectura de datos desde archivo JSON](#lectura-archivos-json)
+3. [Modelo de base de datos](#modelo-de-base-de-datos)
+4. [Patrones de diseño](#patrones-de-diseño)
 
 # UI Ionic
 
@@ -49,11 +49,11 @@ Página de tarea. Se descripción, usuarios asignados, fechas de inicio-término
 
 Página de notificaciones. Para esta entrega se agregó un botón para mostrar ambas versiones de la pantalla (con y sin notificaciones).
 
-# Lectura Archivos JSON {#lectura-json}
+# Lectura Archivos JSON
 
 Se realiza una lectura desde un archivo JSON en el registro. Se leen las regiones y comunas desde el archivo [/comunas-regiones.json](EP2/Front-End/public/comunas-regiones.json)
 
-# Modelo de Base de Datos {#db}
+# Modelo de Base de Datos 
 
 ### Modelo Entidad-Relación
 
