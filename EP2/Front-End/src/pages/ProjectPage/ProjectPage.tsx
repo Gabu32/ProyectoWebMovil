@@ -11,14 +11,22 @@ import {
   IonTabs,
   IonDatetime,
   IonText,
+  IonButton,
 } from "@ionic/react";
 
 import "./ProjectPage.css";
 import Task from "../../components/Task";
 import TeamMember from "../../components/TeamMember";
 import Header from "../../components/Header";
+import { useHistory } from "react-router";
 
 const ProjectPage: React.FC = () => {
+  const history = useHistory();
+
+  const handleCreateTask = () => {
+    history.push("/create-task");
+  };
+
   const members = [
     { name: "Nombre-Apellido 1", role: "Rol 1" },
     { name: "Nombre-Apellido 2", role: "Rol 2" },
@@ -39,6 +47,10 @@ const ProjectPage: React.FC = () => {
             <IonTabButton tab="team">Equipo</IonTabButton>
           </IonTabBar>
           <IonContent className="tasks-container">
+            <div className="subheader">
+              <h2>Proyecto</h2>
+              <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
+            </div>
             <div className="date-item">
               <span>fecha</span>
             </div>
@@ -69,6 +81,10 @@ const ProjectPage: React.FC = () => {
             <IonTabButton tab="team">Equipo</IonTabButton>
           </IonTabBar>
           <IonContent>
+            <div className="subheader">
+              <h2>Proyecto</h2>
+              <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
+            </div>
             <div className="date-container">
               <IonDatetime presentation="date"></IonDatetime>
             </div>
@@ -97,6 +113,10 @@ const ProjectPage: React.FC = () => {
           </IonTabBar>
           <IonContent>
             <div className="team-list">
+              <div className="subheader">
+                <h2>Proyecto</h2>
+                <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
+              </div>
               <h3>Integrantes (7)</h3>
               {members.map((member, index) => (
                 <TeamMember key={index} name={member.name} role={member.role} />
