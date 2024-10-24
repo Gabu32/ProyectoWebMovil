@@ -18,7 +18,7 @@ CREATE TABLE Proyectos (
     FOREIGN KEY (creador_id) REFERENCES Usuarios(id)
 );
 
-CREATE TABLE Proyecto_Usuarios (
+CREATE TABLE Proyectos_Usuarios (
     proyecto_id INTEGER NOT NULL,
     usuario_id INTEGER NOT NULL,
     es_favorito BOOLEAN DEFAULT FALSE,

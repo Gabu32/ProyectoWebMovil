@@ -31,36 +31,38 @@ const ProjectsList: React.FC = () => {
     { titulo: "Proyecto 5", isFavorite: true },
   ];
 
-  useEffect(() => {
-    setProyectos(proyectosDummy);
-  }, []);
-
   const [proyectosCargados, setProyectosCargados] = useState(false);
-  const proyectosFavoritos = proyectos.filter((p) => p.isFavorite);
-  const tieneFavoritos = proyectosFavoritos.length > 0;
-  const tieneProyectos = proyectos.length > 0;
 
-  const fetchProyectos = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/proyectos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProyectos(response.data);
-      setProyectosCargados(true);
-    } catch (error: any) {
-      console.error("Error al obtener proyectos: ", error);
-      if (error.response && error.response.status === 401) {
-        localStorage.removeItem("token");
-        setShowToast(true);
-        history.push("/landing");
-      }
-    }
+  const handleCargarProyectos = () => {
+    setProyectos(proyectosDummy);
+    setProyectosCargados(true);
   };
 
   useEffect(() => {
-    fetchProyectos();
+    const fetchProyectos = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/proyectos",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setProyectos(response.data);
+        setProyectosCargados(true);
+      } catch (error: any) {
+        console.error("Error al obtener proyectos: ", error);
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem("token");
+          setShowToast(true);
+          history.push("/landing");
+        }
+      }
+    };
+
+    // Puedes descomentar esta línea si quieres que los proyectos se carguen al inicio
+    // fetchProyectos();
 
     const unlisten = history.listen(() => {
       fetchProyectos();
@@ -69,6 +71,10 @@ const ProjectsList: React.FC = () => {
       unlisten();
     };
   }, [history, token]);
+
+  const proyectosFavoritos = proyectos.filter((p) => p.isFavorite);
+  const tieneFavoritos = proyectosFavoritos.length > 0;
+  const tieneProyectos = proyectos.length > 0;
 
   useEffect(() => {
     if (accordionGroup.current && proyectosCargados) {
@@ -96,11 +102,12 @@ const ProjectsList: React.FC = () => {
                     .filter((p) => p.isFavorite)
                     .map((proyecto) => (
                       <Project
+                        key={proyecto.titulo}
                         title={proyecto.titulo}
                         progress={25}
                         totalTasks={8}
                         completedTasks={2}
-                        isFavorite={proyecto.esfavorito}
+                        isFavorite={proyecto.isFavorite}
                       />
                     ))}
                   <br />
@@ -115,11 +122,12 @@ const ProjectsList: React.FC = () => {
                 <br />
                 {proyectos.map((proyecto) => (
                   <Project
+                    key={proyecto.titulo}
                     title={proyecto.titulo}
                     progress={25}
                     totalTasks={8}
                     completedTasks={2}
-                    isFavorite={proyecto.esfavorito}
+                    isFavorite={proyecto.isFavorite}
                   />
                 ))}
                 <br />
@@ -134,11 +142,12 @@ const ProjectsList: React.FC = () => {
                 <br />
                 {proyectos.map((proyecto) => (
                   <Project
+                    key={proyecto.titulo}
                     title={proyecto.titulo}
                     progress={25}
                     totalTasks={8}
                     completedTasks={2}
-                    isFavorite={proyecto.esfavorito}
+                    isFavorite={proyecto.isFavorite}
                   />
                 ))}
                 <br />
@@ -150,6 +159,12 @@ const ProjectsList: React.FC = () => {
             <img src={emptyfolder} alt="empty folder" className="folder" />
             <p className="bienvenida">¡Bienvenido a ClipTask!</p>
             <p className="empezar">Para empezar, crea un proyecto</p>
+            <IonButton
+              onClick={handleCargarProyectos}
+              className="btnCreateProject"
+            >
+              CARGA PROYECTOS DUMMY
+            </IonButton>
             <IonButton
               routerLink="/create-project"
               className="btnCreateProject"

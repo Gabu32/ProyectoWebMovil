@@ -58,9 +58,23 @@
 }
 
 .formInput {
-  margin-top: 5px;
-  margin-bottom: 15px;
+  margin-top: 14px !important;
+  margin-bottom: 16px;
   --border-radius: 15px;
+}
+
+.ion-valid {
+  border-bottom: 1px solid green;
+}
+
+.ion-invalid {
+  border-bottom: 1px solid red;
+}
+
+.text-danger {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 16px;
 }
 
 .register-link {

@@ -35,8 +35,8 @@ import TaskPage from "./pages/TaskPage/TaskPage";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const isAuthenticated = !!localStorage.getItem("token");
-  console.log("¿Está autenticado?", isAuthenticated);
+  //const isAuthenticated = !!localStorage.getItem("token");
+  const isAuthenticated = 1;
   return (
     <IonApp>
       <IonReactRouter>
