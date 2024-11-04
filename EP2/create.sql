@@ -7,7 +7,7 @@ CREATE TABLE Usuarios (
 	password VARCHAR(255) NOT NULL,
 	region VARCHAR(100) NOT NULL,
 	comuna VARCHAR(100) NOT NULL
-)
+);
 
 CREATE TABLE Proyectos (
     id SERIAL PRIMARY KEY,
