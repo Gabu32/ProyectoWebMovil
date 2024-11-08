@@ -1,3 +1,4 @@
+import ReCAPTCHA from "react-google-recaptcha";
 import {
   IonButton,
   IonContent,
@@ -27,6 +28,7 @@ const Register: React.FC = () => {
   const [regions, setRegions] = useState<Region[]>([]);
   const [communes, setCommunes] = useState<string[]>([]);
   const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -36,7 +38,12 @@ const Register: React.FC = () => {
     confirmPassword: "",
     region: "",
     comuna: "",
+    captchaToken: "",
   });
+
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+  };
 
   const [errors, setErrors] = useState<any>({});
 
@@ -100,6 +107,18 @@ const Register: React.FC = () => {
       setErrors(newErrors);
       return;
     }
+
+    if (!captchaToken) {
+      present({
+        message: "Por favor completa el CAPTCHA.",
+        duration: 3000,
+        position: "top",
+        color: "warning",
+      });
+      return;
+    }
+
+    formData.captchaToken = captchaToken;
 
     try {
       const response = await axios.post(
@@ -287,6 +306,12 @@ const Register: React.FC = () => {
               </IonSelect>
             </IonItem>
             {errors.comuna && <p className="error-text">{errors.comuna}</p>}
+
+            <ReCAPTCHA
+              className="captcha"
+              sitekey="6LdTW3kqAAAAAEVhHcDaYHlAdfsPrK8-v9hTNY_G"
+              onChange={handleCaptchaChange}
+            />
 
             <div className="btn-register-container">
               <IonButton

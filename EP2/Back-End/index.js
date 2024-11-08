@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const { Client } = require("pg");
+const axios = require("axios");
 
 const app = express();
 app.use(express.json());
@@ -23,9 +24,43 @@ client.connect();
 //BD
 
 app.post("/api/register", async (req, res) => {
-  const { nombre, apellido, email, rut, password, region, comuna } = req.body;
+  const {
+    nombre,
+    apellido,
+    email,
+    rut,
+    password,
+    region,
+    comuna,
+    captchaToken,
+  } = req.body;
 
-  console.log(req.body);
+  //console.log(req.body);
+
+  try {
+    const captchaSecret = "6LdTW3kqAAAAAP8gNGRbj6Qsan7gqqWn6pFPjMGG";
+    const response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      null,
+      {
+        params: {
+          secret: captchaSecret,
+          response: captchaToken,
+        },
+      }
+    );
+
+    if (!response.data.success) {
+      return res
+        .status(400)
+        .json({ message: "Fallo en reCAPTCHA. Intenta nuevamente." });
+    }
+  } catch (error) {
+    console.error("Error de verificación de reCAPTCHA:", error);
+    return res
+      .status(500)
+      .json({ message: "Error en el servidor al verificar CAPTCHA" });
+  }
 
   if (
     !nombre ||
@@ -82,7 +117,6 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 });
-
 
 //PROOYECTOS
 
@@ -185,5 +219,3 @@ app.listen(5000, () => {
 });
 
 //SERVER
-
-

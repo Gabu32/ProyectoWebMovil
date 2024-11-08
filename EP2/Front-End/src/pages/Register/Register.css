@@ -51,6 +51,7 @@
   text-align: center;
   font-size: 36px;
   font-weight: 500;
+  margin-bottom: 25px;
 }
 
 .formInput {
@@ -120,4 +121,11 @@
   margin-bottom: 16px;
   margin-left: 6px;
   margin-top: -5px;
+}
+
+.captcha {
+  justify-content: center;
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 25px;
 }
