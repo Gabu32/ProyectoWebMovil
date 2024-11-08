@@ -11,7 +11,7 @@ app.use(cors());
 const client = new Client({
   user: "postgres",
   host: "localhost",
-  database: "WEB",
+  database: "web",
   password: "admin",
   port: 5432,
 });
@@ -103,7 +103,7 @@ app.get("/api/proyectos", async (req, res) => {
       `
             SELECT P.*, PU.es_favorito
             FROM Proyectos P
-            JOIN Proyecto_Usuarios PU ON P.id = PU.proyecto_id
+            JOIN Proyectos_Usuarios PU ON P.id = PU.proyecto_id
             WHERE PU.usuario_id = $1
         `,
       [user.id]
@@ -146,14 +146,14 @@ app.post("/api/proyectos", async (req, res) => {
     const proyectoId = proyectoResult.rows[0].id;
 
     await client.query(
-      "INSERT INTO Proyecto_Usuarios (proyecto_id, usuario_id, es_favorito) VALUES ($1, $2, TRUE)",
+      "INSERT INTO Proyectos_Usuarios (proyecto_id, usuario_id, es_favorito) VALUES ($1, $2, TRUE)",
       [proyectoId, creadorId]
     );
 
     if (colaboradores && colaboradores.length > 0) {
       const colaboradorPromises = colaboradores.map((correo) => {
         return client.query(
-          "INSERT INTO Proyecto_Usuarios (proyecto_id, usuario_id) VALUES ($1, (SELECT id FROM Usuarios WHERE email = $2))",
+          "INSERT INTO Proyectos_Usuarios (proyecto_id, usuario_id) VALUES ($1, (SELECT id FROM Usuarios WHERE email = $2))",
           [proyectoId, correo]
         );
       });
