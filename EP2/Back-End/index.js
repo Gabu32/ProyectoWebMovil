@@ -8,15 +8,19 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+//BD
+
 const client = new Client({
   user: "postgres",
   host: "localhost",
-  database: "web",
+  database: "WEB",
   password: "admin",
   port: 5432,
 });
 
 client.connect();
+
+//BD
 
 app.post("/api/register", async (req, res) => {
   const { nombre, apellido, email, rut, password, region, comuna } = req.body;
@@ -78,6 +82,9 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 });
+
+
+//PROOYECTOS
 
 app.get("/api/proyectos", async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
@@ -170,6 +177,13 @@ app.post("/api/proyectos", async (req, res) => {
   }
 });
 
+//PROYECTOS
+
+//SERVER
 app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
 });
+
+//SERVER
+
+
