@@ -211,7 +211,78 @@ app.post("/api/proyectos", async (req, res) => {
   }
 });
 
+app.get("/api/proyectos/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await client.query(
+      "SELECT titulo, fecha_inicio, fecha_fin FROM Proyectos WHERE id = $1",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Proyecto no encontrado" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error al obtener los detalles del proyecto:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener los detalles del proyecto" });
+  }
+});
+
 //PROYECTOS
+
+//TASKS
+
+app.get("/api/proyectos/:id/tasks", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const tasksResult = await client.query(
+      "SELECT id, descripcion, estado, fecha_creacion, fecha_vencimiento FROM Tareas WHERE proyecto_id = $1",
+      [id]
+    );
+
+    res.json(tasksResult.rows);
+  } catch (error) {
+    console.error("Error al obtener las tareas del proyecto:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener las tareas del proyecto" });
+  }
+});
+
+//TASKS
+
+//TEAM
+
+app.get("/api/proyectos/:id/team", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const teamResult = await client.query(
+      `
+      SELECT U.id, U.nombre, U.apellido 
+      FROM Usuarios U
+      JOIN Proyectos_Usuarios PU ON U.id = PU.usuario_id
+      WHERE PU.proyecto_id = $1
+      `,
+      [id]
+    );
+
+    res.json(teamResult.rows);
+  } catch (error) {
+    console.error("Error al obtener los usuarios del proyecto:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener los usuarios del proyecto" });
+  }
+});
+
+//TEAM
 
 //SERVER
 app.listen(5000, () => {

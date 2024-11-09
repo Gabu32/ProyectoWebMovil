@@ -69,7 +69,7 @@ const App: React.FC = () => {
           <Route exact path="/notification">
             <Notifications />
           </Route>
-          <Route exact path="/project">
+          <Route exact path="/project/:id">
             <ProjectPage />
           </Route>
 

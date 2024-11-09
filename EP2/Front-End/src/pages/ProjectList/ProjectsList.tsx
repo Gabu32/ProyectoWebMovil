@@ -23,20 +23,7 @@ const ProjectsList: React.FC = () => {
   const token = localStorage.getItem("token");
   const history = useHistory();
 
-  const proyectosDummy = [
-    { titulo: "Proyecto 1", isFavorite: true },
-    { titulo: "Proyecto 2", isFavorite: false },
-    { titulo: "Proyecto 3", isFavorite: true },
-    { titulo: "Proyecto 4", isFavorite: false },
-    { titulo: "Proyecto 5", isFavorite: true },
-  ];
-
   const [proyectosCargados, setProyectosCargados] = useState(false);
-
-  const handleCargarProyectos = () => {
-    setProyectos(proyectosDummy);
-    setProyectosCargados(true);
-  };
 
   useEffect(() => {
     const fetchProyectos = async () => {
@@ -49,6 +36,7 @@ const ProjectsList: React.FC = () => {
             },
           }
         );
+        console.log("Proyectos recibidos: ", response.data);
         setProyectos(response.data);
         setProyectosCargados(true);
       } catch (error: any) {
@@ -61,7 +49,7 @@ const ProjectsList: React.FC = () => {
       }
     };
 
-    // fetchProyectos();
+    fetchProyectos();
 
     const unlisten = history.listen(() => {
       fetchProyectos();
@@ -71,7 +59,7 @@ const ProjectsList: React.FC = () => {
     };
   }, [history, token]);
 
-  const proyectosFavoritos = proyectos.filter((p) => p.isFavorite);
+  const proyectosFavoritos = proyectos.filter((p) => p.es_favorito);
   const tieneFavoritos = proyectosFavoritos.length > 0;
   const tieneProyectos = proyectos.length > 0;
 
@@ -82,6 +70,8 @@ const ProjectsList: React.FC = () => {
         : ["Recientes", "Todos"];
     }
   }, [tieneFavoritos, proyectosCargados]);
+
+  const proyectosRecientes = proyectos.sort((a, b) => b.id - a.id).slice(0, 3);
 
   return (
     <IonPage>
@@ -98,15 +88,17 @@ const ProjectsList: React.FC = () => {
                 <div slot="content">
                   <br />
                   {proyectos
-                    .filter((p) => p.isFavorite)
+                    .filter((p) => p.es_favorito)
                     .map((proyecto) => (
                       <Project
-                        key={proyecto.titulo}
+                        key={proyecto.id}
+                        id={proyecto.id}
                         title={proyecto.titulo}
                         progress={25}
                         totalTasks={8}
                         completedTasks={2}
-                        isFavorite={proyecto.isFavorite}
+                        es_favorito={proyecto.es_favorito}
+                        onClick={() => history.push(`/project/${proyecto.id}`)}
                       />
                     ))}
                   <br />
@@ -119,14 +111,16 @@ const ProjectsList: React.FC = () => {
               </IonItem>
               <div slot="content">
                 <br />
-                {proyectos.map((proyecto) => (
+                {proyectosRecientes.map((proyecto) => (
                   <Project
-                    key={proyecto.titulo}
+                    key={proyecto.id}
+                    id={proyecto.id}
                     title={proyecto.titulo}
                     progress={25}
                     totalTasks={8}
                     completedTasks={2}
-                    isFavorite={proyecto.isFavorite}
+                    es_favorito={proyecto.es_favorito}
+                    onClick={() => history.push(`/project/${proyecto.id}`)}
                   />
                 ))}
                 <br />
@@ -141,12 +135,14 @@ const ProjectsList: React.FC = () => {
                 <br />
                 {proyectos.map((proyecto) => (
                   <Project
-                    key={proyecto.titulo}
+                    key={proyecto.id}
+                    id={proyecto.id}
                     title={proyecto.titulo}
                     progress={25}
                     totalTasks={8}
                     completedTasks={2}
-                    isFavorite={proyecto.isFavorite}
+                    es_favorito={proyecto.es_favorito}
+                    onClick={() => history.push(`/project/${proyecto.id}`)}
                   />
                 ))}
                 <br />
@@ -158,12 +154,6 @@ const ProjectsList: React.FC = () => {
             <img src={emptyfolder} alt="empty folder" className="folder" />
             <p className="bienvenida">¡Bienvenido a ClipTask!</p>
             <p className="empezar">Para empezar, crea un proyecto</p>
-            <IonButton
-              onClick={handleCargarProyectos}
-              className="btnCreateProject"
-            >
-              CARGA PROYECTOS DUMMY
-            </IonButton>
             <IonButton
               routerLink="/create-project"
               className="btnCreateProject"
