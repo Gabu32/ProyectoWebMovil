@@ -64,7 +64,7 @@ const CreateTask: React.FC = () => {
 
         setTitulo("");
         setColaboradores([]);
-        history.push("/tasks");
+        history.push("/projects");
       }
     } catch (error) {
       console.error(error);

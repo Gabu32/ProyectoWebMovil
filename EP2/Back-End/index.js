@@ -186,4 +186,38 @@ app.listen(5000, () => {
 
 //SERVER
 
+//TASKS
 
+app.get('/api/tareas', async (req, res) => {
+  try {
+    const result = await client.query('SELECT * FROM tareas');
+    res.status(200).json(result.rows); // Enviar las filas de la tabla tareas como JSON
+  } catch (err) {
+    console.error('Error al obtener las tareas:', err);
+    res.status(500).json({ error: 'Error al obtener las tareas' });
+  }
+});
+
+
+app.post('/api/tareas', async (req, res) => {
+  const { proyecto_id, descripcion, estado, fecha_creacion, fecha_vencimiento } = req.body;
+
+  // Verificar que los datos estén presentes
+  if (!proyecto_id || !descripcion || !estado || !fecha_creacion || !fecha_vencimiento) {
+    return res.status(400).json({ error: 'Faltan datos necesarios' });
+  }
+
+  try {
+    const query = `
+      INSERT INTO tareas (proyecto_id, descripcion, estado, fecha_creacion, fecha_vencimiento)
+      VALUES ($1, $2, $3, $4, $5) RETURNING *;
+    `;
+    const values = [proyecto_id, descripcion, estado, fecha_creacion, fecha_vencimiento];
+
+    const result = await client.query(query, values);
+    res.status(201).json(result.rows[0]); // Devolver la tarea recién agregada
+  } catch (err) {
+    console.error('Error al agregar la tarea:', err);
+    res.status(500).json({ error: 'Error al agregar la tarea' });
+  }
+});
