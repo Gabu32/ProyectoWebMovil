@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { IonCard, IonCardContent, IonIcon, IonLabel } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonIcon, IonLabel } from "@ionic/react";
 import {
   star,
   starOutline,
   documentTextOutline,
   peopleOutline,
 } from "ionicons/icons";
+import { useHistory } from 'react-router-dom';
 import "./Project.css";
 
 interface ProjectProps {
@@ -32,6 +33,8 @@ const Project: React.FC<ProjectProps> = ({
   const toggleFavorite = () => {
     setIsFav((prev) => !prev);
   };
+  
+  const history = useHistory();
 
   const handleCardClick = () => {
     onClick();
@@ -60,7 +63,7 @@ const Project: React.FC<ProjectProps> = ({
           }}
         />
       </IonCardContent>
-    </IonCard>
+    </IonButton>
   );
 };
 
