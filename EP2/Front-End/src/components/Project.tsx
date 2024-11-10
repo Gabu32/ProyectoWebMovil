@@ -10,21 +10,25 @@ import { useHistory } from 'react-router-dom';
 import "./Project.css";
 
 interface ProjectProps {
+  id: number;
   title: string;
   progress: number;
   totalTasks: number;
   completedTasks: number;
-  isFavorite: boolean;
+  es_favorito: boolean;
+  onClick: () => void;
 }
 
 const Project: React.FC<ProjectProps> = ({
+  id,
   title,
   progress,
   totalTasks,
   completedTasks,
-  isFavorite,
+  es_favorito,
+  onClick,
 }) => {
-  const [isFav, setIsFav] = useState(isFavorite);
+  const [isFav, setIsFav] = useState(es_favorito);
 
   const toggleFavorite = () => {
     setIsFav((prev) => !prev);
@@ -32,12 +36,12 @@ const Project: React.FC<ProjectProps> = ({
   
   const history = useHistory();
 
-  const handleRedirect = () =>{
-    history.push("/project")
-  }
+  const handleCardClick = () => {
+    onClick();
+  };
 
   return (
-    <IonButton className="projectCard" onClick={handleRedirect}>
+    <IonCard className="projectCard" onClick={handleCardClick}>
       <IonCardContent className="projectCardContent">
         <div className="projectInfo">
           <IonLabel className="projectTitle">{title}</IonLabel>
@@ -53,8 +57,10 @@ const Project: React.FC<ProjectProps> = ({
         <IonIcon
           icon={isFav ? star : starOutline}
           className="favoriteIcon"
-          onClick={toggleFavorite}
-          style={{ cursor: "pointer" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite();
+          }}
         />
       </IonCardContent>
     </IonButton>

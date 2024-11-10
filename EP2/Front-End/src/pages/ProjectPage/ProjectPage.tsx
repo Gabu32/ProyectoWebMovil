@@ -18,24 +18,63 @@ import "./ProjectPage.css";
 import Task from "../../components/Task";
 import TeamMember from "../../components/TeamMember";
 import Header from "../../components/Header";
-import { useHistory } from "react-router";
+import { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router";
+import axios from "axios";
 
 const ProjectPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const history = useHistory();
+
+  const [projectTitle, setProjectTitle] = useState("");
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const projectResponse = await axios.get(
+          `http://localhost:5000/api/proyectos/${id}`
+        );
+        setProjectTitle(projectResponse.data.titulo);
+        console.log(projectResponse.data);
+
+        const tasksResponse = await axios.get(
+          `http://localhost:5000/api/proyectos/${id}/tasks`
+        );
+        setTasks(tasksResponse.data);
+        console.log(tasksResponse.data);
+
+        const teamResponse = await axios.get(
+          `http://localhost:5000/api/proyectos/${id}/team`
+        );
+        setTeamMembers(teamResponse.data);
+        console.log(teamResponse.data);
+      } catch (error) {
+        console.error("Error al cargar datos del proyecto: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjectData();
+  }, [id]);
 
   const handleCreateTask = () => {
     history.push("/create-task");
   };
 
-  const members = [
-    { name: "Nombre-Apellido 1", role: "Rol 1" },
-    { name: "Nombre-Apellido 2", role: "Rol 2" },
-    { name: "Nombre-Apellido 3", role: "Rol 3" },
-    { name: "Nombre-Apellido 4", role: "Rol 4" },
-    { name: "Nombre-Apellido 5", role: "Rol 5" },
-    { name: "Nombre-Apellido 6", role: "Rol 6" },
-    { name: "Nombre-Apellido 7", role: "Rol 7" },
-  ];
+  if (loading) {
+    return (
+      <IonPage>
+        <IonContent>
+          <IonText>Cargando...</IonText>
+        </IonContent>
+      </IonPage>
+    );
+  }
+
   return (
     <IonPage>
       <IonTabs>
@@ -48,31 +87,38 @@ const ProjectPage: React.FC = () => {
           </IonTabBar>
           <IonContent className="tasks-container">
             <div className="subheader">
-              <h2>Proyecto</h2>
+              <h2>{projectTitle}</h2>
               <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
             </div>
             <div className="date-item">
               <span>fecha</span>
             </div>
-            <Task name="Nombre de la tarea" isCompleted={false} />
-            <Task name="Nombre de la tarea" isCompleted={false} />
-            <Task name="Nombre de la tarea" isCompleted={false} />
+            {tasks
+              .filter((task) => !task.isCompleted)
+              .map((task) => (
+                <Task key={task.id} name={task.name} isCompleted={false} />
+              ))}
 
             <IonAccordionGroup>
               <IonAccordion>
                 <IonItem slot="header" color="light">
-                  <IonText>Completadas (4)</IonText>
+                  <IonText>
+                    Completadas (
+                    {tasks.filter((task) => task.isCompleted).length})
+                  </IonText>
                 </IonItem>
                 <div slot="content">
-                  <Task name="Nombre de la tarea" isCompleted={true} />
-                  <Task name="Nombre de la tarea" isCompleted={true} />
-                  <Task name="Nombre de la tarea" isCompleted={true} />
-                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  {tasks
+                    .filter((task) => task.isCompleted)
+                    .map((task) => (
+                      <Task key={task.id} name={task.name} isCompleted={true} />
+                    ))}
                 </div>
               </IonAccordion>
             </IonAccordionGroup>
           </IonContent>
         </IonTab>
+
         <IonTab tab="cronograma">
           <Header />
           <IonTabBar>
@@ -82,7 +128,7 @@ const ProjectPage: React.FC = () => {
           </IonTabBar>
           <IonContent>
             <div className="subheader">
-              <h2>Proyecto</h2>
+              <h2>{projectTitle}</h2>
               <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
             </div>
             <div className="date-container">
@@ -92,13 +138,17 @@ const ProjectPage: React.FC = () => {
             <IonAccordionGroup>
               <IonAccordion>
                 <IonItem slot="header" color="light">
-                  <IonText>Completadas (4)</IonText>
+                  <IonText>
+                    Completadas (
+                    {tasks.filter((task) => task.isCompleted).length})
+                  </IonText>
                 </IonItem>
                 <div slot="content">
-                  <Task name="Nombre de la tarea" isCompleted={true} />
-                  <Task name="Nombre de la tarea" isCompleted={true} />
-                  <Task name="Nombre de la tarea" isCompleted={true} />
-                  <Task name="Nombre de la tarea" isCompleted={true} />
+                  {tasks
+                    .filter((task) => task.isCompleted)
+                    .map((task) => (
+                      <Task key={task.id} name={task.name} isCompleted={true} />
+                    ))}
                 </div>
               </IonAccordion>
             </IonAccordionGroup>
@@ -114,12 +164,16 @@ const ProjectPage: React.FC = () => {
           <IonContent>
             <div className="team-list">
               <div className="subheader">
-                <h2>Proyecto</h2>
+                <h2>{projectTitle}</h2>
                 <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
               </div>
-              <h3>Integrantes (7)</h3>
-              {members.map((member, index) => (
-                <TeamMember key={index} name={member.name} role={member.role} />
+              <h3>Integrantes ({teamMembers.length})</h3>
+              {teamMembers.map((member) => (
+                <TeamMember
+                  key={member.id}
+                  name={member.name}
+                  role={member.role}
+                />
               ))}
             </div>
           </IonContent>

@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const { Client } = require("pg");
+const axios = require("axios");
 
 const app = express();
 app.use(express.json());
@@ -23,9 +24,43 @@ client.connect();
 //BD
 
 app.post("/api/register", async (req, res) => {
-  const { nombre, apellido, email, rut, password, region, comuna } = req.body;
+  const {
+    nombre,
+    apellido,
+    email,
+    rut,
+    password,
+    region,
+    comuna,
+    captchaToken,
+  } = req.body;
 
-  console.log(req.body);
+  //console.log(req.body);
+
+  try {
+    const captchaSecret = "6LdTW3kqAAAAAP8gNGRbj6Qsan7gqqWn6pFPjMGG";
+    const response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      null,
+      {
+        params: {
+          secret: captchaSecret,
+          response: captchaToken,
+        },
+      }
+    );
+
+    if (!response.data.success) {
+      return res
+        .status(400)
+        .json({ message: "Fallo en reCAPTCHA. Intenta nuevamente." });
+    }
+  } catch (error) {
+    console.error("Error de verificación de reCAPTCHA:", error);
+    return res
+      .status(500)
+      .json({ message: "Error en el servidor al verificar CAPTCHA" });
+  }
 
   if (
     !nombre ||
@@ -82,7 +117,6 @@ app.post("/api/login", async (req, res) => {
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 });
-
 
 //PROOYECTOS
 
@@ -177,47 +211,81 @@ app.post("/api/proyectos", async (req, res) => {
   }
 });
 
+app.get("/api/proyectos/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await client.query(
+      "SELECT titulo, fecha_inicio, fecha_fin FROM Proyectos WHERE id = $1",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Proyecto no encontrado" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error al obtener los detalles del proyecto:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener los detalles del proyecto" });
+  }
+});
+
 //PROYECTOS
+
+//TASKS
+
+app.get("/api/proyectos/:id/tasks", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const tasksResult = await client.query(
+      "SELECT id, descripcion, estado, fecha_creacion, fecha_vencimiento FROM Tareas WHERE proyecto_id = $1",
+      [id]
+    );
+
+    res.json(tasksResult.rows);
+  } catch (error) {
+    console.error("Error al obtener las tareas del proyecto:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener las tareas del proyecto" });
+  }
+});
+
+//TASKS
+
+//TEAM
+
+app.get("/api/proyectos/:id/team", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const teamResult = await client.query(
+      `
+      SELECT U.id, U.nombre, U.apellido 
+      FROM Usuarios U
+      JOIN Proyectos_Usuarios PU ON U.id = PU.usuario_id
+      WHERE PU.proyecto_id = $1
+      `,
+      [id]
+    );
+
+    res.json(teamResult.rows);
+  } catch (error) {
+    console.error("Error al obtener los usuarios del proyecto:", error);
+    res
+      .status(500)
+      .json({ message: "Error al obtener los usuarios del proyecto" });
+  }
+});
+
+//TEAM
 
 //SERVER
 app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
 });
-
 //SERVER
-
-//TASKS
-
-app.get('/api/tareas', async (req, res) => {
-  try {
-    const result = await client.query('SELECT * FROM tareas');
-    res.status(200).json(result.rows); // Enviar las filas de la tabla tareas como JSON
-  } catch (err) {
-    console.error('Error al obtener las tareas:', err);
-    res.status(500).json({ error: 'Error al obtener las tareas' });
-  }
-});
-
-
-app.post('/api/tareas', async (req, res) => {
-  const { proyecto_id, descripcion, estado, fecha_creacion, fecha_vencimiento } = req.body;
-
-  // Verificar que los datos estén presentes
-  if (!proyecto_id || !descripcion || !estado || !fecha_creacion || !fecha_vencimiento) {
-    return res.status(400).json({ error: 'Faltan datos necesarios' });
-  }
-
-  try {
-    const query = `
-      INSERT INTO tareas (proyecto_id, descripcion, estado, fecha_creacion, fecha_vencimiento)
-      VALUES ($1, $2, $3, $4, $5) RETURNING *;
-    `;
-    const values = [proyecto_id, descripcion, estado, fecha_creacion, fecha_vencimiento];
-
-    const result = await client.query(query, values);
-    res.status(201).json(result.rows[0]); // Devolver la tarea recién agregada
-  } catch (err) {
-    console.error('Error al agregar la tarea:', err);
-    res.status(500).json({ error: 'Error al agregar la tarea' });
-  }
-});
