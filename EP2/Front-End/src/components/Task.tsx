@@ -6,37 +6,39 @@ import {
   IonLabel,
   IonCheckbox,
 } from "@ionic/react";
-import {
-  checkmarkCircleOutline,
-  createOutline,
-  star,
-  starOutline,
-} from "ionicons/icons";
+import { useHistory } from "react-router-dom";
 import "./Task.css";
 
 interface TaskProps {
+  taskID: number;
   name: string;
   isCompleted: boolean;
+  onClick: () => void;
 }
 
-const Task: React.FC<TaskProps> = ({ name, isCompleted: initialCompleted }) => {
+const Task: React.FC<TaskProps> = ({
+  name,
+  isCompleted: initialCompleted,
+  onClick,
+}) => {
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
-  const [isFav, setIsFav] = useState(false);
 
   const toggleCompletion = () => {
     setIsCompleted((prev) => !prev);
   };
 
-  const toggleFavorite = () => {
-    setIsFav((prev) => !prev);
+  const handleClick = () => {
+    onClick();
   };
 
   return (
-    <IonCard className={`task-card ${isCompleted ? "completed" : ""}`}>
+    <IonCard
+      className={`task-card ${isCompleted ? "completed" : ""}`}
+      onClick={handleClick}
+    >
       <IonCardContent className="task-card-content">
         <div className="task-info">
           <div style={{ display: "flex", alignItems: "center" }}>
-            <IonCheckbox checked={isCompleted} onIonChange={toggleCompletion} />
             <IonLabel
               className="task-name"
               style={
@@ -48,18 +50,6 @@ const Task: React.FC<TaskProps> = ({ name, isCompleted: initialCompleted }) => {
               {name}
             </IonLabel>
           </div>
-          {!isCompleted && (
-            <IonIcon
-              icon={isFav ? star : starOutline}
-              className="favorite-icon"
-              onClick={toggleFavorite}
-              style={{
-                cursor: "pointer",
-                marginLeft: "8px",
-                color: isFav ? "gold" : "gray",
-              }}
-            />
-          )}
         </div>
       </IonCardContent>
     </IonCard>

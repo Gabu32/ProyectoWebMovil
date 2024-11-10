@@ -29,18 +29,13 @@ CREATE TABLE Proyectos_Usuarios (
 
 CREATE TABLE Tareas (
     id SERIAL PRIMARY KEY,
+    usuario_id INTEGER NOT NULL,
     proyecto_id INTEGER NOT NULL,
+    titulo VARCHAR(15) NOT NULL,
     descripcion TEXT NOT NULL,
-    estado VARCHAR(20) DEFAULT 'pendiente',
+    completado BOOLEAN DEFAULT FALSE,
     fecha_creacion DATE DEFAULT CURRENT_DATE,
     fecha_vencimiento DATE,
-    FOREIGN KEY (proyecto_id) REFERENCES Proyectos(id)
-);
-
-CREATE TABLE Tarea_Usuarios (
-    tarea_id INTEGER NOT NULL,
-    usuario_id INTEGER NOT NULL,
-    PRIMARY KEY (tarea_id, usuario_id),
-    FOREIGN KEY (tarea_id) REFERENCES Tareas(id),
+    FOREIGN KEY (proyecto_id) REFERENCES Proyectos(id),
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(id)
 );

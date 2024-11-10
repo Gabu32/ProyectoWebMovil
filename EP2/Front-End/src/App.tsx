@@ -60,10 +60,10 @@ const App: React.FC = () => {
           <Route exact path="/create-project">
             {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
           </Route>
-          <Route exact path="/task">
+          <Route exact path="/task/:id">
             <TaskPage />
           </Route>
-          <Route exact path="/create-task">
+          <Route exact path="/create-task/:id">
             <CreateTask />
           </Route>
           <Route exact path="/notification">

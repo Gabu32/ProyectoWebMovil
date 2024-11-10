@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { IonButton, IonCard, IonCardContent, IonIcon, IonLabel } from "@ionic/react";
+import { IonCard, IonCardContent, IonIcon, IonLabel } from "@ionic/react";
 import {
   star,
   starOutline,
   documentTextOutline,
   peopleOutline,
 } from "ionicons/icons";
-import { useHistory } from 'react-router-dom';
 import "./Project.css";
+import axios from "axios";
 
 interface ProjectProps {
   id: number;
@@ -17,6 +17,7 @@ interface ProjectProps {
   completedTasks: number;
   es_favorito: boolean;
   onClick: () => void;
+  onFavoriteToggle: (id: number, es_favorito: boolean) => void;
 }
 
 const Project: React.FC<ProjectProps> = ({
@@ -27,14 +28,27 @@ const Project: React.FC<ProjectProps> = ({
   completedTasks,
   es_favorito,
   onClick,
+  onFavoriteToggle,
 }) => {
-  const [isFav, setIsFav] = useState(es_favorito);
+  const toggleFavorite = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const newFavState = !es_favorito;
+      const response = await axios.put(
+        `http://localhost:5000/api/proyectos/${id}/favorite`,
+        { es_favorito: newFavState },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-  const toggleFavorite = () => {
-    setIsFav((prev) => !prev);
+      if (response.status === 200) {
+        onFavoriteToggle(id, newFavState);
+      }
+    } catch (error) {
+      console.error("Error al actualizar favorito:", error);
+    }
   };
-  
-  const history = useHistory();
 
   const handleCardClick = () => {
     onClick();
@@ -55,7 +69,7 @@ const Project: React.FC<ProjectProps> = ({
           </div>
         </div>
         <IonIcon
-          icon={isFav ? star : starOutline}
+          icon={es_favorito ? star : starOutline}
           className="favoriteIcon"
           onClick={(e) => {
             e.stopPropagation();
@@ -63,7 +77,7 @@ const Project: React.FC<ProjectProps> = ({
           }}
         />
       </IonCardContent>
-    </IonButton>
+    </IonCard>
   );
 };
 

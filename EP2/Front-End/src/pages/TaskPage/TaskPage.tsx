@@ -1,9 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonItem,
   IonLabel,
@@ -24,19 +21,74 @@ import {
   desktop,
   personCircleOutline,
 } from "ionicons/icons";
+import { useParams } from "react-router";
+import axios from "axios";
 import "./TaskPage.css";
 import Header from "../../components/Header";
 
 const TaskPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [task, setTask] = useState<any | null>(null);
+  const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:5000/api/task/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setTask(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error al cargar la tarea:", error);
+        setError("Error al cargar los datos de la tarea");
+      }
+    };
+
+    fetchTask();
+  }, [id]);
+
+  if (error) {
+    return (
+      <IonPage>
+        <Header />
+        <IonContent className="ion-padding">
+          <IonText color="danger">{error}</IonText>
+        </IonContent>
+      </IonPage>
+    );
+  }
+
+  if (!task) {
+    return (
+      <IonPage>
+        <Header />
+        <IonContent className="ion-padding">
+          <IonText>Cargando tarea...</IonText>
+        </IonContent>
+      </IonPage>
+    );
+  }
+
+  const formattedCreationDate = new Date(task.fecha_creacion).toLocaleString();
+  const formattedDueDate = new Date(task.fecha_vencimiento).toLocaleString();
+
   return (
     <IonPage className="task-page">
       <Header />
 
       <IonContent className="ion-padding">
+        <h2>{task.titulo}</h2>
         <IonCard className="task-description">
           <IonCardContent className="ion-text-center">
             <IonText color="primary">
-              <h3>Descripción de la tarea</h3>
+              <p>{task.descripcion}</p>
             </IonText>
           </IonCardContent>
         </IonCard>
@@ -69,18 +121,14 @@ const TaskPage: React.FC = () => {
           </IonAccordion>
         </IonAccordionGroup>
 
-        {/* Personas asignadas */}
+        {/* Persona asignada */}
         <IonItem lines="none" className="asigned">
-          <IonLabel>Persona(s) asignada(s)</IonLabel>
+          <IonLabel>Persona asignada</IonLabel>
         </IonItem>
         <IonList className="assigned-people">
           <IonItem lines="none">
             <IonIcon icon={personCircleOutline} />
-            <IonLabel>Filip</IonLabel>
-          </IonItem>
-          <IonItem lines="none">
-            <IonIcon icon={personCircleOutline} />
-            <IonLabel>Gabusolé</IonLabel>
+            <IonLabel>{task.usuario_id}</IonLabel>
           </IonItem>
         </IonList>
 
@@ -88,12 +136,12 @@ const TaskPage: React.FC = () => {
         <IonList className="dates">
           <IonItem lines="none">
             <IonLabel>
-              <strong>Creada:</strong> 25 ago 2025, 10:25 p.m.
+              <strong>Creada:</strong> {formattedCreationDate}
             </IonLabel>
           </IonItem>
           <IonItem lines="none">
             <IonLabel>
-              <strong>Fecha límite:</strong> 27 ago 2025, 10:25 p.m.
+              <strong>Fecha límite:</strong> {formattedDueDate}
             </IonLabel>
           </IonItem>
         </IonList>

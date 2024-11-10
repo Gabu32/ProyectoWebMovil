@@ -25,6 +25,16 @@ const ProjectsList: React.FC = () => {
 
   const [proyectosCargados, setProyectosCargados] = useState(false);
 
+  const handleFavoriteToggle = (id: number, es_favorito: boolean) => {
+    setProyectos((prevProyectos) =>
+      prevProyectos.map((proyecto) =>
+        proyecto.id === id
+          ? { ...proyecto, es_favorito: es_favorito }
+          : proyecto
+      )
+    );
+  };
+
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
@@ -60,6 +70,7 @@ const ProjectsList: React.FC = () => {
   }, [history, token]);
 
   const proyectosFavoritos = proyectos.filter((p) => p.es_favorito);
+  const proyectosRecientes = proyectos.sort((a, b) => b.id - a.id).slice(0, 3);
   const tieneFavoritos = proyectosFavoritos.length > 0;
   const tieneProyectos = proyectos.length > 0;
 
@@ -70,8 +81,6 @@ const ProjectsList: React.FC = () => {
         : ["Recientes", "Todos"];
     }
   }, [tieneFavoritos, proyectosCargados]);
-
-  const proyectosRecientes = proyectos.sort((a, b) => b.id - a.id).slice(0, 3);
 
   return (
     <IonPage>
@@ -99,6 +108,7 @@ const ProjectsList: React.FC = () => {
                         completedTasks={2}
                         es_favorito={proyecto.es_favorito}
                         onClick={() => history.push(`/project/${proyecto.id}`)}
+                        onFavoriteToggle={handleFavoriteToggle}
                       />
                     ))}
                   <br />
@@ -121,6 +131,7 @@ const ProjectsList: React.FC = () => {
                     completedTasks={2}
                     es_favorito={proyecto.es_favorito}
                     onClick={() => history.push(`/project/${proyecto.id}`)}
+                    onFavoriteToggle={handleFavoriteToggle}
                   />
                 ))}
                 <br />
@@ -143,6 +154,7 @@ const ProjectsList: React.FC = () => {
                     completedTasks={2}
                     es_favorito={proyecto.es_favorito}
                     onClick={() => history.push(`/project/${proyecto.id}`)}
+                    onFavoriteToggle={handleFavoriteToggle}
                   />
                 ))}
                 <br />

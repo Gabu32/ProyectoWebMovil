@@ -1,56 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonInput,
   IonLabel,
   IonButton,
   IonToast,
-  IonBackButton,
-  IonButtons,
-  IonIcon,
   IonItem,
+  IonSelect,
+  IonSelectOption,
+  IonTextarea,
+  IonDatetime,
 } from "@ionic/react";
 import "./CreateTask.css";
-import { personCircle } from "ionicons/icons";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 
 const CreateTask: React.FC = () => {
   const [titulo, setTitulo] = useState<string>("");
-  const [colaboradores, setColaboradores] = useState<string[]>([]);
+  const [descripcion, setDescripcion] = useState<string>("");
+  const [usuariosProyecto, setUsuariosProyecto] = useState<any[]>([]);
+  const [usuarioResponsable, setUsuarioResponsable] = useState<number | null>(
+    null
+  );
+  const [fechaVencimiento, setFechaVencimiento] = useState<string>("");
   const [showToast, setShowToast] = useState<boolean>(false);
   const [mensajeToast, setMensajeToast] = useState<string>("");
   const history = useHistory();
+  const { id } = useParams<{ id: string }>();
 
-  const handleAddColaborador = () => {
-    setColaboradores([...colaboradores, ""]);
-  };
-
-  const handleRemoveColaborador = (index: number) => {
-    const newColaboradores = [...colaboradores];
-    newColaboradores.splice(index, 1);
-    setColaboradores(newColaboradores);
-  };
-
-  const handleColaboradorChange = (index: number, value: string) => {
-    const newColaboradores = [...colaboradores];
-    newColaboradores[index] = value;
-    setColaboradores(newColaboradores);
-  };
+  useEffect(() => {
+    const fetchUsuariosProyecto = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:5000/api/proyectos/${id}/usuarios`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUsuariosProyecto(response.data);
+      } catch (error) {
+        console.error("Error al obtener usuarios del proyecto: ", error);
+        setMensajeToast("Error al cargar usuarios del proyecto");
+        setShowToast(true);
+      }
+    };
+    fetchUsuariosProyecto();
+  }, [id]);
 
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5000/api/proyectos",
+        `http://localhost:5000/api/proyectos/${id}/tareas`,
         {
           titulo,
-          colaboradores,
+          descripcion,
+          usuario_id: usuarioResponsable,
+          fechaVencimiento,
         },
         {
           headers: {
@@ -58,13 +69,16 @@ const CreateTask: React.FC = () => {
           },
         }
       );
+      console.log(response.data);
       if (response.status === 201) {
-        setMensajeToast("Tarea creado con éxito");
+        setMensajeToast("Tarea creada con éxito");
         setShowToast(true);
 
         setTitulo("");
-        setColaboradores([]);
-        history.push("/projects");
+        setDescripcion("");
+        setUsuarioResponsable(null);
+        setFechaVencimiento("");
+        history.push(`/project/${id}`);
       }
     } catch (error) {
       console.error(error);
@@ -73,63 +87,67 @@ const CreateTask: React.FC = () => {
     }
   };
 
+  const handleFechaChange = (e: any) => {
+    const selectedDate = e.detail.value!;
+    setFechaVencimiento(selectedDate);
+    console.log("Fecha de vencimiento: ", selectedDate);
+  };
+
   return (
     <IonPage>
       <Header />
       <IonContent>
         <h2>Nueva Tarea</h2>
-        <div className="createProjectContainer">
+        <div className="createTaskContainer">
           <IonLabel>Título</IonLabel>
           <IonItem style={{ borderRadius: "15px" }}>
             <IonInput
               value={titulo}
               onIonChange={(e) => setTitulo(e.detail.value!)}
               placeholder="Ingrese el titulo de la tarea"
+              maxlength={15}
               counter={true}
-              maxlength={20}
             />
           </IonItem>
-          <div className="btnContainer">
-            <IonButton
-              className="btnAddCollaborator"
-              expand="full"
-              onClick={handleAddColaborador}
-              shape="round"
+
+          <IonLabel>Descripción</IonLabel>
+          <IonItem style={{ borderRadius: "15px" }}>
+            <IonTextarea
+              value={descripcion}
+              onIonChange={(e) => setDescripcion(e.detail.value!)}
+              placeholder="Ingrese una descripción para la tarea"
+              maxlength={200}
+              counter={true}
+              rows={4}
+            />
+          </IonItem>
+
+          <IonLabel>Fecha de Vencimiento</IonLabel>
+          <div className="calendar-container">
+            <IonDatetime
+              value={fechaVencimiento}
+              onIonChange={handleFechaChange}
+              min={new Date().toISOString()}
+            />
+          </div>
+
+          <IonLabel>Asignar Responsable</IonLabel>
+          <IonItem style={{ borderRadius: "15px" }}>
+            <IonSelect
+              value={usuarioResponsable}
+              placeholder="Seleccione un responsable"
+              onIonChange={(e) => setUsuarioResponsable(e.detail.value)}
             >
-              Asignar <br />
-              Colaborador
-              <IonIcon slot="start" icon={personCircle} />
-            </IonButton>
-
-            {colaboradores.map((colaborador, index) => (
-              <div
-                key={index}
-                style={{ display: "flex", alignItems: "center" }}
-                className="newCollaborator"
-              >
-                <IonItem>
-                  <IonInput
-                    value={colaborador}
-                    onIonChange={(e) =>
-                      handleColaboradorChange(index, e.detail.value!)
-                    }
-                    placeholder={`Correo del colaborador ${index + 1}`}
-                    style={{ flex: 1 }}
-                    maxlength={50}
-                  />
-                </IonItem>
-                <IonButton
-                  color="danger"
-                  onClick={() => handleRemoveColaborador(index)}
-                  style={{ marginLeft: "10px" }}
-                >
-                  X
-                </IonButton>
-              </div>
-            ))}
-
+              {usuariosProyecto.map((usuario) => (
+                <IonSelectOption key={usuario.id} value={usuario.id}>
+                  {usuario.nombre} {usuario.apellido}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+          <div className="btnAddTaskContainer">
             <IonButton
-              className="btnAddProj"
+              className="btnAddTask"
               expand="full"
               onClick={handleSubmit}
               shape="round"

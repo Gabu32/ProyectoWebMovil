@@ -39,3 +39,7 @@ ion-accordion {
   padding: 10px;
   align-items: center;
 }
+
+.tasks-container p {
+  margin-left: 20px;
+}

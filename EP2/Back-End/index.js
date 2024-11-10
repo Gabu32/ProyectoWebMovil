@@ -118,7 +118,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-//PROOYECTOS
+//PROYECTOS
 
 app.get("/api/proyectos", async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
@@ -213,10 +213,27 @@ app.post("/api/proyectos", async (req, res) => {
 
 app.get("/api/proyectos/:id", async (req, res) => {
   const { id } = req.params;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Token no proporcionado" });
+  }
 
   try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.id;
+
+    const authCheck = await client.query(
+      "SELECT 1 FROM Proyectos_Usuarios WHERE proyecto_id = $1 AND usuario_id = $2",
+      [id, userId]
+    );
+
+    if (authCheck.rows.length === 0) {
+      return res.status(403).json({ message: "Acceso denegado al proyecto" });
+    }
+
     const result = await client.query(
-      "SELECT titulo, fecha_inicio, fecha_fin FROM Proyectos WHERE id = $1",
+      "SELECT titulo, fecha_inicio, fecha_fin, creador_id FROM Proyectos WHERE id = $1",
       [id]
     );
 
@@ -233,16 +250,65 @@ app.get("/api/proyectos/:id", async (req, res) => {
   }
 });
 
+app.put("/api/proyectos/:id/favorite", async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Token no proporcionado" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.id;
+    const projectId = req.params.id;
+    const { es_favorito } = req.body;
+
+    await client.query(
+      "UPDATE Proyectos_Usuarios SET es_favorito = $1 WHERE proyecto_id = $2 AND usuario_id = $3",
+      [es_favorito, projectId, userId]
+    );
+
+    res
+      .status(200)
+      .json({ message: "Estado de favorito actualizado con éxito" });
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expirado" });
+    }
+    console.error("Error al actualizar favorito:", error);
+    res.status(500).json({ message: "Error al actualizar favorito" });
+  }
+});
+
 //PROYECTOS
 
 //TASKS
+
+app.get("/api/task/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const taskResult = await client.query(
+      "SELECT id, titulo, descripcion, completado, fecha_creacion, fecha_vencimiento, usuario_id FROM Tareas WHERE id = $1",
+      [id]
+    );
+
+    if (taskResult.rows.length === 0) {
+      return res.status(404).json({ message: "Tarea no encontrada" });
+    }
+
+    res.json(taskResult.rows[0]);
+  } catch (error) {
+    console.error("Error al obtener la tarea:", error);
+    res.status(500).json({ message: "Error al obtener las tarea" });
+  }
+});
 
 app.get("/api/proyectos/:id/tasks", async (req, res) => {
   const { id } = req.params;
 
   try {
     const tasksResult = await client.query(
-      "SELECT id, descripcion, estado, fecha_creacion, fecha_vencimiento FROM Tareas WHERE proyecto_id = $1",
+      "SELECT id, titulo, descripcion, completado, fecha_creacion, fecha_vencimiento, usuario_id FROM Tareas WHERE proyecto_id = $1",
       [id]
     );
 
@@ -255,17 +321,52 @@ app.get("/api/proyectos/:id/tasks", async (req, res) => {
   }
 });
 
+app.post("/api/proyectos/:id/tareas", async (req, res) => {
+  const { id } = req.params;
+  const { titulo, descripcion, usuario_id, fechaVencimiento } = req.body;
+
+  if (!titulo || !usuario_id) {
+    return res
+      .status(400)
+      .json({ error: "El título y usuario asignado son requeridos" });
+  }
+
+  try {
+    const usuarioProyecto = await client.query(
+      "SELECT * FROM Proyectos_Usuarios WHERE proyecto_id = $1 AND usuario_id = $2",
+      [id, usuario_id]
+    );
+
+    if (usuarioProyecto.rowCount === 0) {
+      return res
+        .status(403)
+        .json({ error: "El usuario no está asignado a este proyecto" });
+    }
+
+    const nuevaTarea = await client.query(
+      `INSERT INTO Tareas (proyecto_id, titulo, descripcion, completado, usuario_id, fecha_vencimiento) 
+             VALUES ($1, $2, $3, FALSE, $4, $5) RETURNING *`,
+      [id, titulo, descripcion, usuario_id, fechaVencimiento]
+    );
+
+    res.status(201).json(nuevaTarea.rows[0]);
+  } catch (error) {
+    console.error("Error al crear la tarea:", error);
+    res.status(500).json({ error: "Error al crear la tarea" });
+  }
+});
+
 //TASKS
 
 //TEAM
 
-app.get("/api/proyectos/:id/team", async (req, res) => {
+app.get("/api/proyectos/:id/usuarios", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const teamResult = await client.query(
+    const usuariosProyecto = await client.query(
       `
-      SELECT U.id, U.nombre, U.apellido 
+      SELECT U.id, U.nombre, U.apellido, U.email, U.rut, U.region, U.comuna 
       FROM Usuarios U
       JOIN Proyectos_Usuarios PU ON U.id = PU.usuario_id
       WHERE PU.proyecto_id = $1
@@ -273,7 +374,7 @@ app.get("/api/proyectos/:id/team", async (req, res) => {
       [id]
     );
 
-    res.json(teamResult.rows);
+    res.json(usuariosProyecto.rows);
   } catch (error) {
     console.error("Error al obtener los usuarios del proyecto:", error);
     res

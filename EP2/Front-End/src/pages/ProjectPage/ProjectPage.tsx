@@ -27,6 +27,7 @@ const ProjectPage: React.FC = () => {
   const history = useHistory();
 
   const [projectTitle, setProjectTitle] = useState("");
+  const [creadorID, setCreadorId] = useState(Number);
   const [tasks, setTasks] = useState<any[]>([]);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,35 +35,71 @@ const ProjectPage: React.FC = () => {
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("Token no encontrado");
+          return;
+        }
+
+        const authHeaders = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
         const projectResponse = await axios.get(
-          `http://localhost:5000/api/proyectos/${id}`
+          `http://localhost:5000/api/proyectos/${id}`,
+          authHeaders
         );
         setProjectTitle(projectResponse.data.titulo);
+        setCreadorId(projectResponse.data.creador_id);
         console.log(projectResponse.data);
 
         const tasksResponse = await axios.get(
-          `http://localhost:5000/api/proyectos/${id}/tasks`
+          `http://localhost:5000/api/proyectos/${id}/tasks`,
+          authHeaders
         );
         setTasks(tasksResponse.data);
         console.log(tasksResponse.data);
 
         const teamResponse = await axios.get(
-          `http://localhost:5000/api/proyectos/${id}/team`
+          `http://localhost:5000/api/proyectos/${id}/usuarios`,
+          authHeaders
         );
         setTeamMembers(teamResponse.data);
         console.log(teamResponse.data);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al cargar datos del proyecto: ", error);
+
+        if (
+          (error.response &&
+            (error.response.status === 401 || error.response.status === 403)) ||
+          error.message.includes("TokenExpiredError")
+        ) {
+          alert("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
+          localStorage.removeItem("token");
+          history.push("/landing");
+        } else {
+          alert("Error al cargar los detalles del proyecto.");
+          history.push("/projects");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchProjectData();
+
+    const unlisten = history.listen(() => {
+      fetchProjectData();
+    });
+    return () => {
+      unlisten();
+    };
   }, [id]);
 
   const handleCreateTask = () => {
-    history.push("/create-task");
+    history.push(`/create-task/${id}`);
   };
 
   if (loading) {
@@ -93,29 +130,49 @@ const ProjectPage: React.FC = () => {
             <div className="date-item">
               <span>fecha</span>
             </div>
-            {tasks
-              .filter((task) => !task.isCompleted)
-              .map((task) => (
-                <Task key={task.id} name={task.name} isCompleted={false} />
-              ))}
+            {tasks.filter((task) => !task.isCompleted).length === 0 ? (
+              <IonText color="medium">
+                <p>No hay tareas pendientes. ¡Agrega algunas!</p>
+              </IonText>
+            ) : (
+              tasks
+                .filter((task) => !task.isCompleted)
+                .map((task) => (
+                  <Task
+                    key={task.id}
+                    taskID={task.id}
+                    name={task.titulo}
+                    isCompleted={false}
+                    onClick={() => history.push(`/task/${task.id}`)}
+                  />
+                ))
+            )}
 
-            <IonAccordionGroup>
-              <IonAccordion>
-                <IonItem slot="header" color="light">
-                  <IonText>
-                    Completadas (
-                    {tasks.filter((task) => task.isCompleted).length})
-                  </IonText>
-                </IonItem>
-                <div slot="content">
-                  {tasks
-                    .filter((task) => task.isCompleted)
-                    .map((task) => (
-                      <Task key={task.id} name={task.name} isCompleted={true} />
-                    ))}
-                </div>
-              </IonAccordion>
-            </IonAccordionGroup>
+            {tasks.filter((task) => task.isCompleted).length > 0 && (
+              <IonAccordionGroup>
+                <IonAccordion>
+                  <IonItem slot="header" color="light">
+                    <IonText>
+                      Completadas (
+                      {tasks.filter((task) => task.isCompleted).length})
+                    </IonText>
+                  </IonItem>
+                  <div slot="content">
+                    {tasks
+                      .filter((task) => task.isCompleted)
+                      .map((task) => (
+                        <Task
+                          key={task.id}
+                          taskID={task.id}
+                          name={task.name}
+                          isCompleted={true}
+                          onClick={() => history.push(`/task/${task.id}`)}
+                        />
+                      ))}
+                  </div>
+                </IonAccordion>
+              </IonAccordionGroup>
+            )}
           </IonContent>
         </IonTab>
 
@@ -135,23 +192,31 @@ const ProjectPage: React.FC = () => {
               <IonDatetime presentation="date"></IonDatetime>
             </div>
 
-            <IonAccordionGroup>
-              <IonAccordion>
-                <IonItem slot="header" color="light">
-                  <IonText>
-                    Completadas (
-                    {tasks.filter((task) => task.isCompleted).length})
-                  </IonText>
-                </IonItem>
-                <div slot="content">
-                  {tasks
-                    .filter((task) => task.isCompleted)
-                    .map((task) => (
-                      <Task key={task.id} name={task.name} isCompleted={true} />
-                    ))}
-                </div>
-              </IonAccordion>
-            </IonAccordionGroup>
+            {tasks.filter((task) => task.isCompleted).length > 0 && (
+              <IonAccordionGroup>
+                <IonAccordion>
+                  <IonItem slot="header" color="light">
+                    <IonText>
+                      Completadas (
+                      {tasks.filter((task) => task.isCompleted).length})
+                    </IonText>
+                  </IonItem>
+                  <div slot="content">
+                    {tasks
+                      .filter((task) => task.isCompleted)
+                      .map((task) => (
+                        <Task
+                          key={task.id}
+                          taskID={task.id}
+                          name={task.name}
+                          isCompleted={true}
+                          onClick={() => history.push(`/task/${task.id}`)}
+                        />
+                      ))}
+                  </div>
+                </IonAccordion>
+              </IonAccordionGroup>
+            )}
           </IonContent>
         </IonTab>
         <IonTab tab="team">
@@ -171,8 +236,8 @@ const ProjectPage: React.FC = () => {
               {teamMembers.map((member) => (
                 <TeamMember
                   key={member.id}
-                  name={member.name}
-                  role={member.role}
+                  name={member.nombre + " " + member.apellido}
+                  role={member.id === creadorID ? "Creador" : "Colaborador"}
                 />
               ))}
             </div>
