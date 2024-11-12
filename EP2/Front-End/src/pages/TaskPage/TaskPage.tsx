@@ -20,16 +20,22 @@ import {
   attach,
   desktop,
   personCircleOutline,
+  arrowBackOutline,
 } from "ionicons/icons";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import axios from "axios";
 import "./TaskPage.css";
 import Header from "../../components/Header";
 
 const TaskPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+  const { projectId, id } = useParams<{ projectId: string; id: string }>();
   const [task, setTask] = useState<any | null>(null);
   const [error, setError] = useState<string>("");
+
+  const handleBack = () => {
+    history.push(`/project/${projectId}`);
+  };
 
   useEffect(() => {
     const fetchTask = async () => {
@@ -84,7 +90,12 @@ const TaskPage: React.FC = () => {
       <Header />
 
       <IonContent className="ion-padding">
-        <h2>{task.titulo}</h2>
+        <div className="botonBack">
+          <IonButton onClick={handleBack} fill="clear">
+            <IonIcon icon={arrowBackOutline} />
+          </IonButton>
+          <h2>{task.titulo}</h2>
+        </div>
         <IonCard className="task-description">
           <IonCardContent className="ion-text-center">
             <IonText color="primary">
@@ -128,7 +139,9 @@ const TaskPage: React.FC = () => {
         <IonList className="assigned-people">
           <IonItem lines="none">
             <IonIcon icon={personCircleOutline} />
-            <IonLabel>{task.usuario_id}</IonLabel>
+            <IonLabel>
+              {task.usuario_nombre} {task.usuario_apellido}
+            </IonLabel>
           </IonItem>
         </IonList>
 

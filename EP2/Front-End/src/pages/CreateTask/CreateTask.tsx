@@ -11,9 +11,11 @@ import {
   IonSelectOption,
   IonTextarea,
   IonDatetime,
+  IonIcon,
 } from "@ionic/react";
 import "./CreateTask.css";
 import axios from "axios";
+import { arrowBackOutline } from "ionicons/icons";
 import { useHistory, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 
@@ -29,6 +31,10 @@ const CreateTask: React.FC = () => {
   const [mensajeToast, setMensajeToast] = useState<string>("");
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
+
+  const handleBack = () => {
+    history.push(`/project/${id}`);
+  };
 
   useEffect(() => {
     const fetchUsuariosProyecto = async () => {
@@ -97,7 +103,12 @@ const CreateTask: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent>
-        <h2>Nueva Tarea</h2>
+        <div className="botonBack">
+          <IonButton onClick={handleBack} fill="clear">
+            <IonIcon icon={arrowBackOutline} />
+          </IonButton>
+          <h2>Nuevo Proyecto</h2>
+        </div>
         <div className="createTaskContainer">
           <IonLabel>Título</IonLabel>
           <IonItem style={{ borderRadius: "15px" }}>

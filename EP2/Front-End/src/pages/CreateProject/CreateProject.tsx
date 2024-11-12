@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
   IonHeader,
@@ -15,9 +15,9 @@ import {
   IonItem,
 } from "@ionic/react";
 import "./CreateProject.css";
-import { personCircle } from "ionicons/icons";
+import { personCircle, arrowBackOutline } from "ionicons/icons";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Header from "../../components/Header";
 
 const CreateProject: React.FC = () => {
@@ -26,6 +26,24 @@ const CreateProject: React.FC = () => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [mensajeToast, setMensajeToast] = useState<string>("");
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/create-project") {
+      sessionStorage.setItem("previousLocation", location.pathname);
+    }
+  }, [location]);
+
+  const handleBack = () => {
+    const previousLocation = sessionStorage.getItem("previousLocation");
+    console.log(previousLocation);
+
+    if (previousLocation) {
+      history.push(previousLocation);
+    } else {
+      history.push("/projects");
+    }
+  };
 
   const handleAddColaborador = () => {
     setColaboradores([...colaboradores, ""]);
@@ -77,7 +95,12 @@ const CreateProject: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent>
-        <h2>Nuevo Proyecto</h2>
+        <div className="botonBack">
+          <IonButton onClick={handleBack} fill="clear">
+            <IonIcon icon={arrowBackOutline} />
+          </IonButton>
+          <h2>Nuevo Proyecto</h2>
+        </div>
         <div className="createProjectContainer">
           <IonLabel>Título</IonLabel>
           <IonItem style={{ borderRadius: "15px" }}>

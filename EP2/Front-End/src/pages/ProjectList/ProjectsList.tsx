@@ -8,12 +8,14 @@ import {
   IonAccordion,
   IonItem,
   IonToast,
+  IonIcon,
 } from "@ionic/react";
 import Project from "../../components/Project";
 import "./ProjectsList.css";
 import axios from "axios";
 import emptyfolder from "./emptyfolder.png";
 import { useHistory } from "react-router-dom";
+import { arrowBackOutline } from "ionicons/icons";
 import Header from "../../components/Header";
 
 const ProjectsList: React.FC = () => {
@@ -22,6 +24,10 @@ const ProjectsList: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const token = localStorage.getItem("token");
   const history = useHistory();
+
+  const handleBack = () => {
+    history.push("/home");
+  };
 
   const [proyectosCargados, setProyectosCargados] = useState(false);
 
@@ -86,7 +92,13 @@ const ProjectsList: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent>
-        <h2>Proyectos</h2>
+        <div className="botonBack">
+          <IonButton onClick={handleBack} fill="clear">
+            <IonIcon icon={arrowBackOutline} />
+          </IonButton>
+          <h2>Proyectos</h2>
+        </div>
+
         {tieneProyectos ? (
           <IonAccordionGroup ref={accordionGroup} multiple={true}>
             {tieneFavoritos && (

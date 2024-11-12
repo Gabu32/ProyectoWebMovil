@@ -35,8 +35,8 @@ import TaskPage from "./pages/TaskPage/TaskPage";
 setupIonicReact();
 
 const App: React.FC = () => {
-  //const isAuthenticated = !!localStorage.getItem("token");
-  const isAuthenticated = 1;
+  const isAuthenticated = !!localStorage.getItem("token");
+  //const isAuthenticated = 1;
   return (
     <IonApp>
       <IonReactRouter>
@@ -60,7 +60,7 @@ const App: React.FC = () => {
           <Route exact path="/create-project">
             {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
           </Route>
-          <Route exact path="/task/:id">
+          <Route exact path="/task/:projectId/:id">
             <TaskPage />
           </Route>
           <Route exact path="/create-task/:id">

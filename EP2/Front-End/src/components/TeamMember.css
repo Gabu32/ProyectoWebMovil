@@ -1,16 +1,32 @@
-.team-member ion-icon {
+.team-member ion-label {
+  align-items: center;
+  display: flex !important;
   margin-right: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-left: 15px;
 }
 
-.team-member ion-label {
-  padding: 8px;
+.label-container {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
 }
 
 .team-member {
-  max-width: 80%;
-  margin-bottom: 5px;
+  max-width: 90%;
+  margin-bottom: 20px;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+}
+
+.label-container ion-button {
+  height: 44px;
+  width: 44px;
+  justify-content: center;
+  align-items: center;
   display: flex;
 }

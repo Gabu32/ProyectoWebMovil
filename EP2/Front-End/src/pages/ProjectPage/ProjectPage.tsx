@@ -12,6 +12,8 @@ import {
   IonDatetime,
   IonText,
   IonButton,
+  IonIcon,
+  IonAlert,
 } from "@ionic/react";
 
 import "./ProjectPage.css";
@@ -19,18 +21,68 @@ import Task from "../../components/Task";
 import TeamMember from "../../components/TeamMember";
 import Header from "../../components/Header";
 import { useState, useEffect } from "react";
+import { arrowBackOutline, personAddOutline } from "ionicons/icons";
 import { useHistory, useParams } from "react-router";
 import axios from "axios";
+import AddUserPopover from "../../components/AddUserPopOver";
 
 const ProjectPage: React.FC = () => {
+  const userID = localStorage.getItem("userID");
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
-
+  const [showPopover, setShowPopover] = useState(false);
   const [projectTitle, setProjectTitle] = useState("");
   const [creadorID, setCreadorId] = useState(Number);
   const [tasks, setTasks] = useState<any[]>([]);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [reloadTeam, setReloadTeam] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [memberToDelete, setMemberToDelete] = useState(Number);
+
+  const confirmDelete = (memberId: number) => {
+    setMemberToDelete(memberId);
+    setShowAlert(true);
+    console.log(memberToDelete, memberId);
+  };
+
+  const handleDeleteMember = async (memberId: number) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Token no encontrado.");
+        return;
+      }
+
+      const authHeaders = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      await axios.delete(
+        `http://localhost:5000/api/proyectos/${id}/usuarios/${memberId}`,
+        authHeaders
+      );
+
+      setShowAlert(false);
+      alert("Miembro eliminado exitosamente.");
+      setReloadTeam((prev) => !prev);
+    } catch (error) {
+      console.error("Error al eliminar usuario:", error);
+      alert("No se pudo eliminar el usuario.");
+    }
+    setReloadTeam(true);
+  };
+
+  const handleBack = () => {
+    history.push("/projects");
+  };
+
+  const onUserAdded = () => {
+    setReloadTeam(true);
+    setShowPopover(false);
+  };
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -89,6 +141,7 @@ const ProjectPage: React.FC = () => {
     };
 
     fetchProjectData();
+    setReloadTeam(false);
 
     const unlisten = history.listen(() => {
       fetchProjectData();
@@ -96,7 +149,7 @@ const ProjectPage: React.FC = () => {
     return () => {
       unlisten();
     };
-  }, [id]);
+  }, [reloadTeam]);
 
   const handleCreateTask = () => {
     history.push(`/create-task/${id}`);
@@ -124,7 +177,12 @@ const ProjectPage: React.FC = () => {
           </IonTabBar>
           <IonContent className="tasks-container">
             <div className="subheader">
-              <h2>{projectTitle}</h2>
+              <div className="botonBack">
+                <IonButton onClick={handleBack} fill="clear">
+                  <IonIcon icon={arrowBackOutline} />
+                </IonButton>
+                <h2>{projectTitle}</h2>
+              </div>
               <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
             </div>
             <div className="date-item">
@@ -143,7 +201,7 @@ const ProjectPage: React.FC = () => {
                     taskID={task.id}
                     name={task.titulo}
                     isCompleted={false}
-                    onClick={() => history.push(`/task/${task.id}`)}
+                    onClick={() => history.push(`/task/${id}/${task.id}`)}
                   />
                 ))
             )}
@@ -166,7 +224,7 @@ const ProjectPage: React.FC = () => {
                           taskID={task.id}
                           name={task.name}
                           isCompleted={true}
-                          onClick={() => history.push(`/task/${task.id}`)}
+                          onClick={() => history.push(`/task/${id}/${task.id}`)}
                         />
                       ))}
                   </div>
@@ -185,7 +243,12 @@ const ProjectPage: React.FC = () => {
           </IonTabBar>
           <IonContent>
             <div className="subheader">
-              <h2>{projectTitle}</h2>
+              <div className="botonBack">
+                <IonButton onClick={handleBack} fill="clear">
+                  <IonIcon icon={arrowBackOutline} />
+                </IonButton>
+                <h2>{projectTitle}</h2>
+              </div>
               <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
             </div>
             <div className="date-container">
@@ -210,7 +273,7 @@ const ProjectPage: React.FC = () => {
                           taskID={task.id}
                           name={task.name}
                           isCompleted={true}
-                          onClick={() => history.push(`/task/${task.id}`)}
+                          onClick={() => history.push(`/task/${id}/${task.id}`)}
                         />
                       ))}
                   </div>
@@ -219,6 +282,7 @@ const ProjectPage: React.FC = () => {
             )}
           </IonContent>
         </IonTab>
+
         <IonTab tab="team">
           <Header />
           <IonTabBar>
@@ -229,18 +293,68 @@ const ProjectPage: React.FC = () => {
           <IonContent>
             <div className="team-list">
               <div className="subheader">
-                <h2>{projectTitle}</h2>
+                <div className="botonBack">
+                  <IonButton onClick={handleBack} fill="clear">
+                    <IonIcon icon={arrowBackOutline} />
+                  </IonButton>
+                  <h2>{projectTitle}</h2>
+                </div>
                 <IonButton onClick={handleCreateTask}>Agregar tarea</IonButton>
               </div>
-              <h3>Integrantes ({teamMembers.length})</h3>
+              <div className="addMemberBtn">
+                <h3>Integrantes ({teamMembers.length})</h3>
+
+                {userID !== null && parseInt(userID) === creadorID && (
+                  <IonButton
+                    color="primary"
+                    slot="end"
+                    onClick={() => setShowPopover(true)}
+                  >
+                    <IonIcon icon={personAddOutline} />
+                  </IonButton>
+                )}
+              </div>
+
+              <AddUserPopover
+                isOpen={showPopover}
+                onDidDismiss={() => setShowPopover(false)}
+                projectId={id}
+                onUserAdded={onUserAdded}
+              />
+
               {teamMembers.map((member) => (
                 <TeamMember
                   key={member.id}
                   name={member.nombre + " " + member.apellido}
                   role={member.id === creadorID ? "Creador" : "Colaborador"}
+                  canDelete={
+                    userID !== null &&
+                    parseInt(userID) === creadorID &&
+                    member.id !== creadorID
+                  }
+                  onDelete={() => confirmDelete(member.id)}
                 />
               ))}
             </div>
+            <IonAlert
+              isOpen={showAlert}
+              onDidDismiss={() => setShowAlert(false)}
+              header={"Confirmación"}
+              message={
+                "¿Estás seguro de que deseas eliminar este usuario del proyecto?"
+              }
+              buttons={[
+                {
+                  text: "Cancelar",
+                  role: "cancel",
+                  handler: () => setShowAlert(false),
+                },
+                {
+                  text: "Eliminar",
+                  handler: () => handleDeleteMember(memberToDelete),
+                },
+              ]}
+            />
           </IonContent>
         </IonTab>
       </IonTabs>

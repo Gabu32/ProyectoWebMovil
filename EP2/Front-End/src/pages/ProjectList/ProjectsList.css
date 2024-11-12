@@ -43,3 +43,7 @@ h2 {
   --padding-top: 15px;
   --color: #2f2e2e;
 }
+
+.botonBack {
+  display: flex;
+}

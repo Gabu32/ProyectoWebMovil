@@ -41,6 +41,7 @@ const Login: React.FC = () => {
         password,
       });
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userID", response.data.userID);
       history.push("/home");
       present({
         message: "Inicio de sesión exitoso.",

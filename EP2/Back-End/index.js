@@ -108,7 +108,7 @@ app.post("/api/login", async (req, res) => {
       const token = jwt.sign({ id: user.id, email: user.email }, "secret", {
         expiresIn: "1h",
       });
-      res.json({ message: "Login exitoso", token });
+      res.json({ message: "Login exitoso", token, userID: user.id });
     } else {
       res.status(400).json({ message: "Credenciales inválidas" });
     }
@@ -187,7 +187,7 @@ app.post("/api/proyectos", async (req, res) => {
     const proyectoId = proyectoResult.rows[0].id;
 
     await client.query(
-      "INSERT INTO Proyectos_Usuarios (proyecto_id, usuario_id, es_favorito) VALUES ($1, $2, TRUE)",
+      "INSERT INTO Proyectos_Usuarios (proyecto_id, usuario_id, es_favorito) VALUES ($1, $2, FALSE)",
       [proyectoId, creadorId]
     );
 
@@ -288,7 +288,14 @@ app.get("/api/task/:id", async (req, res) => {
 
   try {
     const taskResult = await client.query(
-      "SELECT id, titulo, descripcion, completado, fecha_creacion, fecha_vencimiento, usuario_id FROM Tareas WHERE id = $1",
+      `
+      SELECT 
+        T.id, T.titulo, T.descripcion, T.completado, T.fecha_creacion, T.fecha_vencimiento, 
+        T.usuario_id, U.nombre AS usuario_nombre, U.apellido AS usuario_apellido
+      FROM Tareas T
+      JOIN Usuarios U ON T.usuario_id = U.id
+      WHERE T.id = $1
+      `,
       [id]
     );
 
@@ -318,6 +325,34 @@ app.get("/api/proyectos/:id/tasks", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error al obtener las tareas del proyecto" });
+  }
+});
+
+app.post("/api/proyectos/:id/usuarios", async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.body;
+
+  try {
+    const userResult = await client.query(
+      "SELECT id FROM Usuarios WHERE email = $1",
+      [email]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const userID = userResult.rows[0].id;
+
+    await client.query(
+      "INSERT INTO Proyectos_Usuarios (proyecto_id, usuario_id) VALUES ($1, $2)",
+      [id, userID]
+    );
+
+    res.json({ message: "Usuario agregado al proyecto" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al agregar usuario al proyecto" });
   }
 });
 
@@ -353,6 +388,22 @@ app.post("/api/proyectos/:id/tareas", async (req, res) => {
   } catch (error) {
     console.error("Error al crear la tarea:", error);
     res.status(500).json({ error: "Error al crear la tarea" });
+  }
+});
+
+app.delete("/api/proyectos/:projectId/usuarios/:userId", async (req, res) => {
+  const { projectId, userId } = req.params;
+
+  try {
+    await client.query(
+      "DELETE FROM Proyectos_Usuarios WHERE proyecto_id = $1 AND usuario_id = $2",
+      [projectId, userId]
+    );
+
+    res.json({ message: "Usuario eliminado del proyecto" });
+  } catch (error) {
+    console.error("Error al eliminar usuario del proyecto:", error);
+    res.status(500).json({ message: "Error al eliminar usuario del proyecto" });
   }
 });
 
