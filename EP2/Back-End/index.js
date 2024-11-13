@@ -548,3 +548,21 @@ app.post("/api/comentarios", async (req, res) => {
     res.status(500).send("Error al insertar el comentario");
   }
 });
+
+app.get("/api/comentarios/:taskId", async (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const query = `
+      SELECT comentarios.id, comentarios.comentario, usuarios.nombre AS usuario_nombre, usuarios.apellido AS usuario_apellido
+      FROM comentarios
+      JOIN usuarios ON comentarios.usuario_id = usuarios.id
+      WHERE comentarios.tarea_id = $1
+      ORDER BY comentarios.id DESC
+    `;
+    const { rows } = await client.query(query, [taskId]);
+    res.json(rows);
+  } catch (error) {
+    console.error("Error al cargar comentarios:", error);
+    res.status(500).json({ error: "Error al cargar comentarios" });
+  }
+});

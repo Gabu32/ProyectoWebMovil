@@ -35,6 +35,7 @@ const TaskPage: React.FC = () => {
   const [task, setTask] = useState<any | null>(null);
   const [error, setError] = useState<string>("");
   const [comment, setComment] = useState<string>("");
+  const [comments, setComments] = useState<any[]>([]);
   const userID = localStorage.getItem("userID");
 
   const handleBack = () => {
@@ -64,6 +65,28 @@ const TaskPage: React.FC = () => {
     fetchTask();
   }, [id]);
 
+  const fetchComments = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:5000/api/comentarios/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setComments(response.data);
+    } catch (error) {
+      console.error("Error al cargar los comentarios:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, [id]);
+
+
   if (error) {
     return (
       <IonPage>
@@ -89,11 +112,18 @@ const TaskPage: React.FC = () => {
   const handleCommentSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
+  
+      if (!comment.trim()) {
+        console.log("Comentario vacío. No se enviará.");
+        return; // No envíes el comentario si está vacío
+      }
+  
+      // Enviar comentario
       const response = await axios.post(
         "http://localhost:5000/api/comentarios",
         {
           comentario: comment,
-          usuario_id: 1, // Reemplaza con el ID del usuario real
+          usuario_id: userID, // Reemplaza con el ID del usuario real
           tarea_id: id,
         },
         {
@@ -102,8 +132,20 @@ const TaskPage: React.FC = () => {
           },
         }
       );
-      setComment(""); // Limpia el campo de texto después de enviar el comentario
-      console.log("Comentario enviado:", response.data);
+  
+      console.log("Comentario enviado con éxito:", response.data);
+  
+      // Limpiar campo de comentario
+      setComment("");
+  
+      // Cargar comentarios nuevamente
+      try {
+        await fetchComments();
+        console.log("Comentarios actualizados después de enviar el comentario.");
+      } catch (fetchError) {
+        console.error("Error al cargar los comentarios:", fetchError);
+      }
+      
     } catch (error) {
       console.error("Error al enviar el comentario:", error);
     }
@@ -250,10 +292,14 @@ const TaskPage: React.FC = () => {
           <IonLabel>Más recientes</IonLabel>
         </IonItem>
         <IonList className="recent-comments">
-          <IonItem lines="none">
-            <IonIcon icon={personCircleOutline} />
-            <IonLabel>Filip: Comentario</IonLabel>
-          </IonItem>
+          {comments.map((comment) => (
+            <IonItem key={comment.id} lines="none">
+              <IonIcon icon={personCircleOutline} />
+              <IonLabel>
+              {comment.usuario_nombre} {comment.usuario_apellido}: {comment.comentario}
+              </IonLabel>
+            </IonItem>
+          ))}
         </IonList>
       </IonContent>
     </IonPage>
