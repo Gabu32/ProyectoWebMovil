@@ -32,6 +32,8 @@ const TaskPage: React.FC = () => {
   const { projectId, id } = useParams<{ projectId: string; id: string }>();
   const [task, setTask] = useState<any | null>(null);
   const [error, setError] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
+
 
   const handleBack = () => {
     history.push(`/project/${projectId}`);
@@ -81,6 +83,30 @@ const TaskPage: React.FC = () => {
       </IonPage>
     );
   }
+
+  const handleCommentSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:5000/api/comentarios",
+        {
+          comentario: comment,
+          usuario_id: 1, // Reemplaza con el ID del usuario real
+          tarea_id: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setComment(""); // Limpia el campo de texto después de enviar el comentario
+      console.log("Comentario enviado:", response.data);
+    } catch (error) {
+      console.error("Error al enviar el comentario:", error);
+    }
+  };
+  
 
   const formattedCreationDate = new Date(task.fecha_creacion).toLocaleString();
   const formattedDueDate = new Date(task.fecha_vencimiento).toLocaleString();
@@ -165,16 +191,19 @@ const TaskPage: React.FC = () => {
             <IonLabel>Comentarios</IonLabel>
           </IonItem>
           <IonTextarea
-            label="Añadir comentario..."
-            labelPlacement="floating"
-            fill="outline"
-            placeholder="Enter text"
-            className="comments-textarea"
-          />
+                value={comment}
+                onIonChange={(e) => setComment(e.detail.value!)}
+                label="Añadir comentario..."
+                labelPlacement="floating"
+                fill="outline"
+                placeholder="Escribe un comentario"
+                 className="comments-textarea"
+            />
           <IonButton
             expand="block"
             color="primary"
             className="comments-submit-button"
+            onClick={handleCommentSubmit}
           >
             Enviar
           </IonButton>
