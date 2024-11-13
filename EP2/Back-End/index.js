@@ -441,3 +441,21 @@ app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
 });
 //SERVER
+
+
+//COMMENTS
+
+app.post("/api/comentarios", async (req, res) => {
+  const { comentario, usuario_id, tarea_id } = req.body;
+  try {
+    const result = await client.query(
+      "INSERT INTO Comentarios (Comentario, usuario_id, tarea_id) VALUES ($1, $2, $3) RETURNING *",
+      [comentario, usuario_id, tarea_id]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error al insertar el comentario:", error);
+    res.status(500).send("Error al insertar el comentario");
+  }
+});
+

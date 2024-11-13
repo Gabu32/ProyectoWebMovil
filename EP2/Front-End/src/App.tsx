@@ -42,9 +42,6 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonRouterOutlet>
           {/* Rutas */}
-          <Route exact path="/home">
-            {isAuthenticated ? <Home /> : <Redirect to="/landing" />}
-          </Route>
           <Route exact path="/login">
             <Login />
           </Route>
@@ -76,7 +73,7 @@ const App: React.FC = () => {
           <Redirect
             exact
             from="/"
-            to={isAuthenticated ? "/home" : "/landing"}
+            to={isAuthenticated ? "/projects" : "/landing"}
           />
         </IonRouterOutlet>
       </IonReactRouter>
