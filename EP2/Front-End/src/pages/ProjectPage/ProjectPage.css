@@ -53,3 +53,29 @@ ion-accordion {
   max-height: 20px;
   margin-top: 12px;
 }
+
+.spacer {
+  height: 30px;
+}
+
+.custom-modal {
+  --max-height: 500px;
+  --max-width: 300px;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content ion-button {
+  width: 60%;
+  margin-top: 25px;
+  padding: 12px;
+}
+
+.modal-content ion-item {
+  margin-top: 30px;
+}

@@ -1,98 +1,120 @@
-
-/* Descripción de la tarea */
 .task-description {
-    background-color: #90CAF9;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
+  background-color: #90caf9;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
 }
 
-/* Ajuste general del acordeón */
-.acordion{
-    display: flex;
-    margin-bottom: 10px;
+.acordion {
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .attachments {
-    display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
 }
-  
+
 .attachments ion-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-  
+
 .attachments ion-icon {
-    font-size: 24px;
-    margin-bottom: 5px;
+  font-size: 24px;
+  margin-bottom: 5px;
 }
-  
-  
+
 /* Personas asignadas */
-.asigned{
-    margin-top: 30px;
+.asigned {
+  margin-top: 30px;
 }
 .assigned-people {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-  
+
 .assigned-people ion-item {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-  
+
 .assigned-people ion-avatar {
-    margin-right: 10px;
+  margin-right: 10px;
 }
-  
+
 .assigned-people ion-label {
-    font-size: 16px;
+  font-size: 16px;
 }
-  
-  /* Fechas */
+
+/* Fechas */
 .dates {
-    margin-top: 15px;
+  margin-top: 15px;
 }
-  
+
 .dates ion-item {
-    margin-bottom: 8px;
-    font-size: 14px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
-  
-  /* Comentarios */
+
+/* Comentarios */
 .comments-section {
-    margin-top: 15px;
+  margin-top: 15px;
 }
-  
+
 .comments-section ion-textarea {
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 10px;
 }
-  
+
 .comments-section ion-button {
-    margin-top: 10px;
+  margin-top: 10px;
 }
-  
+
 /* Últimos comentarios */
-.comments{
-    margin-top: 30px;
+.comments {
+  margin-top: 30px;
 }
-  
+
 .recent-comments ion-item {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-  
+
 .recent-comments ion-avatar {
-    margin-right: 10px;
+  margin-right: 10px;
 }
-  
+
 .recent-comments ion-label {
-    font-size: 14px;
+  font-size: 14px;
 }
-  
+
+.comments-submit-button {
+  width: 50%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.submit-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btnCompleted {
+  margin-right: 12px;
+  height: 50px;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

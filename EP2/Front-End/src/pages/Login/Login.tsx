@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userID", response.data.userID);
-      history.push("/home");
+      history.push("/projects");
       present({
         message: "Inicio de sesión exitoso.",
         duration: 2000,

@@ -20,7 +20,7 @@ const Header = () => {
   const [popoverEvent, setPopoverEvent] = useState<MouseEvent>();
 
   const goToHome = () => {
-    history.push("/home");
+    history.push("/projects");
   };
 
   const goToProjects = () => {

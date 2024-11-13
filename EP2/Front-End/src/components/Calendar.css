@@ -1,0 +1,6 @@
+.highlighted-date::part(day) {
+  background-color: #ffcccb;
+  color: #d9534f;
+  border-radius: 50%;
+  font-weight: bold;
+}

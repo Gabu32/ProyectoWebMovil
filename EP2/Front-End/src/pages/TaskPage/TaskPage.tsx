@@ -21,6 +21,8 @@ import {
   desktop,
   personCircleOutline,
   arrowBackOutline,
+  checkbox,
+  checkboxOutline,
 } from "ionicons/icons";
 import { useParams, useHistory } from "react-router";
 import axios from "axios";
@@ -33,7 +35,7 @@ const TaskPage: React.FC = () => {
   const [task, setTask] = useState<any | null>(null);
   const [error, setError] = useState<string>("");
   const [comment, setComment] = useState<string>("");
-
+  const userID = localStorage.getItem("userID");
 
   const handleBack = () => {
     history.push(`/project/${projectId}`);
@@ -106,7 +108,27 @@ const TaskPage: React.FC = () => {
       console.error("Error al enviar el comentario:", error);
     }
   };
-  
+
+  const markAsCompleted = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.patch(
+        `http://localhost:5000/api/task/${id}/complete`,
+        { completed: true },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setTask((prevTask: any) => ({ ...prevTask, completado: true }));
+      alert("Tarea marcada como completada");
+    } catch (error) {
+      console.error("Error al marcar la tarea como completada:", error);
+      alert("No se pudo completar la tarea.");
+    }
+  };
 
   const formattedCreationDate = new Date(task.fecha_creacion).toLocaleString();
   const formattedDueDate = new Date(task.fecha_vencimiento).toLocaleString();
@@ -116,11 +138,26 @@ const TaskPage: React.FC = () => {
       <Header />
 
       <IonContent className="ion-padding">
-        <div className="botonBack">
-          <IonButton onClick={handleBack} fill="clear">
-            <IonIcon icon={arrowBackOutline} />
-          </IonButton>
-          <h2>{task.titulo}</h2>
+        <div className="btns">
+          <div className="botonBack">
+            <IonButton onClick={handleBack} fill="clear" size="large">
+              <IonIcon icon={arrowBackOutline} />
+            </IonButton>
+            <h2>{task.titulo}</h2>
+          </div>
+          {task.usuario_id === parseInt(userID) && !task.completado && (
+            <IonButton
+              color="success"
+              onClick={markAsCompleted}
+              className="btnCompleted"
+            >
+              <IonIcon
+                icon={checkboxOutline}
+                size="large"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </IonButton>
+          )}
         </div>
         <IonCard className="task-description">
           <IonCardContent className="ion-text-center">
@@ -137,21 +174,17 @@ const TaskPage: React.FC = () => {
             </IonItem>
             <div className="ion-padding" slot="content">
               <div className="attachments">
-                <IonButton fill="clear">
+                <IonButton fill="clear" disabled>
                   <IonIcon icon={camera} />
-                  Tomar foto
                 </IonButton>
-                <IonButton fill="clear">
+                <IonButton fill="clear" disabled>
                   <IonIcon icon={videocam} />
-                  Grabar video
                 </IonButton>
-                <IonButton fill="clear">
+                <IonButton fill="clear" disabled>
                   <IonIcon icon={attach} />
-                  Adjuntar archivo
                 </IonButton>
-                <IonButton fill="clear">
+                <IonButton fill="clear" disabled>
                   <IonIcon icon={desktop} />
-                  Grabar pantalla
                 </IonButton>
               </div>
             </div>
@@ -191,23 +224,27 @@ const TaskPage: React.FC = () => {
             <IonLabel>Comentarios</IonLabel>
           </IonItem>
           <IonTextarea
-                value={comment}
-                onIonChange={(e) => setComment(e.detail.value!)}
-                label="Añadir comentario..."
-                labelPlacement="floating"
-                fill="outline"
-                placeholder="Escribe un comentario"
-                 className="comments-textarea"
-            />
+            value={comment}
+            onIonChange={(e) => setComment(e.detail.value!)}
+            label="Añadir comentario..."
+            labelPlacement="floating"
+            fill="outline"
+            placeholder="Escribe un comentario"
+            className="comments-textarea"
+            disabled={task.completado}
+          />
+        </IonList>
+        <div className="submit-btn-container">
           <IonButton
             expand="block"
             color="primary"
             className="comments-submit-button"
             onClick={handleCommentSubmit}
+            disabled={task.completado || !comment}
           >
             Enviar
           </IonButton>
-        </IonList>
+        </div>
         {/* Últimos comentarios */}
         <IonItem lines="none">
           <IonLabel>Más recientes</IonLabel>

@@ -41,10 +41,10 @@ CREATE TABLE Tareas (
 );
 
 CREATE TABLE Comentarios (
-        id SERIAL PRIMARY KEY,
-        Comentario TEXT NOT NULL,
-        usuario_id INTEGER NOT NULL,
-        tarea_id INTEGER NOT NULL,
-        FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
-        FOREIGN KEY (tarea_id) REFERENCES Tareas(id)
+    id SERIAL PRIMARY KEY,
+    Comentario TEXT NOT NULL,
+    usuario_id INTEGER NOT NULL,
+    tarea_id INTEGER NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
+    FOREIGN KEY (tarea_id) REFERENCES Tareas(id)
 );

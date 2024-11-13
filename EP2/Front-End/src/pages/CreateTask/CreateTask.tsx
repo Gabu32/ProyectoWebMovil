@@ -139,6 +139,7 @@ const CreateTask: React.FC = () => {
               value={fechaVencimiento}
               onIonChange={handleFechaChange}
               min={new Date().toISOString()}
+              presentation="date"
             />
           </div>
 

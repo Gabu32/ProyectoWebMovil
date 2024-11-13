@@ -250,6 +250,60 @@ app.get("/api/proyectos/:id", async (req, res) => {
   }
 });
 
+app.delete("/api/proyectos/:id", async (req, res) => {
+  const { id } = req.params; // Obtenemos el ID del proyecto de los parámetros de la URL
+
+  const token = req.headers.authorization?.split(" ")[1]; // Obtenemos el token del header
+
+  if (!token) {
+    return res.status(401).json({ message: "No se proporcionó token" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret"); // Verificamos el token y obtenemos el ID del usuario
+    const userId = decoded.id; // El ID del usuario autenticado
+
+    // Verificar si el proyecto existe y si el usuario es el creador del proyecto
+    const proyectoResult = await client.query(
+      "SELECT * FROM Proyectos WHERE id = $1",
+      [id]
+    );
+
+    if (proyectoResult.rows.length === 0) {
+      return res.status(404).json({ message: "Proyecto no encontrado" });
+    }
+
+    const proyecto = proyectoResult.rows[0];
+
+    if (proyecto.creador_id !== userId) {
+      return res
+        .status(403)
+        .json({ message: "No tienes permisos para eliminar este proyecto" });
+    }
+
+    // Eliminar el proyecto de las tablas relacionadas (si tienes tablas asociadas como Proyectos_Usuarios)
+    await client.query("BEGIN");
+
+    await client.query("DELETE FROM Tareas WHERE proyecto_id = $1", [id]);
+
+    // Eliminar las relaciones en Proyectos_Usuarios
+    await client.query(
+      "DELETE FROM Proyectos_Usuarios WHERE proyecto_id = $1",
+      [id]
+    );
+
+    await client.query("DELETE FROM Proyectos WHERE id = $1", [id]);
+
+    await client.query("COMMIT");
+
+    res.status(200).json({ message: "Proyecto eliminado con éxito" });
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error al eliminar el proyecto:", error);
+    res.status(500).json({ error: "Error al eliminar el proyecto" });
+  }
+});
+
 app.put("/api/proyectos/:id/favorite", async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) {
@@ -276,6 +330,22 @@ app.put("/api/proyectos/:id/favorite", async (req, res) => {
     }
     console.error("Error al actualizar favorito:", error);
     res.status(500).json({ message: "Error al actualizar favorito" });
+  }
+});
+
+app.put("/api/project/:projectId/title", async (req, res) => {
+  const { projectId } = req.params;
+  const { newTitle } = req.body;
+
+  try {
+    await client.query("UPDATE Proyectos SET titulo = $1 WHERE id = $2", [
+      newTitle,
+      projectId,
+    ]);
+    res.json({ message: "Título actualizado correctamente" });
+  } catch (error) {
+    console.error("Error al actualizar el título del proyecto:", error);
+    res.status(500).json({ message: "Error al actualizar el título" });
   }
 });
 
@@ -391,6 +461,27 @@ app.post("/api/proyectos/:id/tareas", async (req, res) => {
   }
 });
 
+app.patch("/api/task/:id/complete", async (req, res) => {
+  const { id } = req.params;
+  const { completed } = req.body;
+
+  try {
+    const result = await client.query(
+      "UPDATE Tareas SET completado = $1 WHERE id = $2 RETURNING *",
+      [completed, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Tarea no encontrada" });
+    }
+
+    res.json({ message: "Tarea marcada como completada" });
+  } catch (error) {
+    console.error("Error al actualizar la tarea:", error);
+    res.status(500).json({ message: "Error al completar la tarea" });
+  }
+});
+
 app.delete("/api/proyectos/:projectId/usuarios/:userId", async (req, res) => {
   const { projectId, userId } = req.params;
 
@@ -442,7 +533,6 @@ app.listen(5000, () => {
 });
 //SERVER
 
-
 //COMMENTS
 
 app.post("/api/comentarios", async (req, res) => {
@@ -458,4 +548,3 @@ app.post("/api/comentarios", async (req, res) => {
     res.status(500).send("Error al insertar el comentario");
   }
 });
-
