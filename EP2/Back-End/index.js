@@ -570,10 +570,8 @@ app.get("/api/comentarios/:taskId", async (req, res) => {
 //User
 
 app.get('/api/user/:id', async (req, res) => {
-   // ID obtenido de la URL
 
   try {
-    // Consulta a la base de datos
     const userId = req.params.id;
     const query = 
       'SELECT nombre, apellido, email, rut, region, comuna, password FROM usuarios WHERE id = $1'
