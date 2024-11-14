@@ -18,6 +18,7 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [popoverEvent, setPopoverEvent] = useState<MouseEvent>();
+  const userID = localStorage.getItem("userID");
 
   const goToHome = () => {
     history.push("/projects");
@@ -34,6 +35,11 @@ const Header = () => {
   const goToNotifications = () => {
     history.push("/notification");
   };
+
+  const goToUser = () => {
+    history.push(`/user/${userID}`);
+  };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -120,7 +126,10 @@ const Header = () => {
             >
               <IonIcon icon={notifications} />
             </IonButton>
-            <IonButton fill="clear">
+            <IonButton 
+              fill="clear"
+              onClick={goToUser}
+            >
               <IonIcon icon={person} />
             </IonButton>
           </div>

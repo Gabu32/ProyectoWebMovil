@@ -566,3 +566,24 @@ app.get("/api/comentarios/:taskId", async (req, res) => {
     res.status(500).json({ error: "Error al cargar comentarios" });
   }
 });
+
+//User
+
+app.get('/api/user/:id', async (req, res) => {
+   // ID obtenido de la URL
+
+  try {
+    // Consulta a la base de datos
+    const userId = req.params.id;
+    const query = 
+      'SELECT nombre, apellido, email, rut, region, comuna, password FROM usuarios WHERE id = $1'
+    ;
+
+    const {rows} = await client.query(query, [userId]);
+    res.json(rows);
+
+  } catch (error) {
+    console.error('Error al consultar la base de datos:', error);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+});

@@ -7,6 +7,8 @@ import Register from "./pages/Register/Register";
 import Landing from "./pages/Landing/Landing";
 import ProjectsList from "./pages/ProjectList/ProjectsList";
 import CreateProject from "./pages/CreateProject/CreateProject";
+import UserPage from "./pages/User/UserPage";
+
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -32,6 +34,7 @@ import Notifications from "./pages/Notifications/Notifications";
 import CreateTask from "./pages/CreateTask/CreateTask";
 import TaskPage from "./pages/TaskPage/TaskPage";
 
+
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -51,6 +54,11 @@ const App: React.FC = () => {
           <Route exact path="/landing">
             <Landing />
           </Route>
+
+          <Route exact path="/user/:id">
+            <UserPage />
+          </Route>
+          
           <Route exact path="/projects">
             {isAuthenticated ? <ProjectsList /> : <Redirect to="/landing" />}
           </Route>
@@ -70,10 +78,12 @@ const App: React.FC = () => {
             <ProjectPage />
           </Route>
 
+          
+
           <Redirect
             exact
             from="/"
-            to={isAuthenticated ? "/projects" : "/landing"}
+            to={isAuthenticated ? "/login" : "/landing"}
           />
         </IonRouterOutlet>
       </IonReactRouter>
