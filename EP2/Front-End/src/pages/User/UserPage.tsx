@@ -11,29 +11,29 @@ const UserPage: React.FC = () => {
   const userID = localStorage.getItem("userID");
 
   const handleBack = () => {
-    history.push("/projects"); // Redirige a la página principal u otra ruta
+    history.push("/projects");
   };
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token"); // Asumiendo que se usa un token
+        const token = localStorage.getItem("token");
         const response = await axios.get(
           `http://localhost:5000/api/user/${userID}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Token para la autenticación
+              Authorization: `Bearer ${token}`,
             },
           }
         );
-        setUser(response.data);
-        console.log(response.data);
+        console.log("Usuario recibido:", response.data);
+        setUser(response.data[0]);
       } catch (error) {
         console.error("Error al cargar los datos del usuario:", error);
         setError("Error al cargar los datos del usuario");
       }
     };
-
+  
     if (userID) {
       fetchUser();
     } else {
@@ -52,7 +52,7 @@ const UserPage: React.FC = () => {
             ) : user ? (
               <>
                 <IonLabel className="rutas">Nombre: {user.nombre} {user.apellido}</IonLabel>
-                <IonLabel className="rutas">Email: {user.email}</IonLabel>s
+                <IonLabel className="rutas">Email: {user.email}</IonLabel>
                 <IonLabel className="rutas">RUT: {user.rut}</IonLabel>
                 <IonLabel className="rutas">Región: {user.region}</IonLabel>
                 <IonLabel className="rutas">Comuna: {user.comuna}</IonLabel>
