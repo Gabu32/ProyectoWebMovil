@@ -9,6 +9,8 @@ interface notificationProps {
   description: string;
   time: string;
   author?: string;
+  leida: boolean;
+  onClick: () => void;
 }
 
 const Notification: React.FC<notificationProps> = ({
@@ -17,9 +19,14 @@ const Notification: React.FC<notificationProps> = ({
   description,
   time,
   author = "",
+  leida,
+  onClick,
 }) => {
   return (
-    <IonCard className="notificationCard">
+    <IonCard
+      className={`taskCard ${leida ? "read" : "unread"}`}
+      onClick={onClick}
+    >
       <div className="notificationContent">
         <div className="leftSection">
           <h2>{project}</h2>

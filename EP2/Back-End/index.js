@@ -657,7 +657,7 @@ app.get("/api/notificaciones", async (req, res) => {
   try {
     // Obtener todas las notificaciones asociadas al usuario
     const notificaciones = await client.query(
-      `SELECT n.id, n.id_proyecto, n.id_tarea, n.texto, n.fechacreacion, 
+      `SELECT n.id, n.id_proyecto, n.id_tarea, n.texto, n.fechacreacion, n.leida, 
               p.titulo AS titulo_proyecto, t.titulo AS titulo_tarea, u.nombre as nombreCreador
        FROM Notificaciones n
        LEFT JOIN Proyectos p ON n.id_proyecto = p.id
@@ -672,6 +672,30 @@ app.get("/api/notificaciones", async (req, res) => {
   } catch (error) {
     console.error("Error al obtener notificaciones:", error);
     res.status(500).json({ error: "Error al obtener notificaciones" });
+  }
+});
+
+app.put("/api/notificaciones/:id", async (req, res) => {
+  const { id } = req.params;
+  const { isRead } = req.body;
+
+  try {
+    const result = await client.query(
+      "UPDATE Notificaciones SET leida = $1 WHERE id = $2 RETURNING *",
+      [isRead, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Notificación no encontrada" });
+    }
+
+    res.json({
+      message: "Notificación actualizada",
+      notification: result.rows[0],
+    });
+  } catch (error) {
+    console.error("Error al actualizar notificación:", error);
+    res.status(500).json({ message: "Error al actualizar notificación" });
   }
 });
 

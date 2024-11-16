@@ -19,6 +19,8 @@ import axios from "axios";
 
 const Notifications: React.FC = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
+  const [showRead, setShowRead] = useState(false);
+  const [reload, setReload] = useState(Boolean);
   const userID = localStorage.getItem("userID");
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const Notifications: React.FC = () => {
       }
     };
     loadNotifications();
-  }, [userID]);
+  }, [userID, reload]);
 
   const fetchNotifications = async (userID: number) => {
     try {
@@ -47,14 +49,41 @@ const Notifications: React.FC = () => {
     }
   };
 
+  const markAsRead = async (notificationId: number) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/notificaciones/${notificationId}`,
+        {
+          isRead: true,
+        }
+      );
+      setReload((prev) => !prev);
+    } catch (error) {
+      console.error("Error al marcar la notificación como leída", error);
+    }
+  };
+
+  const toggleHistory = () => {
+    setShowRead((prev) => !prev);
+  };
+
+  const filteredNotifications = notifications.filter(
+    (notification) => showRead || !notification.leida
+  );
+
   return (
     <IonPage>
       <Header />
-
       <IonContent>
-        {Array.isArray(notifications) && notifications.length > 0 ? (
+        <IonLabel className="history">
+          <IonButton onClick={toggleHistory}>
+            <IonIcon slot="start" icon={timeOutline}></IonIcon>
+            {showRead ? "Ver No Leídas" : "Ver Leídas"}
+          </IonButton>
+        </IonLabel>
+        {filteredNotifications.length > 0 ? (
           <IonList>
-            {notifications.map((notification) => (
+            {filteredNotifications.map((notification) => (
               <Notification
                 key={notification.id}
                 project={notification.titulo_proyecto || "Sin Proyecto"}
@@ -62,21 +91,16 @@ const Notifications: React.FC = () => {
                 description={notification.texto}
                 time={new Date(notification.fechacreacion).toLocaleString()}
                 author={notification.nombrecreador}
+                leida={notification.leida}
+                onClick={() => markAsRead(notification.id)}
               />
             ))}
           </IonList>
         ) : (
           <div className="noNotifications">
-            <p className="aviso">No tienes ninguna notificación aún</p>
+            <p className="aviso">No tienes notificaciones sin leer</p>
           </div>
         )}
-
-        <IonLabel className="history">
-          <IonButton disabled={true}>
-            <IonIcon slot="start" icon={timeOutline}></IonIcon>
-            Historial
-          </IonButton>
-        </IonLabel>
       </IonContent>
     </IonPage>
   );
