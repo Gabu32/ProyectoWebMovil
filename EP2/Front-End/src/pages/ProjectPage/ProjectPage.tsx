@@ -66,16 +66,16 @@ const ProjectPage: React.FC = () => {
     console.log(memberToDelete, memberId);
   };
 
-  useEffect(() => {
-    if (location.state && location.state.reload) {
-      setReload((prev) => !prev);
-    }
-  }, [location]);
-
   const handleCreateTask = () => {
     history.push(`/create-task/${id}`);
-    setReload((prev) => !prev);
   };
+
+  useEffect(() => {
+    // Verificamos si el usuario regresa a la página principal
+    if (!location.pathname.startsWith("/create-task")) {
+      setReload((prev) => !prev); // Esto hace que el estado "reload" cambie
+    }
+  }, [location]);
 
   const handleEditClick = () => {
     setNewTitle(projectTitle);
@@ -200,6 +200,8 @@ const ProjectPage: React.FC = () => {
           alert("Error al cargar los detalles del proyecto.");
           history.push("/projects");
         }
+        history.push("/projects");
+        return;
       } finally {
         setLoading(false);
       }

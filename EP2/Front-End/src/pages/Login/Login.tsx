@@ -42,13 +42,15 @@ const Login: React.FC = () => {
       });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userID", response.data.userID);
-      history.push("/projects");
+
       present({
         message: "Inicio de sesión exitoso.",
         duration: 2000,
         position: "top",
         color: "success",
       });
+
+      window.location.href = "/projects";
     } catch (error) {
       present({
         message: "Error al iniciar sesión. Verifica tus credenciales.",

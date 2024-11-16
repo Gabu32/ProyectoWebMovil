@@ -192,11 +192,29 @@ app.post("/api/proyectos", async (req, res) => {
     );
 
     if (colaboradores && colaboradores.length > 0) {
-      const colaboradorPromises = colaboradores.map((correo) => {
-        return client.query(
+      const colaboradorPromises = colaboradores.map(async (correo) => {
+        await client.query(
           "INSERT INTO Proyectos_Usuarios (proyecto_id, usuario_id) VALUES ($1, (SELECT id FROM Usuarios WHERE email = $2))",
           [proyectoId, correo]
         );
+
+        const usuarioId = (
+          await client.query("SELECT id FROM Usuarios WHERE email = $1", [
+            correo,
+          ])
+        ).rows[0]?.id;
+
+        if (usuarioId) {
+          await client.query(
+            "INSERT INTO Notificaciones (id_usuariocreador, id_usuarioreceptor, id_proyecto, texto, fechacreacion) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)",
+            [
+              creadorId,
+              usuarioId,
+              proyectoId,
+              `Has sido agregado al proyecto "${titulo}"`,
+            ]
+          );
+        }
       });
 
       await Promise.all(colaboradorPromises);
@@ -251,19 +269,18 @@ app.get("/api/proyectos/:id", async (req, res) => {
 });
 
 app.delete("/api/proyectos/:id", async (req, res) => {
-  const { id } = req.params; // Obtenemos el ID del proyecto de los parámetros de la URL
+  const { id } = req.params;
 
-  const token = req.headers.authorization?.split(" ")[1]; // Obtenemos el token del header
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "No se proporcionó token" });
   }
 
   try {
-    const decoded = jwt.verify(token, "secret"); // Verificamos el token y obtenemos el ID del usuario
-    const userId = decoded.id; // El ID del usuario autenticado
+    const decoded = jwt.verify(token, "secret");
+    const userId = decoded.id;
 
-    // Verificar si el proyecto existe y si el usuario es el creador del proyecto
     const proyectoResult = await client.query(
       "SELECT * FROM Proyectos WHERE id = $1",
       [id]
@@ -281,12 +298,10 @@ app.delete("/api/proyectos/:id", async (req, res) => {
         .json({ message: "No tienes permisos para eliminar este proyecto" });
     }
 
-    // Eliminar el proyecto de las tablas relacionadas (si tienes tablas asociadas como Proyectos_Usuarios)
     await client.query("BEGIN");
 
     await client.query("DELETE FROM Tareas WHERE proyecto_id = $1", [id]);
 
-    // Eliminar las relaciones en Proyectos_Usuarios
     await client.query(
       "DELETE FROM Proyectos_Usuarios WHERE proyecto_id = $1",
       [id]
@@ -401,8 +416,12 @@ app.get("/api/proyectos/:id/tasks", async (req, res) => {
 app.post("/api/proyectos/:id/usuarios", async (req, res) => {
   const { id } = req.params;
   const { email } = req.body;
+  const token = req.headers.authorization?.split(" ")[1];
 
   try {
+    const decoded = jwt.verify(token, "secret");
+    const creadorId = decoded.id;
+
     const userResult = await client.query(
       "SELECT id FROM Usuarios WHERE email = $1",
       [email]
@@ -419,6 +438,25 @@ app.post("/api/proyectos/:id/usuarios", async (req, res) => {
       [id, userID]
     );
 
+    const projectResult = await client.query(
+      "SELECT titulo FROM Proyectos WHERE id = $1",
+      [id]
+    );
+
+    if (projectResult.rows.length > 0) {
+      const projectTitle = projectResult.rows[0].titulo;
+
+      await client.query(
+        "INSERT INTO Notificaciones (id_usuariocreador, id_usuarioreceptor, id_proyecto, texto, fecha_creacion) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)",
+        [
+          creadorId,
+          userID,
+          id,
+          `Has sido agregado al proyecto "${projectTitle}"`,
+        ]
+      );
+    }
+
     res.json({ message: "Usuario agregado al proyecto" });
   } catch (error) {
     console.error(error);
@@ -429,6 +467,11 @@ app.post("/api/proyectos/:id/usuarios", async (req, res) => {
 app.post("/api/proyectos/:id/tareas", async (req, res) => {
   const { id } = req.params;
   const { titulo, descripcion, usuario_id, fechaVencimiento } = req.body;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No se proporcionó token" });
+  }
 
   if (!titulo || !usuario_id) {
     return res
@@ -437,6 +480,9 @@ app.post("/api/proyectos/:id/tareas", async (req, res) => {
   }
 
   try {
+    const decoded = jwt.verify(token, "secret");
+    const creadorId = decoded.id;
+
     const usuarioProyecto = await client.query(
       "SELECT * FROM Proyectos_Usuarios WHERE proyecto_id = $1 AND usuario_id = $2",
       [id, usuario_id]
@@ -453,6 +499,29 @@ app.post("/api/proyectos/:id/tareas", async (req, res) => {
              VALUES ($1, $2, $3, FALSE, $4, $5) RETURNING *`,
       [id, titulo, descripcion, usuario_id, fechaVencimiento]
     );
+
+    const tareaId = nuevaTarea.rows[0].id;
+
+    const proyectoResult = await client.query(
+      "SELECT titulo FROM Proyectos WHERE id = $1",
+      [id]
+    );
+
+    if (proyectoResult.rowCount > 0) {
+      const tituloProyecto = proyectoResult.rows[0].titulo;
+
+      await client.query(
+        `INSERT INTO Notificaciones (id_usuariocreador, id_usuarioreceptor, id_proyecto, id_tarea, texto, fechacreacion) 
+         VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)`,
+        [
+          creadorId,
+          usuario_id,
+          id,
+          tareaId,
+          `Se te ha asignado la tarea "${titulo}" en el proyecto "${tituloProyecto}"`,
+        ]
+      );
+    }
 
     res.status(201).json(nuevaTarea.rows[0]);
   } catch (error) {
@@ -527,12 +596,6 @@ app.get("/api/proyectos/:id/usuarios", async (req, res) => {
 
 //TEAM
 
-//SERVER
-app.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
-});
-//SERVER
-
 //COMMENTS
 
 app.post("/api/comentarios", async (req, res) => {
@@ -569,19 +632,51 @@ app.get("/api/comentarios/:taskId", async (req, res) => {
 
 //User
 
-app.get('/api/user/:id', async (req, res) => {
-
+app.get("/api/user/:id", async (req, res) => {
   try {
     const userId = req.params.id;
-    const query = 
-      'SELECT nombre, apellido, email, rut, region, comuna, password FROM usuarios WHERE id = $1'
-    ;
-
-    const {rows} = await client.query(query, [userId]);
+    const query =
+      "SELECT nombre, apellido, email, rut, region, comuna, password FROM usuarios WHERE id = $1";
+    const { rows } = await client.query(query, [userId]);
     res.json(rows);
-
   } catch (error) {
-    console.error('Error al consultar la base de datos:', error);
-    res.status(500).json({ message: 'Error del servidor' });
+    console.error("Error al consultar la base de datos:", error);
+    res.status(500).json({ message: "Error del servidor" });
   }
 });
+
+// Notificaciones
+
+app.get("/api/notificaciones", async (req, res) => {
+  const userID = req.query.userID; // Recibir userID desde query params
+
+  if (!userID) {
+    return res.status(400).json({ error: "El userID es obligatorio" });
+  }
+
+  try {
+    // Obtener todas las notificaciones asociadas al usuario
+    const notificaciones = await client.query(
+      `SELECT n.id, n.id_proyecto, n.id_tarea, n.texto, n.fechacreacion, 
+              p.titulo AS titulo_proyecto, t.titulo AS titulo_tarea, u.nombre as nombreCreador
+       FROM Notificaciones n
+       LEFT JOIN Proyectos p ON n.id_proyecto = p.id
+       LEFT JOIN Tareas t ON n.id_tarea = t.id
+       JOIN usuarios as u ON id_usuariocreador = u.id
+       WHERE n.id_usuarioreceptor = $1
+       ORDER BY n.fechacreacion DESC`,
+      [userID]
+    );
+
+    res.json(notificaciones.rows);
+  } catch (error) {
+    console.error("Error al obtener notificaciones:", error);
+    res.status(500).json({ error: "Error al obtener notificaciones" });
+  }
+});
+
+//SERVER
+app.listen(5000, () => {
+  console.log("Server running on http://localhost:5000");
+});
+//SERVER

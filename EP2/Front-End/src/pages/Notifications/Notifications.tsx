@@ -1,29 +1,50 @@
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
   IonTitle,
   IonContent,
   IonItem,
   IonLabel,
   IonList,
-  IonFooter,
   IonButton,
   IonIcon,
   IonBadge,
   IonAvatar,
 } from "@ionic/react";
 import { timeOutline } from "ionicons/icons";
-import "./Notifications.css"; // Puedes agregar estilos aquí
+import "./Notifications.css";
 import Notification from "../../components/Notification";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components/Header";
+import axios from "axios";
 
 const Notifications: React.FC = () => {
-  const [showNotifications, setShowNotifications] = useState(false); // Estado para controlar la visibilidad
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const userID = localStorage.getItem("userID");
 
-  const handleToggleNotifications = () => {
-    setShowNotifications((prevState) => !prevState); // Alternar el estado entre true y false
+  useEffect(() => {
+    const loadNotifications = async () => {
+      if (userID) {
+        const data = await fetchNotifications(parseInt(userID));
+        setNotifications(data);
+      }
+    };
+    loadNotifications();
+  }, [userID]);
+
+  const fetchNotifications = async (userID: number) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/notificaciones",
+        {
+          params: { userID },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener notificaciones:", error);
+      return [];
+    }
   };
 
   return (
@@ -31,34 +52,23 @@ const Notifications: React.FC = () => {
       <Header />
 
       <IonContent>
-        <IonButton className="filtro" onClick={handleToggleNotifications}>
-          Mostrar Notificaciones
-        </IonButton>
-
-        {!showNotifications && (
-          <div className="noNotifications">
-            <p className="aviso">No tienes ninguna notificación aún!</p>
-          </div>
-        )}
-
-        {showNotifications && (
+        {Array.isArray(notifications) && notifications.length > 0 ? (
           <IonList>
-            {/* Aquí renderizas tus notificaciones */}
-            <Notification
-              project="Proyecto 3"
-              task="Tarea 3"
-              description="Descripción de la tarea 3"
-              time="12:00"
-              author="Ricardo Pasten"
-            />
-            <Notification
-              project="Proyecto 3"
-              task="Tarea 1"
-              description="Descripción de la tarea 1"
-              time="14:00"
-              author="Gabusa"
-            />
+            {notifications.map((notification) => (
+              <Notification
+                key={notification.id}
+                project={notification.titulo_proyecto || "Sin Proyecto"}
+                task={notification.titulo_tarea || "Sin Tarea"}
+                description={notification.texto}
+                time={new Date(notification.fechacreacion).toLocaleString()}
+                author={notification.nombrecreador}
+              />
+            ))}
           </IonList>
+        ) : (
+          <div className="noNotifications">
+            <p className="aviso">No tienes ninguna notificación aún</p>
+          </div>
         )}
 
         <IonLabel className="history">

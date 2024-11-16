@@ -9,7 +9,6 @@ import ProjectsList from "./pages/ProjectList/ProjectsList";
 import CreateProject from "./pages/CreateProject/CreateProject";
 import UserPage from "./pages/User/UserPage";
 
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
@@ -34,7 +33,6 @@ import Notifications from "./pages/Notifications/Notifications";
 import CreateTask from "./pages/CreateTask/CreateTask";
 import TaskPage from "./pages/TaskPage/TaskPage";
 
-
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -54,11 +52,9 @@ const App: React.FC = () => {
           <Route exact path="/landing">
             <Landing />
           </Route>
-
           <Route exact path="/user/:id">
-            <UserPage />
+            {isAuthenticated ? <UserPage /> : <Redirect to="/landing" />}
           </Route>
-          
           <Route exact path="/projects">
             {isAuthenticated ? <ProjectsList /> : <Redirect to="/landing" />}
           </Route>
@@ -66,24 +62,22 @@ const App: React.FC = () => {
             {isAuthenticated ? <CreateProject /> : <Redirect to="/landing" />}
           </Route>
           <Route exact path="/task/:projectId/:id">
-            <TaskPage />
+            {isAuthenticated ? <TaskPage /> : <Redirect to="/landing" />}
           </Route>
           <Route exact path="/create-task/:id">
-            <CreateTask />
+            {isAuthenticated ? <CreateTask /> : <Redirect to="/landing" />}
           </Route>
           <Route exact path="/notification">
-            <Notifications />
+            {isAuthenticated ? <Notifications /> : <Redirect to="/landing" />}
           </Route>
           <Route exact path="/project/:id">
-            <ProjectPage />
+            {isAuthenticated ? <ProjectPage /> : <Redirect to="/landing" />}
           </Route>
-
-          
 
           <Redirect
             exact
             from="/"
-            to={isAuthenticated ? "/login" : "/landing"}
+            to={isAuthenticated ? "/projects" : "/landing"}
           />
         </IonRouterOutlet>
       </IonReactRouter>

@@ -1,4 +1,4 @@
-.taskCard {
+.notificationCard {
   background-color: #4db8ff;
   padding: 15px;
   max-width: 80%;
@@ -19,6 +19,7 @@
 
 .leftSection {
   flex-grow: 1;
+  margin-right: 10px;
 }
 
 .leftSection h2 {

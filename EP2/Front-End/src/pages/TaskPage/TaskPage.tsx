@@ -86,7 +86,6 @@ const TaskPage: React.FC = () => {
     fetchComments();
   }, [id]);
 
-
   if (error) {
     return (
       <IonPage>
@@ -112,18 +111,18 @@ const TaskPage: React.FC = () => {
   const handleCommentSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
-  
+
       if (!comment.trim()) {
         console.log("Comentario vacío. No se enviará.");
-        return; // No envíes el comentario si está vacío
+        return;
       }
-  
+
       // Enviar comentario
       const response = await axios.post(
         "http://localhost:5000/api/comentarios",
         {
           comentario: comment,
-          usuario_id: userID, // Reemplaza con el ID del usuario real
+          usuario_id: userID,
           tarea_id: id,
         },
         {
@@ -132,20 +131,19 @@ const TaskPage: React.FC = () => {
           },
         }
       );
-  
+
       console.log("Comentario enviado con éxito:", response.data);
-  
-      // Limpiar campo de comentario
+
       setComment("");
-  
-      // Cargar comentarios nuevamente
+
       try {
         await fetchComments();
-        console.log("Comentarios actualizados después de enviar el comentario.");
+        console.log(
+          "Comentarios actualizados después de enviar el comentario."
+        );
       } catch (fetchError) {
         console.error("Error al cargar los comentarios:", fetchError);
       }
-      
     } catch (error) {
       console.error("Error al enviar el comentario:", error);
     }
@@ -172,8 +170,12 @@ const TaskPage: React.FC = () => {
     }
   };
 
-  const formattedCreationDate = new Date(task.fecha_creacion).toLocaleString();
-  const formattedDueDate = new Date(task.fecha_vencimiento).toLocaleString();
+  const formattedCreationDate = new Date(
+    task.fecha_creacion
+  ).toLocaleDateString();
+  const formattedDueDate = new Date(
+    task.fecha_vencimiento
+  ).toLocaleDateString();
 
   return (
     <IonPage className="task-page">
@@ -187,19 +189,21 @@ const TaskPage: React.FC = () => {
             </IonButton>
             <h2>{task.titulo}</h2>
           </div>
-          {task.usuario_id === parseInt(userID) && !task.completado && (
-            <IonButton
-              color="success"
-              onClick={markAsCompleted}
-              className="btnCompleted"
-            >
-              <IonIcon
-                icon={checkboxOutline}
-                size="large"
-                style={{ width: "100%", height: "100%" }}
-              />
-            </IonButton>
-          )}
+          {userID !== null &&
+            task.usuario_id === parseInt(userID) &&
+            !task.completado && (
+              <IonButton
+                color="success"
+                onClick={markAsCompleted}
+                className="btnCompleted"
+              >
+                <IonIcon
+                  icon={checkboxOutline}
+                  size="large"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </IonButton>
+            )}
         </div>
         <IonCard className="task-description">
           <IonCardContent className="ion-text-center">
@@ -296,7 +300,8 @@ const TaskPage: React.FC = () => {
             <IonItem key={comment.id} lines="none">
               <IonIcon icon={personCircleOutline} />
               <IonLabel>
-              {comment.usuario_nombre} {comment.usuario_apellido}: {comment.comentario}
+                {comment.usuario_nombre} {comment.usuario_apellido}:{" "}
+                {comment.comentario}
               </IonLabel>
             </IonItem>
           ))}
