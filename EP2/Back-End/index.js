@@ -645,6 +645,17 @@ app.get("/api/user/:id", async (req, res) => {
   }
 });
 
+app.post("/api/logout", (req, res) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+  if (token) {
+    blacklist.add(token); // Agrega el token a la lista negra
+    res.status(200).send({ message: "Sesión cerrada correctamente" });
+  } else {
+    res.status(400).send({ error: "Token no proporcionado" });
+  }
+});
+
+
 // Notificaciones
 
 app.get("/api/notificaciones", async (req, res) => {

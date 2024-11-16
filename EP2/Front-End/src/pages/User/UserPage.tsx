@@ -41,6 +41,17 @@ const UserPage: React.FC = () => {
     }
   }, [userID]);
 
+  const handleLogout = () => {
+    // Elimina datos del localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("userID");
+    
+    // Redirige al usuario a la página de inicio de sesión
+    history.push("/login");
+  };
+  
+  
+
   return (
     <IonPage>
       <IonContent className="container-main">
@@ -62,6 +73,9 @@ const UserPage: React.FC = () => {
             )}
             <button className="btn-back" onClick={handleBack}>
               Volver
+            </button>
+            <button className="btn-close" onClick={handleLogout}>
+              Cerrar Sesion
             </button>
           </div>
         </div>
