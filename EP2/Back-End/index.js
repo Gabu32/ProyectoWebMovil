@@ -630,6 +630,8 @@ app.get("/api/comentarios/:taskId", async (req, res) => {
   }
 });
 
+//COMMENTS
+
 //User
 
 app.get("/api/user/:id", async (req, res) => {
@@ -645,16 +647,25 @@ app.get("/api/user/:id", async (req, res) => {
   }
 });
 
-app.post("/api/logout", (req, res) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-  if (token) {
-    blacklist.add(token); // Agrega el token a la lista negra
-    res.status(200).send({ message: "Sesión cerrada correctamente" });
-  } else {
-    res.status(400).send({ error: "Token no proporcionado" });
+app.put("/api/user/:id", async (req, res) => {
+  const { id } = req.params;
+  const { nombre, apellido, email, region, comuna } = req.body;
+
+  try {
+    const query = `
+      UPDATE usuarios
+      SET nombre = $1, apellido = $2, email = $3, region = $4, comuna = $5
+      WHERE id = $6
+    `;
+    const values = [nombre, apellido, email, region, comuna, id];
+
+    await client.query(query, values);
+    res.status(200).json({ message: "Usuario actualizado correctamente" });
+  } catch (error) {
+    console.error("Error al actualizar el usuario:", error);
+    res.status(500).json({ error: "Error al actualizar el usuario" });
   }
 });
-
 
 // Notificaciones
 
@@ -710,6 +721,7 @@ app.put("/api/notificaciones/:id", async (req, res) => {
   }
 });
 
+// Notificaciones
 //SERVER
 app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
