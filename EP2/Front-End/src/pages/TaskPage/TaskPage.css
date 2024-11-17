@@ -118,3 +118,9 @@
   align-items: center;
   display: flex;
 }
+
+.deleteBtnContainer {
+  justify-content: center;
+  display: flex;
+  margin-top: 35px;
+}

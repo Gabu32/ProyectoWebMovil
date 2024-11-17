@@ -46,7 +46,7 @@ CREATE TABLE Comentarios (
     usuario_id INTEGER NOT NULL,
     tarea_id INTEGER NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
-    FOREIGN KEY (tarea_id) REFERENCES Tareas(id)
+    FOREIGN KEY (tarea_id) REFERENCES Tareas(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Notificaciones(

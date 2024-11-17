@@ -65,7 +65,7 @@ const Project: React.FC<ProjectProps> = ({
               {completedTasks}/{totalTasks}
             </span>
             <IonIcon icon={peopleOutline} />
-            <span>{progress}%</span>
+            <span>{progress.toFixed(1)}%</span>
           </div>
         </div>
         <IonIcon

@@ -170,6 +170,23 @@ const TaskPage: React.FC = () => {
     }
   };
 
+  const deleteTask = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:5000/api/task/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("Tarea eliminada correctamente.");
+      history.push(`/project/${projectId}`); // Redirige de vuelta al proyecto
+    } catch (error) {
+      console.error("Error al eliminar la tarea:", error);
+      alert("No se pudo eliminar la tarea.");
+    }
+  };
+
   const formattedCreationDate = new Date(
     task.fecha_creacion
   ).toLocaleDateString();
@@ -263,7 +280,25 @@ const TaskPage: React.FC = () => {
             </IonLabel>
           </IonItem>
         </IonList>
-
+        <div className="deleteBtnContainer">
+          {userID !== null && task.creador_id === parseInt(userID) && (
+            <IonButton
+              color="danger"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    "¿Estás seguro de que deseas eliminar esta tarea?"
+                  )
+                ) {
+                  deleteTask();
+                }
+              }}
+              className="btnDelete"
+            >
+              Eliminar Tarea
+            </IonButton>
+          )}
+        </div>
         {/* Comentarios */}
         <IonList className="comments">
           <IonItem lines="none">

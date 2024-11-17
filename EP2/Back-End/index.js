@@ -142,11 +142,17 @@ app.get("/api/proyectos", async (req, res) => {
 
     const proyectosResult = await client.query(
       `
-            SELECT P.*, PU.es_favorito
-            FROM Proyectos P
-            JOIN Proyectos_Usuarios PU ON P.id = PU.proyecto_id
-            WHERE PU.usuario_id = $1
-        `,
+      SELECT 
+        P.*, 
+        PU.es_favorito,
+        COUNT(T.id) AS total_tareas,
+        COUNT(CASE WHEN T.completado = TRUE THEN 1 END) AS tareas_completadas
+      FROM Proyectos P
+      JOIN Proyectos_Usuarios PU ON P.id = PU.proyecto_id
+      LEFT JOIN Tareas T ON P.id = T.proyecto_id
+      WHERE PU.usuario_id = $1
+      GROUP BY P.id, PU.es_favorito
+      `,
       [user.id]
     );
 
@@ -376,9 +382,11 @@ app.get("/api/task/:id", async (req, res) => {
       `
       SELECT 
         T.id, T.titulo, T.descripcion, T.completado, T.fecha_creacion, T.fecha_vencimiento, 
-        T.usuario_id, U.nombre AS usuario_nombre, U.apellido AS usuario_apellido
+        T.usuario_id, U.nombre AS usuario_nombre, U.apellido AS usuario_apellido,
+        P.creador_id AS creador_id
       FROM Tareas T
       JOIN Usuarios U ON T.usuario_id = U.id
+      JOIN Proyectos P ON T.proyecto_id = P.id
       WHERE T.id = $1
       `,
       [id]
@@ -410,6 +418,24 @@ app.get("/api/proyectos/:id/tasks", async (req, res) => {
     res
       .status(500)
       .json({ message: "Error al obtener las tareas del proyecto" });
+  }
+});
+
+app.delete("/api/task/:id", async (req, res) => {
+  const taskId = req.params.id;
+  const token = req.headers["authorization"]?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Token no proporcionado" });
+  }
+
+  try {
+    // Eliminar la tarea
+    await client.query("DELETE FROM Tareas WHERE id = $1", [taskId]);
+    res.status(200).json({ message: "Tarea eliminada correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar la tarea:", error);
+    res.status(500).json({ message: "Error al eliminar la tarea" });
   }
 });
 

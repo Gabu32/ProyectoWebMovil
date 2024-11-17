@@ -278,9 +278,7 @@ const ProjectPage: React.FC = () => {
                 </IonButton>
               )}
             </div>
-            <div className="date-item">
-              <span>fecha</span>
-            </div>
+            <div className="date-item"></div>
             {tasks.filter((task) => !task.completado).length === 0 ? (
               <IonText color="medium">
                 <p>No hay tareas pendientes. ¡Agrega algunas!</p>

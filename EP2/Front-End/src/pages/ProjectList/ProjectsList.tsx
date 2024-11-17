@@ -115,9 +115,15 @@ const ProjectsList: React.FC = () => {
                         key={proyecto.id}
                         id={proyecto.id}
                         title={proyecto.titulo}
-                        progress={25}
-                        totalTasks={8}
-                        completedTasks={2}
+                        progress={
+                          proyecto.total_tareas > 0
+                            ? (proyecto.tareas_completadas /
+                                proyecto.total_tareas) *
+                              100
+                            : 0
+                        }
+                        totalTasks={proyecto.total_tareas}
+                        completedTasks={proyecto.tareas_completadas}
                         es_favorito={proyecto.es_favorito}
                         onClick={() => history.push(`/project/${proyecto.id}`)}
                         onFavoriteToggle={handleFavoriteToggle}
@@ -138,9 +144,15 @@ const ProjectsList: React.FC = () => {
                     key={proyecto.id}
                     id={proyecto.id}
                     title={proyecto.titulo}
-                    progress={25}
-                    totalTasks={8}
-                    completedTasks={2}
+                    progress={
+                      proyecto.total_tareas > 0
+                        ? (proyecto.tareas_completadas /
+                            proyecto.total_tareas) *
+                          100
+                        : 0
+                    }
+                    totalTasks={proyecto.total_tareas}
+                    completedTasks={proyecto.tareas_completadas}
                     es_favorito={proyecto.es_favorito}
                     onClick={() => history.push(`/project/${proyecto.id}`)}
                     onFavoriteToggle={handleFavoriteToggle}
@@ -161,9 +173,15 @@ const ProjectsList: React.FC = () => {
                     key={proyecto.id}
                     id={proyecto.id}
                     title={proyecto.titulo}
-                    progress={25}
-                    totalTasks={8}
-                    completedTasks={2}
+                    progress={
+                      proyecto.total_tareas > 0
+                        ? (proyecto.tareas_completadas /
+                            proyecto.total_tareas) *
+                          100
+                        : 0
+                    }
+                    totalTasks={proyecto.total_tareas}
+                    completedTasks={proyecto.tareas_completadas}
                     es_favorito={proyecto.es_favorito}
                     onClick={() => history.push(`/project/${proyecto.id}`)}
                     onFavoriteToggle={handleFavoriteToggle}
