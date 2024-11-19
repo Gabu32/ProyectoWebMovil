@@ -82,3 +82,8 @@
   margin-bottom: 16px;
   --border-radius: 15px;
 }
+.text-danger {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 16px;
+}

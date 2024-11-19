@@ -26,7 +26,7 @@ const ProjectsList: React.FC = () => {
   const history = useHistory();
 
   const handleBack = () => {
-    history.push("/home");
+    history.push("/projects");
   };
 
   const [proyectosCargados, setProyectosCargados] = useState(false);

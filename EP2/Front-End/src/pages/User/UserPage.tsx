@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { IonPage, IonContent, IonLabel, IonInput, IonItem, IonSelect, IonSelectOption } from "@ionic/react";
-import { useHistory } from "react-router-dom";
+import { IonPage, IonContent, IonLabel, IonInput, IonItem, IonSelect, IonSelectOption, IonButton, IonIcon, IonText } from "@ionic/react";
+import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./UserPage.css";
+import Header  from "../../components/Header";
+import { arrowBackOutline } from "ionicons/icons";
 
 interface Region {
   region: string;
@@ -11,6 +13,7 @@ interface Region {
 
 const UserPage: React.FC = () => {
   const history = useHistory();
+  const [email, setEmail] = useState("");
   const [user, setUser] = useState<any | null>(null);
   const [error, setError] = useState<string>("");
   const [isEditing, setIsEditing] = useState(false);
@@ -19,6 +22,8 @@ const UserPage: React.FC = () => {
   const [communes, setCommunes] = useState<string[]>([]);
   const [errors, setErrors] = useState<any>({});
   const userID = localStorage.getItem("userID");
+  const [isTouched, setIsTouched] = useState(false);
+  const [isValid, setIsValid] = useState<boolean>();
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -54,11 +59,15 @@ const UserPage: React.FC = () => {
     setErrors((prev: String) => ({ ...prev, [key]: "" }));
   };
 
+  useEffect(() => {
+    if (location.pathname !== '/user/${userID}') {
+      sessionStorage.setItem("previousLocation", location.pathname);
+    }
+  }, [location]);
 
   const handleBack = () => {
     history.push("/projects");
-  };
-
+  }
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -160,14 +169,35 @@ const handleSave = async () => {
     setIsEditing(true);
   };
 
+  const validateEmail = (email: string) => {
+    return email.match(
+      /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    );
+  };
+
+  const validate = (value: string) => {
+    setIsValid(undefined);
+    if (value === "") return;
+    validateEmail(value) !== null ? setIsValid(true) : setIsValid(false);
+  };
+
+  const markTouched = () => {
+    setIsTouched(true);
+  };
   
 
   return (
     <IonPage>
       <IonContent className="container-main">
+        <Header />
+        <div className="botonBack">
+                <IonButton onClick={handleBack} fill="clear">
+                  <IonIcon icon={arrowBackOutline} />
+                </IonButton>
+                <h2>Perfil de usuario</h2>
+              </div>
         <div className="container-register">
           <div className="form-container">
-          <h1>Perfil de usuario</h1>
           {error ? (
             <p className="error-message">{error}</p>
           ) : user ? (
@@ -194,16 +224,26 @@ const handleSave = async () => {
                   />
                 </IonItem>
                 <IonLabel>Email:</IonLabel>
-                <IonItem className="input"> 
+                <IonItem className="input">
                   <IonInput
+                    maxlength={50}
                     type="email"
                     value={user.email}
-                    onIonChange={(e) =>
-                      setUser({ ...user, email: e.detail.value! })
-                    }
-                    placeholder="Ingresa tu correo electrónico"
+                    onIonChange={(e) => {
+                      setUser({...user, email: e.detail.value!})
+                      validate(e.detail.value!);
+                    }}
+                    onIonBlur={markTouched}
+                    placeholder="Correo electrónico"
+                    required
                   />
                 </IonItem>
+                {isTouched && isValid === false && (
+                  <IonText className="text-danger">
+                    Formato de correo electrónico inválido
+                  </IonText>
+                )}
+                {errors.email && <p className="error-text">{errors.email}</p>}
                 <IonLabel>Seleccionar Región</IonLabel>
                 <IonItem className="formSelect">
                   <IonSelect
@@ -269,9 +309,6 @@ const handleSave = async () => {
           ) : (
             <p>Cargando datos del usuario...</p>
           )}
-            <button className="btn-back" onClick={handleBack}>
-              Volver
-            </button>
             <button className="btn-close" onClick={handleLogout}>
               Cerrar Sesion
             </button>
