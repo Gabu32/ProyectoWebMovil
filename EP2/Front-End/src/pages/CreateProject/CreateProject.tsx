@@ -35,6 +35,7 @@ const CreateProject: React.FC = () => {
   }, [location]);
 
   const handleBack = () => {
+    /*
     const previousLocation = sessionStorage.getItem("previousLocation");
     console.log(previousLocation);
 
@@ -43,6 +44,8 @@ const CreateProject: React.FC = () => {
     } else {
       history.push("/projects");
     }
+      */
+     history.push('/projects');
   };
 
   const handleAddColaborador = () => {
