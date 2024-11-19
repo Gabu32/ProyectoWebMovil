@@ -32,7 +32,7 @@ import {
   pencilOutline,
   create,
 } from "ionicons/icons";
-import { useHistory, useParams, useLocation } from "react-router";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import AddUserPopover from "../../components/AddUserPopOver";
 interface LocationState {
@@ -58,7 +58,7 @@ const ProjectPage: React.FC = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
   const [projectDeleted, setProjectDeleted] = useState(false);
-  const location = useLocation<LocationState>();
+  const location = useLocation();
 
   const confirmDelete = (memberId: number) => {
     setMemberToDelete(memberId);
@@ -67,15 +67,21 @@ const ProjectPage: React.FC = () => {
   };
 
   const handleCreateTask = () => {
+    console.log("1", location.pathname);
     history.push(`/create-task/${id}`);
+    console.log("2", location.pathname);
   };
 
   useEffect(() => {
     // Verificamos si el usuario regresa a la página principal
-    if (!location.pathname.startsWith("/create-task")) {
+    if (!location.pathname.startsWith('/create-task')) {
+      console.log("PRUEBA");
       setReload((prev) => !prev); // Esto hace que el estado "reload" cambie
     }
+    console.log("PRUEBA");
   }, [location]);
+
+  console.log('Ruta Actual:', location.pathname, 'Ruta ant:', location.pathname.startsWith("/create-task"));
 
   const handleEditClick = () => {
     setNewTitle(projectTitle);

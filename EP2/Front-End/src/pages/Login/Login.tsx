@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
 import logo from "./images/logo.svg";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");

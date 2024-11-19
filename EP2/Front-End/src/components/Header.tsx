@@ -18,7 +18,6 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [popoverEvent, setPopoverEvent] = useState<MouseEvent>();
-  const userID = localStorage.getItem("userID");
 
   const goToHome = () => {
     history.push("/projects");
@@ -37,7 +36,7 @@ const Header = () => {
   };
 
   const goToUser = () => {
-    history.push(`/user/${userID}`);
+    history.push(`/user/`);
   };
 
 

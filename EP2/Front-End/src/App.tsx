@@ -52,7 +52,7 @@ const App: React.FC = () => {
           <Route exact path="/landing">
             <Landing />
           </Route>
-          <Route exact path="/user/:id">
+          <Route exact path="/user/">
             {isAuthenticated ? <UserPage /> : <Redirect to="/landing" />}
           </Route>
           <Route exact path="/projects">

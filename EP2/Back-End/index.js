@@ -473,7 +473,7 @@ app.post("/api/proyectos/:id/usuarios", async (req, res) => {
       const projectTitle = projectResult.rows[0].titulo;
 
       await client.query(
-        "INSERT INTO Notificaciones (id_usuariocreador, id_usuarioreceptor, id_proyecto, texto, fecha_creacion) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)",
+        "INSERT INTO Notificaciones (id_usuariocreador, id_usuarioreceptor, id_proyecto, texto, fechacreacion) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)",
         [
           creadorId,
           userID,

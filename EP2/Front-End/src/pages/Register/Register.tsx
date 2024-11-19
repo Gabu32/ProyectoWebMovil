@@ -15,7 +15,7 @@ import axios from "axios";
 import "./Register.css";
 import logo from "./images/logo.svg";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 interface Region {
   region: string;

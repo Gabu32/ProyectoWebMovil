@@ -24,7 +24,7 @@ import {
   checkbox,
   checkboxOutline,
 } from "ionicons/icons";
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./TaskPage.css";
 import Header from "../../components/Header";
