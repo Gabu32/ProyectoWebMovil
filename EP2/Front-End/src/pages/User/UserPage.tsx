@@ -60,14 +60,22 @@ const UserPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (location.pathname !== '/user/${userID}') {
+    if (location.pathname !== '/user/') {
       sessionStorage.setItem("previousLocation", location.pathname);
     }
   }, [location]);
 
   const handleBack = () => {
-    history.push("/projects");
+    const previousLocation = sessionStorage.getItem("previousLocation");
+    console.log(previousLocation);
+
+    if (previousLocation) {
+      history.push(previousLocation);
+    } else {
+      history.push("/projects");
+    }
   }
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
