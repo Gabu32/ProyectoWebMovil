@@ -74,14 +74,11 @@ const ProjectPage: React.FC = () => {
 
   useEffect(() => {
     // Verificamos si el usuario regresa a la página principal
-    if (!location.pathname.startsWith('/create-task')) {
-      console.log("PRUEBA");
+    if (!location.pathname.startsWith("/create-task")) {
       setReload((prev) => !prev); // Esto hace que el estado "reload" cambie
     }
     console.log("PRUEBA");
   }, [location]);
-
-  console.log('Ruta Actual:', location.pathname, 'Ruta ant:', location.pathname.startsWith("/create-task"));
 
   const handleEditClick = () => {
     setNewTitle(projectTitle);
