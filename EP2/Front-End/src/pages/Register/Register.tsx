@@ -309,7 +309,7 @@ const Register: React.FC = () => {
 
             <ReCAPTCHA
               className="captcha"
-              sitekey="6LdTW3kqAAAAAEVhHcDaYHlAdfsPrK8-v9hTNY_G"
+              sitekey="SECRET"
               onChange={handleCaptchaChange}
             />
 
