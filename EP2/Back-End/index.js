@@ -14,9 +14,9 @@ app.use(cors());
 const client = new Client({
   user: "postgres",
   host: "localhost",
-  database: "WEB",
-  password: "admin",
-  port: 5432,
+  database: "A",
+  password: "SECRET",
+  port: ,
 });
 
 client.connect();
@@ -38,7 +38,7 @@ app.post("/api/register", async (req, res) => {
   //console.log(req.body);
 
   try {
-    const captchaSecret = "6LdTW3kqAAAAAP8gNGRbj6Qsan7gqqWn6pFPjMGG";
+    const captchaSecret = "SECRET";
     const response = await axios.post(
       `https://www.google.com/recaptcha/api/siteverify`,
       null,
